@@ -1,7 +1,4 @@
-const {
-    login,
-    logout,
-} = require("../src/testBase.js");
+import { LoginPage } from "../src/LoginPage.js";
 
 const {
     mainMenuTabs,
@@ -36,12 +33,19 @@ test.describe("Overview check TESTS ", () => {
   test.beforeEach(async ({ page }) => {
     // Function for log in
 
-    await login(page, baseURL, username, password);
+    //Login
+  const login = new LoginPage(page);
+  await login.gotoLoginPage(baseURL);
+  await login.login(username,password);
+  await login.loginAssert();
+
   });
 
   test.afterEach(async ({ page }) => {
-    // Function for log out
-    await logout(page,loggedOUTpageTitle);
+//LogOut
+const login = new LoginPage(page);
+await login.logOut();
+await login.logOutAssert(loggedOUTpageTitle);
   });
 
   

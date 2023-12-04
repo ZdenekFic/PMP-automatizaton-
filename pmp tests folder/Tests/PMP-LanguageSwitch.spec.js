@@ -1,4 +1,4 @@
-const { login, logout } = require("../src/testBase");
+import { LoginPage } from "../src/LoginPage.js";
 const { test, expect, browser } = require("@playwright/test");
 const constants = require("../src/constants.js");
 const { languageCheck,languageMenu } = require("../src/functions.js");
@@ -14,8 +14,11 @@ test.describe.configure({ mode: 'serial' });
 
 
 test("PMP - setting a english language for these tests", async ({ page }) => {
-  //Login page and signing in
-  await login(page, baseURL, username, password);
+  ///Login
+  const login = new LoginPage(page);
+  await login.gotoLoginPage(baseURL);
+  await login.login(username,password);
+  await login.loginAssert();
 
   //language Menu
   await languageMenu(page);
@@ -25,13 +28,17 @@ test("PMP - setting a english language for these tests", async ({ page }) => {
 
   
 
-  // Log out
-  await logout(page, loggedOUTpageTitle);
+ //LogOut
+  await login.logOut();
+  await login.logOutAssert(loggedOUTpageTitle);
 });
 
 test("PMP current language check (English)", async ({ page }) => {
-  //Login page and signing in
-  await login(page, baseURL, username, password);
+  //Login
+  const login = new LoginPage(page);
+  await login.gotoLoginPage(baseURL);
+  await login.login(username,password);
+  await login.loginAssert();
 
   await languageCheck(page);
 
@@ -39,8 +46,9 @@ test("PMP current language check (English)", async ({ page }) => {
   const aktualniJazyk = await languageCheck(page);
   await expect(aktualniJazyk).toMatch("English");
 
-  //Log out
-  await logout(page, loggedOUTpageTitle);
+  //LogOut
+  await login.logOut();
+  await login.logOutAssert(loggedOUTpageTitle);
   
 
 
@@ -51,8 +59,12 @@ test("PMP current language check (English)", async ({ page }) => {
 
 
 test("PMP - setting a czech language for these tests", async ({ page }) => {
-  //Login page and signing in
-  await login(page, baseURL, username, password);
+  //Login
+  const login = new LoginPage(page);
+  await login.gotoLoginPage(baseURL);
+  await login.login(username,password);
+  await login.loginAssert();
+
 
   //language Menu
   await languageMenu(page);
@@ -62,13 +74,18 @@ test("PMP - setting a czech language for these tests", async ({ page }) => {
 
   
 
-  // Log out
-  await logout(page, loggedOUTpageTitle);
+ //LogOut
+  await login.logOut();
+  await login.logOutAssert(loggedOUTpageTitle);
 });
 
 test("PMP current language check (Czech)", async ({ page }) => {
-  //Login page and signing in
-  await login(page, baseURL, username, password);
+  //Login
+  const login = new LoginPage(page);
+  await login.gotoLoginPage(baseURL);
+  await login.login(username,password);
+  await login.loginAssert();
+
 
   await languageCheck(page);
 
@@ -77,12 +94,18 @@ test("PMP current language check (Czech)", async ({ page }) => {
   await expect(aktualniJazyk).toMatch("Czech")
 
   
-  await logout(page, loggedOUTpageTitle);
+  //LogOut
+  await login.logOut();
+  await login.logOutAssert(loggedOUTpageTitle);
 });
 
 test("PMP - setting a chinese language for these tests", async ({ page }) => {
-  //Login page and signing in
-  await login(page, baseURL, username, password);
+  //Login
+  const login = new LoginPage(page);
+  await login.gotoLoginPage(baseURL);
+  await login.login(username,password);
+  await login.loginAssert();
+
 
   //language Menu
   await languageMenu(page);
@@ -92,13 +115,18 @@ test("PMP - setting a chinese language for these tests", async ({ page }) => {
 
   
 
-  // Log out
-  await logout(page, loggedOUTpageTitle);
+ //LogOut
+  await login.logOut();
+  await login.logOutAssert(loggedOUTpageTitle);
 });
 
 test("PMP current language check (Chinese)", async ({ page }) => {
-  //Login page and signing in
-  await login(page, baseURL, username, password);
+  //Login
+  const login = new LoginPage(page);
+  await login.gotoLoginPage(baseURL);
+  await login.login(username,password);
+  await login.loginAssert();
+
 
   await languageCheck(page);
 
@@ -106,6 +134,7 @@ test("PMP current language check (Chinese)", async ({ page }) => {
   const aktualniJazyk = await languageCheck(page);
   await expect(aktualniJazyk).toMatch("Chinese");
 
-  // Log out
-  await logout(page, loggedOUTpageTitle);
+ //LogOut
+  await login.logOut();
+  await login.logOutAssert(loggedOUTpageTitle);
 });

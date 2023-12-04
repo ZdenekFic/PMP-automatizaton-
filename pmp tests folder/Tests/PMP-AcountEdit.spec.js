@@ -1,4 +1,4 @@
-const { login, logout } = require('../src/testBase.js');
+import { LoginPage } from "../src/LoginPage.js";
 const { test, expect } = require("@playwright/test");
 const constants = require('../src/constants.js');
 
@@ -15,8 +15,12 @@ const role = constants.role;
 const account = constants.account;
 
 test("PMP Account editing", async ({ page }) => {
-  //Login page and signing in
-  await login(page, baseURL, username, password);
+  //Login
+  const login = new LoginPage(page);
+  await login.gotoLoginPage(baseURL);
+  await login.login(username,password);
+  await login.loginAssert();
+
 
   //Going to account we want to edit
   // Left panel/User administration
@@ -51,6 +55,7 @@ test("PMP Account editing", async ({ page }) => {
 
   
   
-  // Log out
-  await logout(page,loggedOUTpageTitle);
+//LogOut
+await login.logOut();
+await login.logOutAssert(loggedOUTpageTitle);
 });

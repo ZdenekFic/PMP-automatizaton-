@@ -1,4 +1,4 @@
-const { login, logout } = require('../src/testBase.js');
+import { LoginPage } from "../src/LoginPage.js";
 const { test, expect } = require("@playwright/test");
 const constants = require('../src/constants.js');
 
@@ -11,8 +11,12 @@ const loggedOUTpageTitle = constants.loggedOUTpageTitle;
 
 
 test("Hiding left menu", async ({ page }) => {
-    //Login page and signing in
-    await login(page,baseURL,username,password);
+    //Login
+  const login = new LoginPage(page);
+  await login.gotoLoginPage(baseURL);
+  await login.login(username,password);
+  await login.loginAssert();
+
 
     //clicking on button for hiding left menu
     await page.getByRole('link', { name: 'PMP' }).getByRole('button').click();
@@ -23,12 +27,18 @@ test("Hiding left menu", async ({ page }) => {
 
 
   
-  await logout(page,loggedOUTpageTitle)  
+//LogOut
+await login.logOut();
+await login.logOutAssert(loggedOUTpageTitle);
   });
 
   test("Opening left menu", async ({ page }) => {
-     //Login page and signing in
-     await login(page,baseURL,username,password);
+     //Login
+  const login = new LoginPage(page);
+  await login.gotoLoginPage(baseURL);
+  await login.login(username,password);
+  await login.loginAssert();
+
 
      //clicking on button for hiding left menu
      await page.getByRole('link', { name: 'PMP' }).getByRole('button').click();
@@ -45,6 +55,7 @@ test("Hiding left menu", async ({ page }) => {
     await expect(buttonHideLeftMenu).toBeVisible();
 
 
-  
-  await logout(page,loggedOUTpageTitle)  
+  //LogOut
+  await login.logOut();
+  await login.logOutAssert(loggedOUTpageTitle);
   });
