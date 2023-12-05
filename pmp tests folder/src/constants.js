@@ -1,12 +1,12 @@
 // Constants which are often used in tests 
 
-// Login do TEST verze PMP
+// Login to TEST env PMP
 const username = "testaa@memos.cz";
 const password = "sunandmoon";
 const baseURL = "https://test.einhellpmp.com";
 const loggedOUTpageTitle = "Log in to PMP DEV"
 
-// Login do STAG verze PMP
+// Login to STAG env PMP
 //const username = "synchronization.acc";
 //const password = "GFFdNsylP6tW96OsXGRV";
 //const baseURL = "https://stag.einhellpmp.com";
@@ -67,11 +67,11 @@ const overviewHeaders = {
   //Definitions parts
   definitionsContentBricksHeader: "Content bricks",
   definitionsSubContentBricksHeader: "Sub content bricks",
-  definitionsDomainDataModelsHeader: "Domain Data Models",
+  definitionsDomainDataModelsHeader: "Domain data models",
   definitionsDGLHeader: "Design guidelines",
   definitionsPBBsHeader: "PBB Overview",
   definitionsPBBsQueriesHeader: "PBB queries overview",
-  definitionsGDMHeader: "General Data Models",
+  definitionsGDMHeader: "General data models",
   
   //Administrations parts
   administrationCapabilitiesHeader: "Capabilities",
