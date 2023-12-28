@@ -34,10 +34,7 @@ exports.HomePage = class HomePage {
         //await expect(dropdownElement).toBeVisible();
         if(await dropdownElement.isVisible()) {
             await this.page.waitForTimeout(1000);
-            await this.testInfo.attach("screenshot1", {
-                body: await this.page.screenshot(),
-                contentType: "image/png",
-            }) 
+            await this.page.screenshot({ path: 'screenshots/screenshot.png', fullPage: true }); 
 
         // Vytiskne informaci o tom, kde byl screenshot uložen
         console.log('Screenshot was saved into folder: screenshots');
