@@ -59,3 +59,4 @@ test("PMP Account editing", async ({ page }) => {
 await login.logOut();
 await login.logOutAssert(loggedOUTpageTitle);
 });
+
