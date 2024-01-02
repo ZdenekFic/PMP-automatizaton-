@@ -1,4 +1,5 @@
 import { LoginPage } from "../src/LoginPage.js";
+import { Users } from "../src/Users.js";
 const { test, expect } = require("@playwright/test");
 const constants = require('../src/constants.js');
 
@@ -14,6 +15,9 @@ const domain = constants.domain;
 const role = constants.role;
 const account = constants.account;
 
+
+
+
 test("PMP Account editing", async ({ page }) => {
   //Login
   const login = new LoginPage(page);
@@ -22,41 +26,9 @@ test("PMP Account editing", async ({ page }) => {
   await login.loginAssert();
 
 
-  //Going to account we want to edit
-  // Left panel/User administration
-  await page.getByRole("button", { name: "User Administration" }).click();
-  
-  // User Administration/Users
-  await page.getByText("Users").click();
- 
-  // Clicking on user detail
-  await page.getByRole("link", { name: account }).click();
-  
-  // In user detail we choose User domain roles tab
-  await page.getByRole("tab", { name: "User domain roles" }).click();
-  
-  // Clicking on button ADD
-  await page.getByRole("button", { name: "Add" }).click();
-  
-  // Clicking on list
-  await page.getByLabel("Domain", { exact: true }).click();
-  
-  // Choosing first value in a list no matter what it is
-  await page.getByRole("option").nth(domain).click();
-  
-  // Clicking on list
-  await page.getByLabel("Role", { exact: true }).click();
-  
-  // Choosing first value in a list no matter what it is
-  const noData = await page.getByText('Nejsou dostupná žádná data');
-  if(noData.isVisible){
-    await page.locator('form').getByRole('button').first().click()
-  } else {
-    await page.getByRole("option").nth(role).click();
-  
-  // Confirm a change by clicking on button ADD
-  await page.locator("form").getByRole("button", { name: "Add" }).click();
-}
+  //Main Function
+  const users = new Users(page,domain,role,account);
+  await users.domainRolesEdit()
   
 
   
