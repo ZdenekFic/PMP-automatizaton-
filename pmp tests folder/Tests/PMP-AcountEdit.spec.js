@@ -48,10 +48,16 @@ test("PMP Account editing", async ({ page }) => {
   await page.getByLabel("Role", { exact: true }).click();
   
   // Choosing first value in a list no matter what it is
-  await page.getByRole("option").nth(role).click();
+  const noData = await page.getByText('Nejsou dostupná žádná data');
+  if(noData.isVisible){
+    await page.locator('form').getByRole('button').first().click()
+  } else {
+    await page.getByRole("option").nth(role).click();
   
   // Confirm a change by clicking on button ADD
   await page.locator("form").getByRole("button", { name: "Add" }).click();
+}
+  
 
   
   
