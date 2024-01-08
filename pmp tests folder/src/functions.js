@@ -211,7 +211,7 @@ async function mainMenuTabs(page, menuText, testTitle, expectedURL) {
     await page.waitForSelector('.v-list');
 
     // Získejte aktuální jazyk (tučný text)
-    const aktualniJazykElement = await page.locator('.font-weight-bold').nth(1);
+    const aktualniJazykElement = await page.locator("//div[@class='v-list v-sheet theme--light v-list--dense']//span[@class='font-weight-bold']");
 
     // Získání textu z elementu
     const aktualniJazykText = await aktualniJazykElement.innerText();

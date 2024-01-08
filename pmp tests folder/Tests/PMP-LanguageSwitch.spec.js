@@ -138,3 +138,23 @@ test("PMP current language check (Chinese)", async ({ page }) => {
   await login.logOut();
   await login.logOutAssert(loggedOUTpageTitle);
 });
+
+test("PMP - setting a english language as default again", async ({ page }) => {
+  ///Login
+  const login = new LoginPage(page);
+  await login.gotoLoginPage(baseURL);
+  await login.login(username,password);
+  await login.loginAssert();
+
+  //language Menu
+  await languageMenu(page);
+
+  //setting the english language
+  await page.locator("//span[normalize-space()='English']").click();
+
+  
+
+ //LogOut
+  await login.logOut();
+  await login.logOutAssert(loggedOUTpageTitle);
+});
