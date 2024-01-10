@@ -1,7 +1,7 @@
 const { expect,getByLabel } = require("@playwright/test");
 exports.LoginPage = class LoginPage {
 
-    constructor(page) {
+    constructor(page,language) {
         this.page = page;
         this.usernameInput = page.getByLabel("Username or email");
         this.passwordInput = page.getByLabel("Password");
@@ -11,6 +11,12 @@ exports.LoginPage = class LoginPage {
         this.logOutMenu = "//div[@class='v-list v-sheet theme--light']";
         this.logOutButton = page.locator('span[ui-test-data="top-bar-more-options-logout"]');
         this.expectedText = page.locator(".flip-card-inner");
+        //Language tests
+        this.mainLanguageMenu = "(//i[@class='v-icon notranslate mdi mdi-earth theme--light'])[1]";
+        this.aktualniJazykElement = page.locator("//div[@class='v-list v-sheet theme--light v-list--dense']//span[@class='font-weight-bold']");
+        this.choosenLanguage =  page.locator("//span[normalize-space()='" + language + "']");
+        
+
         
     }
 
@@ -44,5 +50,45 @@ exports.LoginPage = class LoginPage {
         await expect(this.expectedText).toContainText(expectedTitle);
         await this.page.close();
 
+    }
+
+   
+   
+    async  languageMenu() {
+        await this.page.$eval(
+          this.mainLanguageMenu,
+          (element) => element.click()
+      );
+      };
+
+    async languageChoose() {
+        await this.choosenLanguage.click();
+    }
+    
+    async  languageCheck() {
+        await this.page.$eval(
+            this.mainLanguageMenu,
+            (element) => element.click()
+        );
+    
+        // Počkejte na zobrazení seznamu jazyků
+        await this.page.waitForSelector('.v-list');
+    
+        // Získejte aktuální jazyk (tučný text)
+        
+    
+        // Získání textu z elementu
+        const aktualniJazykText = await this.aktualniJazykElement.innerText();
+    
+        console.log('Current language is ' + aktualniJazykText);
+    
+        // Vraťte hodnotu, kterou chcete použít mimo funkci
+        return aktualniJazykText;
+    }
+
+    async languageResult(language) {
+        //Verification 
+        const aktualniJazyk = await this.languageCheck();
+        await expect(aktualniJazyk).toMatch(language);
     }
 }

@@ -197,30 +197,7 @@ async function mainMenuTabs(page, menuText, testTitle, expectedURL) {
     await expect(page).toHaveURL(url);
   }
 
-  async function languageMenu(page) {
-    await page.$eval(
-      "(//i[@class='v-icon notranslate mdi mdi-earth theme--light'])[1]",
-      (element) => element.click()
-  );
-  };
 
-  async function languageCheck(page) {
-    await languageMenu(page);
-
-    // Počkejte na zobrazení seznamu jazyků
-    await page.waitForSelector('.v-list');
-
-    // Získejte aktuální jazyk (tučný text)
-    const aktualniJazykElement = await page.locator("//div[@class='v-list v-sheet theme--light v-list--dense']//span[@class='font-weight-bold']");
-
-    // Získání textu z elementu
-    const aktualniJazykText = await aktualniJazykElement.innerText();
-
-    console.log('Current language is ' + aktualniJazykText);
-
-    // Vraťte hodnotu, kterou chcete použít mimo funkci
-    return aktualniJazykText;
-}
 
 
 
@@ -230,8 +207,7 @@ async function mainMenuTabs(page, menuText, testTitle, expectedURL) {
     checkUserAdministrationSection,
     definitionsMenu,
     checkAdministrationTabs,
-    languageCheck,
-    languageMenu
+    
     
   }; // Exports function for using in another files
   

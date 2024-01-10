@@ -3,6 +3,8 @@
 // Login to TEST env PMP
 const username = "testaa@memos.cz";
 const password = "sunandmoon";
+const username2 = "zdenek.fic@memos.cz"
+const password2 = "memos"
 const baseURL = "https://test.einhellpmp.com";
 const loggedOUTpageTitle = "Log in to PMP DEV"
 
@@ -17,6 +19,11 @@ const loggedOUTpageTitle = "Log in to PMP DEV"
 const domain = 1;
 const role = 0;
 const account = "testaaFisrt";
+
+//Languages
+const english = 'English';
+const czech = 'Czech';
+const chinese = 'Chinese';
 
 
 // MenuButtons in Overviews page
@@ -145,10 +152,15 @@ const pageUrls = {
 module.exports = {
     username,
     password,
+    username2,
+    password2,
     baseURL,
     domain,
     role,
     account,
+    english,
+    czech,
+    chinese,
     pageUrls,
     overviewHeaders, 
     loggedOUTpageTitle,
