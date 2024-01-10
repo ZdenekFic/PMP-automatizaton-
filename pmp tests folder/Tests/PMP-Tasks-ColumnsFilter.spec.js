@@ -21,9 +21,8 @@ test("PMP Choose Columns", async ({ page }) => {
   const tasks = new Tasks(page);
   await tasks.columnsChooser();
   
+
   
-
-
   
 
 

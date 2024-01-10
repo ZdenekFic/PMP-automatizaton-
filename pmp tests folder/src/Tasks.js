@@ -113,6 +113,11 @@ exports.Tasks = class Tasks {
     //click on button for choosing columns
     await this.buttonColumnsChooser.click();
 
+
+  
+    
+    
+
     //checkboxex clicking to active it
     await this.checkboxActions.click();
     await this.checkboxAssignedTo.click();
@@ -120,6 +125,7 @@ exports.Tasks = class Tasks {
     await this.checkboxFriendly.click();
     await this.checkboxMilestoneDueDate.click();
     await this.checkboxName.click();
+    //second click becuase this checkbox is defaultly enable
     await this.checkboxName.click();
     await this.checkboxPBBCode.click();
     await this.checkboxPostponeEndDate.click();
@@ -131,6 +137,7 @@ exports.Tasks = class Tasks {
     await this.checkboxStartDate.click();
     await this.checkboxStatus.click();
     await this.checkboxTaskCode.click();
+    //second click becuase this checkbox is defaultly enable
     await this.checkboxTaskCode.click();
 
     //save it button
