@@ -18,6 +18,9 @@ exports.HomePage = class HomePage {
     this.searchBarInput = "//input[@ui-test-data='top-bar-search']";
 
     this.firstItemInBox = "//body/div[1]/div[2]/div/div[2]";
+    this.buttonHelp = page.frameLocator('[data-testid="launcher-frame"]').locator('path');
+    this.menuHelp = page.frameLocator('[data-testid="widget-frame"]').getByTestId('widget-body-home').locator('div').filter({ hasText: 'Got questions?SearchSuggested articlesNothing found.Contact us' }).first();
+    this.closeHelp = page.frameLocator('[data-testid="widget-frame"]').getByTestId('header-close');
   }
 
   async switchDomains() {
@@ -73,5 +76,21 @@ exports.HomePage = class HomePage {
 
     await this.page.goto(baseURL);
     await this.page.waitForTimeout(2000);
+  }
+
+
+  async helpDesk() {
+
+    await this.buttonHelp.click();
+    await this.page.waitForTimeout(3400);
+
+    const element = await this.menuHelp;
+    
+    await expect(element).toBeVisible();
+
+    //close modal
+    await this.closeHelp.click();
+
+
   }
 };
