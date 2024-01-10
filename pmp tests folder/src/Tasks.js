@@ -18,6 +18,28 @@ exports.Tasks = class Tasks {
     this.closed = page.getByText('Show Closed');
     this.deadlineRangeList = page.getByRole('button', { name: 'Deadline range All' });
     this.deadlineRangeListValue = page.getByText('After Deadline');
+    //Choose columns filter
+    this.buttonColumnsChooser = page.getByRole('button', { name: 'Choose columns', exact: true });
+    this.checkboxActions = page.locator('.v-input--selection-controls__ripple').first();
+    this.checkboxAssignedTo = page.locator('div:nth-child(2) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple');
+    this.checkboxAsync = page.locator('div:nth-child(3) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple');
+    this.checkboxFriendly = page.locator('div:nth-child(4) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple');
+    this.checkboxMilestoneDueDate = page.locator('div:nth-child(5) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple');
+    this.checkboxName = page.locator('div:nth-child(6) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple');
+    this.checkboxPBBCode = page.locator('div:nth-child(7) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple');
+    this.checkboxPostponeEndDate = page.locator('div:nth-child(8) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple');
+    this.checkboxPriority = page.locator('div:nth-child(9) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple');
+    this.checkboxProjectApplicant = page.locator('div:nth-child(10) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple');
+    this.checkboxProjectCode = page.locator('div:nth-child(11) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple');
+    this.checkboxProjectName = page.locator('div:nth-child(12) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple');
+    this.checkboxProjectOwner = page.locator('div:nth-child(13) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple');
+    this.checkboxStartDate = page.locator('div:nth-child(14) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple');
+    this.checkboxStatus = page.locator('div:nth-child(15) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple');
+    this.checkboxTaskCode = page.locator('div:nth-child(16) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple');
+    this.saveButton = page.getByRole('button', { name: 'Save' });
+    //expect element t table
+    this.textColumn = page.locator("//thead[@class='v-data-table-header']");
+
 
 
     
@@ -83,16 +105,59 @@ exports.Tasks = class Tasks {
     const switchClosed = await this.page.locator('[aria-checked="true"]');
     await expect(switchClosed).toBeChecked();
     await this.closed.click();
-
-    
-    
-
-    
-
-
-
-    
+ 
   }
+
+  async columnsChooser() {
+
+    //click on button for choosing columns
+    await this.buttonColumnsChooser.click();
+
+    //checkboxex clicking to active it
+    await this.checkboxActions.click();
+    await this.checkboxAssignedTo.click();
+    await this.checkboxAsync.click();
+    await this.checkboxFriendly.click();
+    await this.checkboxMilestoneDueDate.click();
+    await this.checkboxName.click();
+    await this.checkboxName.click();
+    await this.checkboxPBBCode.click();
+    await this.checkboxPostponeEndDate.click();
+    await this.checkboxPriority.click();
+    await this.checkboxProjectApplicant.click();
+    await this.checkboxProjectCode.click();
+    await this.checkboxProjectName.click();
+    await this.checkboxProjectOwner.click();
+    await this.checkboxStartDate.click();
+    await this.checkboxStatus.click();
+    await this.checkboxTaskCode.click();
+    await this.checkboxTaskCode.click();
+
+    //save it button
+    await this.saveButton.click();
+
+    await expect(this.textColumn).toContainText("Actions")
+    await expect(this.textColumn).toContainText('Actions');
+    await expect(this.textColumn).toContainText('Assigned to');
+    await expect(this.textColumn).toContainText('Async');
+    await expect(this.textColumn).toContainText('Friendly');
+    await expect(this.textColumn).toContainText('Milestone Due Date');
+    await expect(this.textColumn).toContainText('Name');
+    await expect(this.textColumn).toContainText('PBB Code');
+    await expect(this.textColumn).toContainText('Postpone end date');
+    await expect(this.textColumn).toContainText('Project Name');
+    await expect(this.textColumn).toContainText('Project Code');
+    await expect(this.textColumn).toContainText('Project Applicant');
+    await expect(this.textColumn).toContainText('Priority');
+    await expect(this.textColumn).toContainText('Project Owner');
+    await expect(this.textColumn).toContainText('Start Date');
+    await expect(this.textColumn).toContainText('Status');
+    await expect(this.textColumn).toContainText('Task Code');
+
+
+
+
+    }
 
  
 
