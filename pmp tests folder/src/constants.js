@@ -25,6 +25,9 @@ const english = 'English';
 const czech = 'Czech';
 const chinese = 'Chinese';
 
+//Creation of ContentBrick
+const cbName = "TestCB Automatization"
+
 
 // MenuButtons in Overviews page
 const overviewMenuButtons = {
@@ -164,5 +167,7 @@ module.exports = {
     pageUrls,
     overviewHeaders, 
     loggedOUTpageTitle,
-    overviewMenuButtons
+    overviewMenuButtons,
+    cbName
+    
    };

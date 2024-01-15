@@ -23,6 +23,8 @@ exports.Users = class Users {
   }
 
   async domainRolesEdit() {
+  
+  await this.page.waitForTimeout(1200);
     //Going to account we want to edit
   // Left panel/User administration
   await this.buttonUserAdministration.click();
