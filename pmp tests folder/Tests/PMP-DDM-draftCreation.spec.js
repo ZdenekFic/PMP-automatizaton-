@@ -28,13 +28,6 @@ test.describe('PMP Creation of DDM', () => {
     await login.loginAssert();
   });
 
-  test("PMP main Creation of DDM", async ({ page }) => {
-    //main Functions
-    ddm = new DDM(page);
-    await ddm.enterToDDM();
-    await ddm.generalForm(ddmNAme);
-  });
-
   test("Check and delete", async ({ page }) => {
     
     //main Functions
@@ -42,6 +35,15 @@ test.describe('PMP Creation of DDM', () => {
     await ddm.checkAndDelete();
     
   });
+
+  test("PMP main Creation of DDM", async ({ page }) => {
+    //main Functions
+    ddm = new DDM(page);
+    await ddm.enterToDDM();
+    await ddm.generalForm(ddmNAme);
+  });
+
+  
 
 
 
