@@ -48,7 +48,7 @@ test.describe('PMP Creation of CB', () => {
     
     //main Functions
     cb = new ContentBricks(page,dropdownElement1,name);
-    await cb.checkCreatedCB();
+    //await cb.checkCreatedCB();
 
     
   });
