@@ -53,6 +53,10 @@ const subCBdropdownElement1 = "Integer";
 const subCBdropdownElement2 = "Decimal";
 
 
+//Creation of PBB
+const pbbName = "TestPBB Start Automatization"
+
+
 // MenuButtons in Overviews page
 const overviewMenuButtons = {
   taskMenuButton: "Tasks",
@@ -208,6 +212,7 @@ module.exports = {
     subcontentBrickFieldName1,
     subcontentBrickFieldName2,
     subCBdropdownElement1,
-    subCBdropdownElement2
+    subCBdropdownElement2,
+    pbbName
     
    };
