@@ -1,7 +1,7 @@
 const { test, expect } = require("@playwright/test");
-const constants = require("../src/constants.js");
-import { LoginPage } from "../src/LoginPage.js";
-import { ContentBricks } from "../src/ContentBricks.js";
+const constants = require("../../src/constants.js");
+import { LoginPage } from "../../src/LoginPage.js";
+import { ContentBricks } from "../../src/ContentBricks.js";
 
 //Login
 const username = constants.username;
@@ -31,6 +31,16 @@ test.describe('PMP Creation of CB', () => {
     await login.loginAssert();
   });
 
+
+  test("Check and delete", async ({ page }) => {
+    
+    //main Functions
+    cb = new ContentBricks(page,dropdownElement1,name);
+    await cb.checkCreatedCB();
+
+    
+  });
+
   test("PMP main Creation of CB", async ({ page }) => {
     //main Functions
     cb = new ContentBricks(page,dropdownElement1);
@@ -44,14 +54,7 @@ test.describe('PMP Creation of CB', () => {
     await cb.chooseCBState();
   });
 
-  test("Check and delete", async ({ page }) => {
-    
-    //main Functions
-    cb = new ContentBricks(page,dropdownElement1,name);
-    //await cb.checkCreatedCB();
-
-    
-  });
+ 
 
 
 

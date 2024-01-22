@@ -1,7 +1,7 @@
 const { test, expect } = require("@playwright/test");
-const constants = require("../src/constants.js");
-import { LoginPage } from "../src/LoginPage.js";
-import { DDM } from "../src/DDM.js";
+const constants = require("../../src/constants.js");
+import { LoginPage } from "../../src/LoginPage.js";
+import { DDM } from "../../src/DDM.js";
 
 
 //Login
@@ -10,6 +10,7 @@ const password = constants.password;
 const baseURL = constants.baseURL;
 const loggedOUTpageTitle = constants.loggedOUTpageTitle;
 const ddmNAme = constants.ddmNAme;
+const containerName = constants.containerName;
 
 
 //Setting for non parralel running of tests
@@ -36,13 +37,14 @@ test.describe('PMP Creation of DDM', () => {
     
   });
 
-  test("PMP main Creation of DDM", async ({ page }) => {
+  test("PMP - main creation", async ({ page }) => {
     //main Functions
     ddm = new DDM(page);
     await ddm.enterToDDM();
-    await ddm.generalForm(ddmNAme);
+    await ddm.generalForm(ddmNAme,containerName);
   });
 
+  
   
 
 
