@@ -64,6 +64,7 @@ exports.ContentBricks = class ContentBricks {
     this.descriptionCB = page.locator(
       "//div[@label='Description']//div[@class='ql-editor ql-blank']"
     );
+    
 
     // Fields objects
     this.addFieldButton = page.locator(
@@ -96,6 +97,8 @@ exports.ContentBricks = class ContentBricks {
     this.saveCBbutton = page.locator(
       "//div[@class='detail-tab-menu-header-container']//button[2]"
     );
+
+    this.cbHasBeenCreated = page.getByText('Content Brick has been created');
 
     // assertions objects
     this.areaOfCbs = page.locator(
@@ -171,7 +174,18 @@ exports.ContentBricks = class ContentBricks {
     await this.comboboxCBstate.click();
     await this.stateDraft.click();
     await this.saveCBbutton.click();
-  }
+    await this.page.waitForTimeout(1000);
+
+    //validation of success message
+    const successMessage = await this.cbHasBeenCreated.textContent();
+    await expect(successMessage).toContain('Content Brick has been created');
+
+    //assertions after save cb
+    await expect(this.generalFormName).not.toBeEmpty();
+    await expect(this.generalFormIdentifier).not.toBeEmpty();
+    
+    
+    }
 
   async checkCreatedCB() {
     //click on Definitons tab
