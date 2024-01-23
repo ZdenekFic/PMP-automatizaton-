@@ -8,14 +8,14 @@ const username = constants.username;
 const password = constants.password;
 const baseURL = constants.baseURL;
 const loggedOUTpageTitle = constants.loggedOUTpageTitle;
-const pbbName = constants.pbbName;
+const pbbNameNormal = constants.pbbNameNormal;
 const pbbText = constants.cbText;
 
 
 //Setting for non parralel running of tests
 test.describe.configure({ mode: 'serial' });
 
-test.describe('PMP Creation of PBB', () => {
+test.describe('PMP Creation of PBB Normal', () => {
   let login;
   let pbb;
   
@@ -32,30 +32,30 @@ test.describe('PMP Creation of PBB', () => {
   test("Check and delete ", async ({ page }) => {
     
     //main Functions
-   pbb = new PBB(page,pbbName)
+   pbb = new PBB(page,pbbNameNormal)
    await pbb.checkAndDelete();
 
     
   });
 
-  test("PMP main Creation of PBB", async ({ page }) => {
+  test("PMP main Creation of PBB in normal type", async ({ page }) => {
     //main Functions
     pbb = new PBB(page);
     await pbb.enterToPBB();
-    await pbb.makroLevel_Name(pbbName);
-    await pbb.makroLevel_PbbType();
+    await pbb.makroLevel_Name(pbbNameNormal);
+    await pbb.makroLevel_PbbTypeNormal();
     await pbb.makroLevel_Owner();
     await pbb.makroLevel_Maintainer();
     await pbb.makroLevel_Tags();
     await pbb.makroLevel_Description(pbbText);
-    await pbb.makroLevel_ProjectDefTags();
+    await pbb.makroLevel_PlannedCost();
     await pbb.makroLevel_ResourceTime();
     await pbb.makroLevel_ProcessTime();
-    await pbb.makroLevel_DefaultDDM();
-    await pbb.makroLevel_Wizard();
-    await pbb.makroLevel_TimeRecordingSwitch();
+    
+    await pbb.makroLevel_Currency();
     await pbb.makroLevel_EnforceValidation();
-    await pbb.makroLevel_ContainsTask();
+    await pbb.makroLevel_TimeRecordingSwitch();
+    
     await pbb.makroLevel_ShowInReports();
     await pbb.makroLevel_Save();
   });

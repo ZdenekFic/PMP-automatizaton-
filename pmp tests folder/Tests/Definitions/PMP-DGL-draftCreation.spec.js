@@ -9,7 +9,7 @@ const password = constants.password;
 const baseURL = constants.baseURL;
 const loggedOUTpageTitle = constants.loggedOUTpageTitle;
 const dglName = constants.dglName;
-const containerName = constants.containerName;
+
 const text = constants.cbText;
 const fieldName1 = constants.contentBrickFieldName1;
 const fieldName2 = constants.contentBrickFieldName2;
@@ -21,7 +21,7 @@ const dropdownElement2 = constants.dropdownElement2;
 //Setting for non parralel running of tests
 test.describe.configure({ mode: "serial" });
 
-test.describe("PMP Creation of DDM", () => {
+test.describe("PMP Creation of DGL", () => {
   let login;
   let dgl;
   let dgl2;
