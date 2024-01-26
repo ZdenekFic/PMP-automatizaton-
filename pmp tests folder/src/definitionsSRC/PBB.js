@@ -1,5 +1,5 @@
 const { text } = require("stream/consumers");
-const { baseURL } = require("./constants");
+const { baseURL } = require("../constants");
 const { expect } = require("@playwright/test");
 const exp = require("constants");
 
@@ -320,12 +320,12 @@ exports.PBB = class PBB {
     //check if inputs are empty or not after save
     await expect(this.inputName).not.toBeEmpty();
     
-    await expect(this.descriptionCheck).not.toBeEmpty();
-    await expect(this.ownerInput).not.toBeEmpty();
-    await expect(this.maintainerInput).not.toBeEmpty();
-    await expect(this.nameInReports).toBeEmpty();
-    await expect(this.plannedProcesstime).not.toBeEmpty();
-    await expect(this.plannedResourceTime).not.toBeEmpty();
+    await expect.soft(this.descriptionCheck).not.toBeEmpty();
+    await expect.soft(this.ownerInput).not.toBeEmpty();
+    await expect.soft(this.maintainerInput).not.toBeEmpty();
+    await expect.soft(this.nameInReports).toBeEmpty();
+    await expect.soft(this.plannedProcesstime).not.toBeEmpty();
+    await expect.soft(this.plannedResourceTime).not.toBeEmpty();
 
     
 

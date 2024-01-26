@@ -1,7 +1,7 @@
 const { test, expect } = require("@playwright/test");
 const constants = require("../../src/constants.js");
 import { LoginPage } from "../../src/LoginPage.js";
-import { SubContentBricks } from "../../src/SubContentBricks.js";
+import { SubContentBricks } from "../../src/definitionsSRC/SubContentBricks.js";
 
 //Login
 const username = constants.username;

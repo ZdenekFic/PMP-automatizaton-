@@ -29,7 +29,7 @@ test("PMP Account editing", async ({ page }) => {
 
   //Main Function
   const users = new Users(page,domain,role,account);
-  await users.domainRolesEdit()
+  await users.domainRolesEdit(username)
   
 
   

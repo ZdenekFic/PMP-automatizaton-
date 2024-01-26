@@ -1,15 +1,15 @@
-const { baseURL, scbName } = require("./constants");
+const { baseURL, cbName } = require("../constants");
 const { expect } = require("@playwright/test");
 
-exports.SubContentBricks = class SubContentBricks {
+exports.ContentBricks = class ContentBricks {
   constructor(page, dropdownElement, mainName) {
     this.page = page;
     this.mainName = mainName;
     this.dropdownElement = dropdownElement;
     this.definitionsTab = page.getByRole("button", { name: "Definitions" });
-    this.subContentBricksTab = page
+    this.contentBricksTab = page
       .locator("span")
-      .filter({ hasText: "Sub Content Bricks" })
+      .filter({ hasText: "Content Bricks" })
       .first();
     this.addButton = page.getByRole("link", { name: "Add" });
     this.generalFormName = page.getByLabel("Name", { exact: true });
@@ -28,7 +28,7 @@ exports.SubContentBricks = class SubContentBricks {
     );
     // Tags objects
     this.generalFormTagsRedArrow = page.locator(
-      "(//i[@class='v-icon notranslate mdi mdi-upload theme--light'])[1]"
+      "(//i[@class='v-icon notranslate mdi mdi-upload theme--light'])[2]"
     );
     this.firstObjectInTableTags = page.locator(
       "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card__text']//tbody/tr[2]/td[1]"
@@ -45,7 +45,7 @@ exports.SubContentBricks = class SubContentBricks {
 
     // Search identifiers
     this.generalFormSearchIdentifierRedArrow = page.locator(
-      "(//i[@class='v-icon notranslate mdi mdi-upload theme--light'])[2]"
+      ".v-card__text > div:nth-child(3) > .pa-0 > div > .v-input > .v-input__append-outer > .v-btn"
     );
     this.firstOBjectInTableSearchIdentifiers = page.locator(
       "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card__text']//tbody/tr[1]/td[1]"
@@ -59,6 +59,12 @@ exports.SubContentBricks = class SubContentBricks {
     this.buttonUpdateSearchIdentifiers = page.locator(
       "//span[normalize-space()='Update Search identifiers']"
     );
+
+    // input for text to describe CB
+    this.descriptionCB = page.locator(
+      "//div[@label='Description']//div[@class='ql-editor ql-blank']"
+    );
+    
 
     // Fields objects
     this.addFieldButton = page.locator(
@@ -79,36 +85,20 @@ exports.SubContentBricks = class SubContentBricks {
     this.switchIsMandatory = page.locator(
       "//div[@class='v-dialog v-dialog--active v-dialog--persistent']//div[@class='v-card v-sheet theme--light']//div[@class='v-input--selection-controls__ripple']"
     );
-    this.uniteTypeRedArrowButton = page.locator(
-      "(//i[@class='v-icon notranslate mdi mdi-upload theme--light'])[4]"
-    );
-    this.uniteTypeFirstObject = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card v-sheet theme--light']//tbody/tr[2]/td[1]"
-    );
-    this.uniteTypeFirstUpdateButton = page.locator(
-      "//span[normalize-space()='Update Unit Type']"
-    );
-    this.unitRedArrowButton = page.locator(
-      "(//i[@class='v-icon notranslate mdi mdi-upload theme--light'])[5]"
-    );
-    this.uniteFirstObject = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card v-sheet theme--light']//tbody/tr[1]/td[1]"
-    );
-    this.uniteUpdateButton = page.locator(
-      "//span[normalize-space()='Update Unit']"
-    );
     this.fieldAddButton = page.locator(
       "//button[@class='error v-btn v-btn--flat v-btn--text theme--light v-size--default']//span[@class='v-btn__content'][normalize-space()='Add']"
     );
 
     //draft, active, suspended combobox
-    this.comboboxSCBstate = page.getByRole("combobox").nth(1);
+    this.comboboxCBstate = page.getByRole("combobox").nth(1);
     this.stateDraft = page.locator(
       " //div[@class='v-menu__content theme--light menuable__content__active v-autocomplete__content']//span[@class='status-chip-text'][normalize-space()='Draft']"
     );
-    this.saveSCBbutton = page.locator(
+    this.saveCBbutton = page.locator(
       "//div[@class='detail-tab-menu-header-container']//button[2]"
     );
+
+    this.cbHasBeenCreated = page.getByText('Content Brick has been created');
 
     // assertions objects
     this.areaOfCbs = page.locator(
@@ -122,23 +112,31 @@ exports.SubContentBricks = class SubContentBricks {
     );
   }
 
-  async enterToSCB() {
+  async enterToCB() {
     //click on Definitons tab
     await this.definitionsTab.click();
 
-    //click on Definitions/Sub Content Bricks TAB
-    await this.subContentBricksTab.click();
+    //click on Definitions/Content Bricks TAB
+    await this.contentBricksTab.click();
 
     //click on ADD button
     await this.addButton.click();
   }
 
-  async formSCB_General(name) {
+  async formCB_General(name, text) {
     //click and fill name
     await this.generalFormName.fill(name);
 
     //click on identifier to get automaticaly identifier
     await this.generalFormIdentifier.click();
+
+    //add usage types -> opening modal window with usage types
+    await this.generalFormUsageTypesRedArrow.click();
+    await this.page.waitForTimeout(1000);
+    await this.firstObjectInTable.click();
+    await this.secondObjectInTable.click();
+    await this.fifthObjectUsageInTable.click();
+    await this.buttonUpdateUsageTypes.click();
 
     // add tags
     await this.generalFormTagsRedArrow.click();
@@ -155,6 +153,9 @@ exports.SubContentBricks = class SubContentBricks {
     await this.secondObjectInTableSearchIdentifiers.click();
     await this.fifthOBjectInTableSearchIdentifiers.click();
     await this.buttonUpdateSearchIdentifiers.click();
+
+    // add some text to description
+    await this.descriptionCB.fill(text);
   }
 
   async add_fields(name) {
@@ -166,34 +167,32 @@ exports.SubContentBricks = class SubContentBricks {
     await this.page.waitForTimeout(1000);
     await this.elementDropdown.click();
     await this.switchIsMandatory.click();
-    await this.page.waitForTimeout(1000);
-    await this.uniteTypeRedArrowButton.click();
-    await this.page.waitForTimeout(1000);
-    await this.uniteTypeFirstObject.click();
-    await this.uniteTypeFirstUpdateButton.click();
-    await this.page.waitForTimeout(1000);
-    await this.unitRedArrowButton.click();
-    await this.page.waitForTimeout(1000);
-    await this.uniteFirstObject.click();
-    await this.uniteUpdateButton.click();
-    await this.page.waitForTimeout(1000);
     await this.fieldAddButton.click();
   }
 
-  async chooseSCBState() {
-    await this.comboboxSCBstate.click();
+  async chooseCBState() {
+    await this.comboboxCBstate.click();
     await this.stateDraft.click();
+    await this.saveCBbutton.click();
     await this.page.waitForTimeout(1000);
-    await this.saveSCBbutton.click();
-    await this.page.waitForTimeout(1000);
-  }
 
-  async checkCreatedSCB() {
+    //validation of success message
+    const successMessage = await this.cbHasBeenCreated.textContent();
+    await expect(successMessage).toContain('Content Brick has been created');
+
+    //assertions after save cb
+    await expect(this.generalFormName).not.toBeEmpty();
+    await expect(this.generalFormIdentifier).not.toBeEmpty();
+    
+    
+    }
+
+  async checkCreatedCB() {
     //click on Definitons tab
     await this.definitionsTab.click();
 
-    //click on Definitions/Sub Content Bricks TAB
-    await this.subContentBricksTab.click();
+    //click on Definitions/Content Bricks TAB
+    await this.contentBricksTab.click();
     await this.page.waitForTimeout(4000);
 
     let elements = await this.page.$$(`body >> text=${this.mainName}`);

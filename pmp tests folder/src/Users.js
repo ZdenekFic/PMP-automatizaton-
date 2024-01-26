@@ -1,5 +1,7 @@
 const {} = require("@playwright/test");
 const { baseURL } = require("./constants");
+const { expect } = require("@playwright/test");
+
 
 exports.Users = class Users {
   constructor(page, domain, role, account) {
@@ -8,6 +10,7 @@ exports.Users = class Users {
       name: "User Administration",
     });
     this.buttonUsersTab = page.getByText("Users");
+    this.searchBarInput = page.locator("//div[@class='v-text-field__slot']//input");
     this.buttonUserDetail = page.getByRole("link", { name: account });
     this.tabDomainRoles = page.getByRole("tab", { name: "User domain roles" });
     this.buttonAdd = page.getByRole("button", { name: "Add" });
@@ -22,14 +25,20 @@ exports.Users = class Users {
       .getByRole("button", { name: "Add" });
   }
 
-  async domainRolesEdit() {
+  async domainRolesEdit(name) {
     await this.page.waitForTimeout(1200);
     //Going to account we want to edit
     // Left panel/User administration
     await this.buttonUserAdministration.click();
+    //validation
+    await expect.soft(this.buttonUsersTab).toBeVisible();
 
     // User Administration/Users
     await this.buttonUsersTab.click();
+
+    //Find user with a searchbar 
+    await this.searchBarInput.fill(name);
+    await this.page.waitForTimeout(1000);
 
     // Clicking on user detail
     await this.buttonUserDetail.click();

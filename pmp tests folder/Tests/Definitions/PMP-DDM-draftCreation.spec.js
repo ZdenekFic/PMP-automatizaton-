@@ -1,7 +1,7 @@
 const { test, expect } = require("@playwright/test");
 const constants = require("../../src/constants.js");
 import { LoginPage } from "../../src/LoginPage.js";
-import { DDM } from "../../src/DDM.js";
+import { DDM } from "../../src//definitionsSRC/DDM.js";
 
 
 //Login

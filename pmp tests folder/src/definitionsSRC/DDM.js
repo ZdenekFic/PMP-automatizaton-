@@ -1,4 +1,4 @@
-const { cbName } = require("./constants");
+const { cbName } = require("../constants");
 const { expect } = require("@playwright/test");
 
 exports.DDM = class DDM {
