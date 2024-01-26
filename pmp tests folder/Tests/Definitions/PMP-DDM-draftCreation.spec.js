@@ -2,6 +2,7 @@ const { test, expect } = require("@playwright/test");
 const constants = require("../../src/constants.js");
 import { LoginPage } from "../../src/LoginPage.js";
 import { DDM } from "../../src//definitionsSRC/DDM.js";
+import { HomePage } from "../../src/HomePage.js";
 
 
 //Login
@@ -19,7 +20,7 @@ test.describe.configure({ mode: 'serial' });
 test.describe('PMP Creation of DDM', () => {
     let login;
     let ddm;
-    
+    let home;    
 
   test.beforeEach(async ({ page }) => {
     //Login
@@ -27,6 +28,8 @@ test.describe('PMP Creation of DDM', () => {
     await login.gotoLoginPage(baseURL);
     await login.login(username,password);
     await login.loginAssert();
+    home = new HomePage(page);
+    await home.switchDomains();
   });
 
   test("Check and delete", async ({ page }) => {

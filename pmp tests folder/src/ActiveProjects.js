@@ -205,7 +205,7 @@ exports.ActiveProjects = class ActiveProjects {
     await this.page.waitForTimeout(5000);
 
     //Validation
-    await expect(this.page.url()).toContain("/project/detail");
+    await expect.soft(this.page.url()).toContain("/project/detail");
     console.log(this.page.url());
     await expect.soft(this.checkedDiv).toBeVisible();
   }

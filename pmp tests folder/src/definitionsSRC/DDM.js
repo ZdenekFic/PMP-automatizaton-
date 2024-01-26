@@ -185,7 +185,7 @@ exports.DDM = class DDM {
     await this.domainEcos.click();
     await this.domainMarketing.click();
     await this.domainPlayground.click();
-    await this.page.click("body");
+    await this.generalFormDomainsRedArrow.click();
 
     // add tags
     await this.generalFormTagsRedArrow.click();
