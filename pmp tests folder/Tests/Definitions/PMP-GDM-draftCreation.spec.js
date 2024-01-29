@@ -21,6 +21,7 @@ test.describe.configure({ mode: 'serial' });
 test.describe('PMP Creation of GDM', () => {
     let login;
     let gdm;
+    let home;
     
     
 
@@ -30,6 +31,8 @@ test.describe('PMP Creation of GDM', () => {
     await login.gotoLoginPage(baseURL);
     await login.login(username,password);
     await login.loginAssert();
+    home = new HomePage(page);
+    await home.switchDomains();
   });
 
   test("Find and delete", async ({ page }) => {

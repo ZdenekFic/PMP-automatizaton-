@@ -10,7 +10,7 @@ exports.Users = class Users {
       name: "User Administration",
     });
     this.buttonUsersTab = page.getByText("Users");
-    this.searchBarInput = page.locator("//div[@class='v-text-field__slot']//input");
+    this.searchBarInput = page.locator("//div[@class='row justify-space-between']//input");
     this.buttonUserDetail = page.getByRole("link", { name: account });
     this.tabDomainRoles = page.getByRole("tab", { name: "User domain roles" });
     this.buttonAdd = page.getByRole("button", { name: "Add" });
@@ -35,10 +35,12 @@ exports.Users = class Users {
 
     // User Administration/Users
     await this.buttonUsersTab.click();
+    await this.page.waitForTimeout(1000);
 
     //Find user with a searchbar 
     await this.searchBarInput.fill(name);
-    await this.page.waitForTimeout(1000);
+    
+    
 
     // Clicking on user detail
     await this.buttonUserDetail.click();

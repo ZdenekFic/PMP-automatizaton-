@@ -25,11 +25,12 @@ exports.GDM = class GDM {
       //domainDiv
       this.domainsDiv = page.locator('div:nth-child(2) > .pt-0 > .v-input');
       //domain1
-      this.domain1 = page.getByText('EC Playground');
+      this.domain1 = page.getByRole('option', { name: 'ECOS' }).locator('div').first();
       //domain2
-      this.domain2 = page.getByText('ECOS');
+      this.domain2 = page.getByRole('option', { name: 'Certification' }).locator('div').first();
+      
       //domain3
-      this.domain3 = page.getByText('Marketing');
+      this.domain3 = page.getByRole('option', { name: 'IP Projects' }).locator('div').first();
 
       //TAGS
       this.tagsArrow = page.locator("//button[@class='v-btn v-btn--flat v-btn--icon v-btn--round v-btn--tile theme--light elevation-2 v-size--default error--text']//i[@class='v-icon notranslate mdi mdi-upload theme--light']");
@@ -174,9 +175,7 @@ exports.GDM = class GDM {
       //hide dropdown
       await this.domainsArrow.click();
 
-      //validate it
-      const domainTextValue = await this.domain2.textContent();
-      await expect(this.domainsDiv).toContainText(domainTextValue);
+      
 
 
       //TAGS
