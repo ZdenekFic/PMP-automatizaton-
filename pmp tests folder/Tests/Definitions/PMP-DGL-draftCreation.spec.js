@@ -2,6 +2,7 @@ const { test, expect } = require("@playwright/test");
 const constants = require("../../src/constants.js");
 import { LoginPage } from "../../src/LoginPage.js";
 import { DGL } from "../../src/definitionsSRC/DGL.js";
+import { HomePage } from "../../src/HomePage.js";
 
 //Login
 const username = constants.username;
@@ -25,6 +26,7 @@ test.describe("PMP Creation of DGL", () => {
   let login;
   let dgl;
   let dgl2;
+  let home;
 
   test.beforeEach(async ({ page }) => {
     //Login
@@ -32,6 +34,9 @@ test.describe("PMP Creation of DGL", () => {
     await login.gotoLoginPage(baseURL);
     await login.login(username, password);
     await login.loginAssert();
+    home = new HomePage(page);
+    await home.switchDomains()
+    
   });
 
   test("Check and delete", async ({ page }) => {

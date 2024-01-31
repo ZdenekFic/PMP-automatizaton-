@@ -88,7 +88,7 @@ exports.DDM = class DDM {
     this.saveGreenButton = page.locator(
       "//i[@class='v-icon notranslate v-icon--dense mdi mdi-content-save theme--light success--text']"
     );
-    this.ddmHasBeenCreated = page.getByText('Domain Data Model has been');
+    this.ddmHasBeenCreated = page.getByText('Domain Data Model has been created');
 
     //Data model objects
     this.dataModelTab = page.locator("//div[normalize-space()='Data model']");
@@ -151,6 +151,8 @@ exports.DDM = class DDM {
     this.dataModelMenuObjectsSaveAll = page.locator(
       "//header[@class='v-sheet theme--light v-toolbar v-toolbar--dense v-toolbar--floating']//button[2]"
     );
+
+    
 
     //delete ddm draft
     this.deleteDraftButtton = page.locator(
@@ -219,7 +221,7 @@ exports.DDM = class DDM {
 
      //validation of success message
      const successMessage = await this.ddmHasBeenCreated.textContent();
-     await expect(successMessage).toContain('Domain Data Model has been created');
+     await expect(successMessage).toContain('Domain Data Model has been');
  
      //assertions after save cb
      await expect(this.generalFormName).not.toBeEmpty();
@@ -290,6 +292,8 @@ exports.DDM = class DDM {
     });
 
     await this.dataModelMenuObjectsSaveAll.click();
+    
+    await expect(successMessage).toContain('Domain Data Model has been');
   }
 
   async checkAndDelete() {

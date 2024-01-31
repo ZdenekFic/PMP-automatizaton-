@@ -15,7 +15,7 @@ const loggedOUTpageTitle = "Log in to PMP DEV";
 //const loggedOUTpageTitle = "Log in to PMP UAT"
 
 //Constants for test AccountEdit
-const domain = 1;
+const domain = 19;
 const role = 0;
 const account = "testaaFisrt";
 
