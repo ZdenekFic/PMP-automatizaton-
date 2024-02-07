@@ -88,7 +88,9 @@ exports.DDM = class DDM {
     this.saveGreenButton = page.locator(
       "//i[@class='v-icon notranslate v-icon--dense mdi mdi-content-save theme--light success--text']"
     );
-    this.ddmHasBeenCreated = page.getByText('Domain Data Model has been created');
+    this.ddmHasBeenCreated = page.getByText(
+      "Domain Data Model has been created"
+    );
 
     //Data model objects
     this.dataModelTab = page.locator("//div[normalize-space()='Data model']");
@@ -151,8 +153,6 @@ exports.DDM = class DDM {
     this.dataModelMenuObjectsSaveAll = page.locator(
       "//header[@class='v-sheet theme--light v-toolbar v-toolbar--dense v-toolbar--floating']//button[2]"
     );
-
-    
 
     //delete ddm draft
     this.deleteDraftButtton = page.locator(
@@ -219,22 +219,16 @@ exports.DDM = class DDM {
     await this.saveGreenButton.click();
     await this.page.waitForTimeout(2000);
 
-     //validation of success message
-     const successMessage = await this.ddmHasBeenCreated.textContent();
-     await expect(successMessage).toContain('Domain Data Model has been');
- 
-     //assertions after save cb
-     await expect(this.generalFormName).not.toBeEmpty();
-     
+    //validation of success message
+    const successMessage = await this.ddmHasBeenCreated.textContent();
+    await expect(successMessage).toContain("Domain Data Model has been");
+
+    //assertions after save cb
+    await expect(this.generalFormName).not.toBeEmpty();
 
     //expect if datamodel tab is enabled after save
     await expect(this.dataModelTab).toHaveClass("v-tab v-tab--active");
 
-    
-    
-    
-    
-    
     // DATA MODEL TAB PART
     // click on menu "three dots button"
     await this.dataModelThreeDotsButton.click();
@@ -286,14 +280,9 @@ exports.DDM = class DDM {
     await this.dataModelMenuObjectsDGLConfirm.click();
     await this.page.waitForTimeout(1000);
 
-    await this.page.screenshot({
-      path: "screenshots/DataModelScreenShot.png",
-      fullPage: true,
-    });
-
     await this.dataModelMenuObjectsSaveAll.click();
-    
-    await expect(successMessage).toContain('Domain Data Model has been');
+
+    await expect(successMessage).toContain("Domain Data Model has been");
   }
 
   async checkAndDelete() {

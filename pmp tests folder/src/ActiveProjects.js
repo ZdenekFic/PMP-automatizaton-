@@ -379,8 +379,6 @@ exports.ActiveProjects = class ActiveProjects {
   }
 
   async checkElementVisibility(ariaCheckedState) {
-    
-
     await this.dmiHideContentBricksCheckbox.click();
     const switchElement = await this.page.$(
       `div.v-input--switch:has-text("Hide content bricks")`

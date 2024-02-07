@@ -64,7 +64,6 @@ exports.ContentBricks = class ContentBricks {
     this.descriptionCB = page.locator(
       "//div[@label='Description']//div[@class='ql-editor ql-blank']"
     );
-    
 
     // Fields objects
     this.addFieldButton = page.locator(
@@ -98,7 +97,7 @@ exports.ContentBricks = class ContentBricks {
       "//div[@class='detail-tab-menu-header-container']//button[2]"
     );
 
-    this.cbHasBeenCreated = page.getByText('Content Brick has been created');
+    this.cbHasBeenCreated = page.getByText("Content Brick has been created");
 
     // assertions objects
     this.areaOfCbs = page.locator(
@@ -178,46 +177,43 @@ exports.ContentBricks = class ContentBricks {
 
     //validation of success message
     const successMessage = await this.cbHasBeenCreated.textContent();
-    await expect(successMessage).toContain('Content Brick has been created');
+    await expect(successMessage).toContain("Content Brick has been created");
 
     //assertions after save cb
     await expect(this.generalFormName).not.toBeEmpty();
     await expect(this.generalFormIdentifier).not.toBeEmpty();
-    
-    
-    }
-
-    async checkCreatedCB() {
-      //click on Definitions tab
-      await this.definitionsTab.click();
-  
-      //click on Definitions/Content Bricks TAB
-      await this.contentBricksTab.click();
-      await this.page.waitForTimeout(4000);
-  
-      let elements = await this.page.$$(`body >> text=${this.mainName}`);
-  
-      for (let i = 0; i < elements.length; ) {
-          const elementHandle = elements[i];
-          const elementText = await elementHandle.innerText();
-  
-          if (elementText === this.mainName) {
-              await elementHandle.click();
-              await this.deleteDraftButtton.click();
-              await this.page.waitForTimeout(1000);
-              await this.modalDeleteButton.click();
-              await this.page.waitForTimeout(2000);
-  
-              // Fetch the latest elements after the deletion
-              elements = await this.page.$$(`body >> text=${this.mainName}`);
-              await this.page.waitForTimeout(2000);
-  
-              // No need to reset the index, as the loop will check the updated elements
-          } else {
-              // Increment the index only if no deletion occurred
-              i++;
-          }
-      }
   }
-  
+
+  async checkCreatedCB() {
+    //click on Definitions tab
+    await this.definitionsTab.click();
+
+    //click on Definitions/Content Bricks TAB
+    await this.contentBricksTab.click();
+    await this.page.waitForTimeout(4000);
+
+    let elements = await this.page.$$(`body >> text=${this.mainName}`);
+
+    for (let i = 0; i < elements.length; ) {
+      const elementHandle = elements[i];
+      const elementText = await elementHandle.innerText();
+
+      if (elementText === this.mainName) {
+        await elementHandle.click();
+        await this.deleteDraftButtton.click();
+        await this.page.waitForTimeout(1000);
+        await this.modalDeleteButton.click();
+        await this.page.waitForTimeout(2000);
+
+        // Fetch the latest elements after the deletion
+        elements = await this.page.$$(`body >> text=${this.mainName}`);
+        await this.page.waitForTimeout(2000);
+
+        // No need to reset the index, as the loop will check the updated elements
+      } else {
+        // Increment the index only if no deletion occurred
+        i++;
+      }
+    }
+  }
 };

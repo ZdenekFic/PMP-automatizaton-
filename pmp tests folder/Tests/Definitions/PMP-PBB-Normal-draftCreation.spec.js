@@ -11,31 +11,25 @@ const loggedOUTpageTitle = constants.loggedOUTpageTitle;
 const pbbNameNormal = constants.pbbNameNormal;
 const pbbText = constants.cbText;
 
-
 //Setting for non parralel running of tests
-test.describe.configure({ mode: 'serial' });
+test.describe.configure({ mode: "serial" });
 
-test.describe('PMP Creation of PBB Normal', () => {
+test.describe("PMP Creation of PBB Normal", () => {
   let login;
   let pbb;
-  
 
   test.beforeEach(async ({ page }) => {
     //Login
     login = new LoginPage(page);
     await login.gotoLoginPage(baseURL);
-    await login.login(username,password);
+    await login.login(username, password);
     await login.loginAssert();
   });
 
-
   test("Check and delete ", async ({ page }) => {
-    
     //main Functions
-   pbb = new PBB(page,pbbNameNormal)
-   await pbb.checkAndDelete();
-
-    
+    pbb = new PBB(page, pbbNameNormal);
+    await pbb.checkAndDelete();
   });
 
   test("PMP main Creation of PBB in normal type", async ({ page }) => {
@@ -51,18 +45,14 @@ test.describe('PMP Creation of PBB Normal', () => {
     await pbb.makroLevel_PlannedCost();
     await pbb.makroLevel_ResourceTime();
     await pbb.makroLevel_ProcessTime();
-    
+
     await pbb.makroLevel_Currency();
     await pbb.makroLevel_EnforceValidation();
     await pbb.makroLevel_TimeRecordingSwitch();
-    
+
     await pbb.makroLevel_ShowInReports();
     await pbb.makroLevel_Save();
   });
-
- 
-
-
 
   test.afterEach(async ({}) => {
     //LogOut

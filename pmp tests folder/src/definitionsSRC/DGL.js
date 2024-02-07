@@ -65,7 +65,6 @@ exports.DGL = class DGL {
     this.descriptionCB = page.locator(
       "//div[@label='Description']//div[@class='ql-editor ql-blank']"
     );
-    
 
     // Fields objects
     this.addFieldButton = page.locator(
@@ -108,7 +107,7 @@ exports.DGL = class DGL {
       "//div[@class='detail-tab-menu-header-container']//button[2]"
     );
 
-    this.dglHasBeenCreated = page.getByText('Design Guideline has been');
+    this.dglHasBeenCreated = page.getByText("Design Guideline has been");
 
     // assertions objects
     this.areaOfCbs = page.locator(
@@ -122,12 +121,7 @@ exports.DGL = class DGL {
     );
   }
 
-
-
-
-//Functions part
-
-
+  //Functions part
 
   async enterToDGL() {
     // go to definition
@@ -209,14 +203,13 @@ exports.DGL = class DGL {
     await this.stateDraft.click();
     await this.saveCBbutton.click();
 
-     //validation of success message
-     const successMessage = await this.dglHasBeenCreated.textContent();
-     await expect(successMessage).toContain('Design Guideline has been created');
- 
-     //assertions after save cb
-     await expect(this.generalFormName).not.toBeEmpty();
-     await expect(this.generalFormIdentifier).not.toBeEmpty();
-    
+    //validation of success message
+    const successMessage = await this.dglHasBeenCreated.textContent();
+    await expect(successMessage).toContain("Design Guideline has been created");
+
+    //assertions after save cb
+    await expect(this.generalFormName).not.toBeEmpty();
+    await expect(this.generalFormIdentifier).not.toBeEmpty();
   }
 
   async checkAndDelete() {

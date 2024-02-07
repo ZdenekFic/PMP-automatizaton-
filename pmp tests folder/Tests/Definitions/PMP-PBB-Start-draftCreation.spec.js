@@ -11,31 +11,25 @@ const loggedOUTpageTitle = constants.loggedOUTpageTitle;
 const pbbName = constants.pbbName;
 const pbbText = constants.cbText;
 
-
 //Setting for non parralel running of tests
-test.describe.configure({ mode: 'serial' });
+test.describe.configure({ mode: "serial" });
 
-test.describe('PMP Creation of PBB', () => {
+test.describe("PMP Creation of PBB", () => {
   let login;
   let pbb;
-  
 
   test.beforeEach(async ({ page }) => {
     //Login
     login = new LoginPage(page);
     await login.gotoLoginPage(baseURL);
-    await login.login(username,password);
+    await login.login(username, password);
     await login.loginAssert();
   });
 
-
   test("Check and delete ", async ({ page }) => {
-    
     //main Functions
-   pbb = new PBB(page,pbbName)
-   await pbb.checkAndDelete();
-
-    
+    pbb = new PBB(page, pbbName);
+    await pbb.checkAndDelete();
   });
 
   test("PMP main Creation of PBB", async ({ page }) => {
@@ -59,10 +53,6 @@ test.describe('PMP Creation of PBB', () => {
     await pbb.makroLevel_ShowInReports();
     await pbb.makroLevel_Save();
   });
-
- 
-
-
 
   test.afterEach(async ({}) => {
     //LogOut

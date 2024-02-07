@@ -57,9 +57,8 @@ const pbbName = "TestPBB Start Automatization";
 //Creation of PBB in normal type
 const pbbNameNormal = "TestPBB Normal Automatization";
 
-
 //Creation of GDM
-const gdmName = "TestGDM Automatization"
+const gdmName = "TestGDM Automatization";
 
 // MenuButtons in Overviews page
 const overviewMenuButtons = {
@@ -204,5 +203,5 @@ module.exports = {
   subCBdropdownElement2,
   pbbName,
   pbbNameNormal,
-  gdmName
+  gdmName,
 };

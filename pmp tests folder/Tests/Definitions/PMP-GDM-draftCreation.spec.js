@@ -4,7 +4,6 @@ import { LoginPage } from "../../src/LoginPage.js";
 import { GDM } from "../../src/definitionsSRC/GDM.js";
 import { HomePage } from "../../src/HomePage.js";
 
-
 //Login
 const username = constants.username;
 const password = constants.password;
@@ -13,36 +12,30 @@ const loggedOUTpageTitle = constants.loggedOUTpageTitle;
 const gdmName = constants.gdmName;
 const contairName = constants.containerName;
 
-
-
 //Setting for non parralel running of tests
-test.describe.configure({ mode: 'serial' });
+test.describe.configure({ mode: "serial" });
 
-test.describe('PMP Creation of GDM', () => {
-    let login;
-    let gdm;
-    let home;
-    
-    
+test.describe("PMP Creation of GDM", () => {
+  let login;
+  let gdm;
+  let home;
 
   test.beforeEach(async ({ page }) => {
     //Login
     login = new LoginPage(page);
     await login.gotoLoginPage(baseURL);
-    await login.login(username,password);
+    await login.login(username, password);
     await login.loginAssert();
     home = new HomePage(page);
     await home.switchDomains();
   });
 
   test("Find and delete", async ({ page }) => {
-    
     //main Functions
-    
-    gdm = new GDM(page,gdmName);
+
+    gdm = new GDM(page, gdmName);
 
     await gdm.findAndDelete(gdmName);
-    
   });
 
   test("PMP - main creation", async ({ page }) => {
@@ -52,13 +45,6 @@ test.describe('PMP Creation of GDM', () => {
     await gdm.generalForm(gdmName);
     await gdm.dataModelTab(contairName);
   });
-
-  
-
-  
-  
-
-
 
   test.afterEach(async ({}) => {
     //LogOut

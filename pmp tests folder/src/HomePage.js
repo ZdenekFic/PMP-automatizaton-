@@ -55,13 +55,6 @@ exports.HomePage = class HomePage {
     //await expect(dropdownElement).toBeVisible();
     if (await dropdownElement.isVisible()) {
       await this.page.waitForTimeout(1000);
-      await this.page.screenshot({
-        path: "screenshots/screenshot.png",
-        fullPage: true,
-      });
-
-      // Prints where screenshot is saved
-      console.log("Screenshot was saved into folder: screenshots");
     }
   }
 
@@ -84,10 +77,6 @@ exports.HomePage = class HomePage {
 
     await this.page.waitForTimeout(3000);
     console.log(this.page.url());
-    await this.page.screenshot({
-      path: "screenshots/screenshot1.png",
-      fullPage: true,
-    });
 
     await this.page.goto(baseURL);
     await this.page.waitForTimeout(2000);

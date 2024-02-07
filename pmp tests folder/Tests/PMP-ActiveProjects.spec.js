@@ -20,7 +20,6 @@ test.describe("PMP Active projects functional check", () => {
     await login.login(username, password);
     await login.loginAssert();
   });
-  
 
   test("PBB tree tab", async ({ page }) => {
     //Main function
@@ -28,9 +27,6 @@ test.describe("PMP Active projects functional check", () => {
     await ap.enterToOverviews();
     await ap.enterToItem();
     await ap.pbbTree();
-    
-
-    
   });
 
   test("PBB general tab", async ({ page }) => {
@@ -39,8 +35,6 @@ test.describe("PMP Active projects functional check", () => {
     await ap.enterToOverviews();
     await ap.enterToItem();
     await ap.general(username);
-    
-    
   });
 
   test("PBB dmi tab", async ({ page }) => {
@@ -51,11 +45,7 @@ test.describe("PMP Active projects functional check", () => {
     await ap.dmi();
     await ap.checkElementVisibility("true");
     await ap.checkElementVisibility("false");
-    
-    
   });
-
-
 
   test.afterEach(async ({}) => {
     //LogOut

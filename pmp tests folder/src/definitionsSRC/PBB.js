@@ -20,7 +20,9 @@ exports.PBB = class PBB {
     );
     this.pbbTypeStartPBB = page.getByRole("option", { name: "Start PBB" });
     this.pbbTypeNormalPBB = page.getByRole("option", { name: "Normal PBB" });
-    this.pbbTypeStartCheck = page.getByRole('button', { name: 'PBB Type Start PBB' });
+    this.pbbTypeStartCheck = page.getByRole("button", {
+      name: "PBB Type Start PBB",
+    });
 
     // add owner
     this.ownerRedArrowButton = page
@@ -32,7 +34,7 @@ exports.PBB = class PBB {
     this.ownerConfirmButton = page.locator(
       "//span[normalize-space()='Update Owner']"
     );
-    this.ownerInput = page.getByLabel('Owner');
+    this.ownerInput = page.getByLabel("Owner");
 
     //add maintainer
     this.maintainerRedArrowButton = page.locator(
@@ -44,11 +46,10 @@ exports.PBB = class PBB {
     this.maintainerConfirmButton = page.locator(
       "//span[normalize-space()='Update Maintainer']"
     );
-    this.maintainerInput = page.getByLabel('Maintainer');
+    this.maintainerInput = page.getByLabel("Maintainer");
 
     // Tags objects
-    
-    
+
     this.generalFormTagsRedArrow = page.locator(
       "(//i[@class='v-icon notranslate mdi mdi-upload theme--light'])[3]"
     );
@@ -72,7 +73,7 @@ exports.PBB = class PBB {
 
     // input for text to describe PBB
     this.descriptionPBB = page.locator("//div[@class='ql-editor ql-blank']");
-    this.descriptionCheck = page.getByRole('paragraph');
+    this.descriptionCheck = page.getByRole("paragraph");
 
     // add project default tags
     this.projectDefaultTagsRedArrow = page.locator(
@@ -86,15 +87,13 @@ exports.PBB = class PBB {
     );
 
     // add value to planned cost
-    this.plannedCost = page.getByLabel('Planned Cost');
+    this.plannedCost = page.getByLabel("Planned Cost");
 
     //add value into input planned resource time
-    this.plannedResourceTime = page.getByLabel('Planned Resource Time');
-    
-    
+    this.plannedResourceTime = page.getByLabel("Planned Resource Time");
 
     //add value into input process time
-    this.plannedProcesstime = page.getByLabel('Planned Process Time');
+    this.plannedProcesstime = page.getByLabel("Planned Process Time");
 
     //add default ddm
     this.defaultDDM = page.locator(
@@ -107,9 +106,8 @@ exports.PBB = class PBB {
       "//span[normalize-space()='Update Default DDM']"
     );
 
-
     //currency dropdown
-    this.currencyDropdown = page.getByLabel('Currency');
+    this.currencyDropdown = page.getByLabel("Currency");
 
     //project wizard expert Mode
     this.projectWizardSwitch = page.locator(
@@ -134,15 +132,15 @@ exports.PBB = class PBB {
     this.showInReports = page.locator(
       "//label[normalize-space()='Show In Reports']"
     );
-    this.nameInReports = page.getByLabel('Name in Reports');
+    this.nameInReports = page.getByLabel("Name in Reports");
 
     //savebutton
     this.saveGreenButton = page.locator(
       "//i[@class='v-icon notranslate v-icon--dense mdi mdi-content-save theme--light success--text']"
     );
-    
-    //message - success saved 
-    this.pbbHasBeenCreated = page.getByText('PBB has been created.');
+
+    //message - success saved
+    this.pbbHasBeenCreated = page.getByText("PBB has been created.");
 
     //assigment tab
     this.assigmentTab = page.locator("//a[normalize-space()='Assignment']");
@@ -156,10 +154,7 @@ exports.PBB = class PBB {
     );
   }
 
-
-
-// FUNCTIONS part
-
+  // FUNCTIONS part
 
   async enterToPBB() {
     //click on Definitons tab
@@ -291,13 +286,10 @@ exports.PBB = class PBB {
   async makroLevel_ShowInReports() {
     //active switch show in reports
     await this.showInReports.click();
-    if(await this.showInReports.isChecked()) {
-      await expect(this.nameInReports).toBeVisible()
-    } 
-
-
-}
-
+    if (await this.showInReports.isChecked()) {
+      await expect(this.nameInReports).toBeVisible();
+    }
+  }
 
   async makroLevel_Save() {
     //check if assignment is disabled due to unsafed macrolevel
@@ -309,9 +301,9 @@ exports.PBB = class PBB {
     await this.page.waitForTimeout(1000);
 
     //check message about successful saving
-    
+
     const successMessage = await this.pbbHasBeenCreated.textContent();
-    await expect(successMessage).toContain('PBB has been created');
+    await expect(successMessage).toContain("PBB has been created");
 
     //check if assignment is disabled due to unsafed macrolevel
 
@@ -319,23 +311,15 @@ exports.PBB = class PBB {
 
     //check if inputs are empty or not after save
     await expect(this.inputName).not.toBeEmpty();
-    
+
     await expect.soft(this.descriptionCheck).not.toBeEmpty();
     await expect.soft(this.ownerInput).not.toBeEmpty();
     await expect.soft(this.maintainerInput).not.toBeEmpty();
     await expect.soft(this.nameInReports).toBeEmpty();
     await expect.soft(this.plannedProcesstime).not.toBeEmpty();
     await expect.soft(this.plannedResourceTime).not.toBeEmpty();
-
-    
-
-
-
   }
 
-  
-  
-  
   async checkAndDelete() {
     await this.enterToPBB();
     await this.page.waitForTimeout(1000);

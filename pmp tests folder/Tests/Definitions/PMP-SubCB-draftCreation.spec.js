@@ -17,9 +17,9 @@ const subCBdropdownElement1 = constants.subCBdropdownElement1;
 const subCBdropdownElement2 = constants.subCBdropdownElement2;
 
 //Setting for non parralel running of tests
-test.describe.configure({ mode: 'serial' });
+test.describe.configure({ mode: "serial" });
 
-test.describe('PMP Creation of SCB', () => {
+test.describe("PMP Creation of SCB", () => {
   let login;
   let scb;
   let scb2;
@@ -29,37 +29,27 @@ test.describe('PMP Creation of SCB', () => {
     //Login
     login = new LoginPage(page);
     await login.gotoLoginPage(baseURL);
-    await login.login(username,password);
+    await login.login(username, password);
     await login.loginAssert();
     home = new HomePage(page);
     await home.switchDomains();
   });
 
-
   test("Check and delete", async ({ page }) => {
-    
     //main Functions
-    scb = new SubContentBricks(page,subCBdropdownElement1,name);
+    scb = new SubContentBricks(page, subCBdropdownElement1, name);
     await scb.checkCreatedSCB();
-
-    
   });
 
   test("PMP main Creation of SCB", async ({ page }) => {
     //main Functions
-    scb = new SubContentBricks(page,subCBdropdownElement1);
+    scb = new SubContentBricks(page, subCBdropdownElement1);
     await scb.enterToSCB();
-    await scb.formSCB_General(name,text);
-    await scb.add_fields(fieldName1)
+    await scb.formSCB_General(name, text);
+    await scb.add_fields(fieldName1);
 
-    
-    
     await scb.chooseSCBState();
   });
-
- 
-
-
 
   test.afterEach(async ({}) => {
     //LogOut
