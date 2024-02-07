@@ -19,10 +19,9 @@ exports.Users = class Users {
     this.rolesList = page.getByLabel("Role", { exact: true });
     this.rolesChoice = page.getByRole("option").nth(role);
     this.noData = page.getByText("Nejsou dostupná žádná data");
+    this.somaData = page.locator("//div[@class='v-menu__content theme--light v-menu__content--fixed menuable__content__active v-autocomplete__content']");
     this.buttonCancel = page.locator("form").getByRole("button").first();
-    this.buttonAddModal = page
-      .locator("form")
-      .getByRole("button", { name: "Add" });
+    this.buttonAddModal = page.locator("//div[@class='v-dialog v-dialog--active v-dialog--persistent']//form[@class='v-form']//div[@class='v-card v-sheet theme--light']//span[contains(text(),'Add')]");
   }
 
   async domainRolesEdit(name) {
@@ -59,15 +58,21 @@ exports.Users = class Users {
 
     // Clicking on a list with roles
     await this.rolesList.click();
-
+    await this.page.waitForTimeout(1000);
+    
+    const text = await this.somaData.textContent();
+    console.log(text)
     //Clicking on first data in a list and if there is no data it will pass it
-    if (this.noData.isVisible) {
+    if (
+      await this.somaData.textContent() === "Nejsou dostupná žádná data" ||
+      await this.somaData.textContent() === "No data available"
+    ) {
       await this.buttonCancel.click();
     } else {
       await this.rolesChoice.click();
-
-      // Confirm a change by clicking on button ADD
       await this.buttonAddModal.click();
     }
+    
+    
   }
 };
