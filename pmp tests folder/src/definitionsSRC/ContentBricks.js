@@ -187,33 +187,37 @@ exports.ContentBricks = class ContentBricks {
     
     }
 
-  async checkCreatedCB() {
-    //click on Definitons tab
-    await this.definitionsTab.click();
-
-    //click on Definitions/Content Bricks TAB
-    await this.contentBricksTab.click();
-    await this.page.waitForTimeout(4000);
-
-    let elements = await this.page.$$(`body >> text=${this.mainName}`);
-
-    for (let i = 0; i < elements.length; i++) {
-      const elementHandle = elements[i];
-      const elementText = await elementHandle.innerText();
-
-      if (elementText === this.mainName) {
-        await elementHandle.click();
-        await this.deleteDraftButtton.click();
-        await this.modalDeleteButton.click();
-        await this.page.waitForTimeout(2000);
-
-        // Fetch the latest elements after the deletion
-        elements = await this.page.$$(`body >> text=${this.mainName}`);
-        await this.page.waitForTimeout(2000);
-
-        // Reset the index to recheck the elements
-        i = -1;
+    async checkCreatedCB() {
+      //click on Definitions tab
+      await this.definitionsTab.click();
+  
+      //click on Definitions/Content Bricks TAB
+      await this.contentBricksTab.click();
+      await this.page.waitForTimeout(4000);
+  
+      let elements = await this.page.$$(`body >> text=${this.mainName}`);
+  
+      for (let i = 0; i < elements.length; ) {
+          const elementHandle = elements[i];
+          const elementText = await elementHandle.innerText();
+  
+          if (elementText === this.mainName) {
+              await elementHandle.click();
+              await this.deleteDraftButtton.click();
+              await this.page.waitForTimeout(1000);
+              await this.modalDeleteButton.click();
+              await this.page.waitForTimeout(2000);
+  
+              // Fetch the latest elements after the deletion
+              elements = await this.page.$$(`body >> text=${this.mainName}`);
+              await this.page.waitForTimeout(2000);
+  
+              // No need to reset the index, as the loop will check the updated elements
+          } else {
+              // Increment the index only if no deletion occurred
+              i++;
+          }
       }
-    }
   }
+  
 };
