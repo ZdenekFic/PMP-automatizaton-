@@ -44,7 +44,7 @@ exports.Users = class Users {
     // Clicking on user detail
     await this.buttonUserDetail.click();
 
-    // In user detail we choose User domain roles tab
+    // In user detail we choose User domain roles tabb
     await this.tabDomainRoles.click();
 
     // Clicking on button ADD
