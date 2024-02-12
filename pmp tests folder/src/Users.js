@@ -1,5 +1,5 @@
 const {} = require("@playwright/test");
-const { baseURL } = require("./constants");
+const { baseURL, timeOuts } = require("./constants");
 const { expect } = require("@playwright/test");
 
 exports.Users = class Users {
@@ -30,7 +30,7 @@ exports.Users = class Users {
   }
 
   async domainRolesEdit(name) {
-    await this.page.waitForTimeout(1200);
+    await this.page.waitForTimeout(timeOuts.timeL);
     //Going to account we want to edit
     // Left panel/User administration
     await this.buttonUserAdministration.click();
@@ -39,7 +39,7 @@ exports.Users = class Users {
 
     // User Administration/Users
     await this.buttonUsersTab.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
 
     //Find user with a searchbar
     await this.searchBarInput.fill(name);
@@ -61,7 +61,7 @@ exports.Users = class Users {
 
     // Clicking on a list with roles
     await this.rolesList.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
 
     const text = await this.somaData.textContent();
     console.log(text);

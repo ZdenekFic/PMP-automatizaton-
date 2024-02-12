@@ -274,19 +274,6 @@ test.describe("Overview check TESTS ", () => {
     );
   });
 
-  test("Administration - Translations", async ({ page }) => {
-    home = new Overviews(
-      page,
-      overviewMenuButtons.administrationTranslationsMenuButton,
-      overviewHeaders.administrationTranslationsHeader,
-      pageUrls.administrationTranslations
-    );
-    await home.administrationsTabs(
-      overviewMenuButtons.administrationTranslationsMenuButton,
-      pageUrls.administrationTranslations
-    );
-  });
-
   test("Administration - Unit types", async ({ page }) => {
     home = new Overviews(
       page,

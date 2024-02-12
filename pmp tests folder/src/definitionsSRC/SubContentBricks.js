@@ -1,4 +1,4 @@
-const { baseURL, scbName } = require("../constants");
+const { baseURL, scbName, timeOuts } = require("../constants");
 const { expect } = require("@playwright/test");
 
 exports.SubContentBricks = class SubContentBricks {
@@ -142,7 +142,7 @@ exports.SubContentBricks = class SubContentBricks {
 
     // add tags
     await this.generalFormTagsRedArrow.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.firstObjectInTableTags.click();
     await this.secondObjectInTableTags.click();
     await this.fifthObjectUsageInTableTags.click();
@@ -150,7 +150,7 @@ exports.SubContentBricks = class SubContentBricks {
 
     // add search identifiers
     await this.generalFormSearchIdentifierRedArrow.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.firstOBjectInTableSearchIdentifiers.click();
     await this.secondObjectInTableSearchIdentifiers.click();
     await this.fifthOBjectInTableSearchIdentifiers.click();
@@ -159,33 +159,33 @@ exports.SubContentBricks = class SubContentBricks {
 
   async add_fields(name) {
     await this.addFieldButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.fieldNameInput.fill(name);
     await this.fieldIdentifier.click();
     await this.fieldDataTypeButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.elementDropdown.click();
     await this.switchIsMandatory.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.uniteTypeRedArrowButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.uniteTypeFirstObject.click();
     await this.uniteTypeFirstUpdateButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.unitRedArrowButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.uniteFirstObject.click();
     await this.uniteUpdateButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.fieldAddButton.click();
   }
 
   async chooseSCBState() {
     await this.comboboxSCBstate.click();
     await this.stateDraft.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.saveSCBbutton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
   }
 
   async checkCreatedSCB() {
@@ -194,7 +194,7 @@ exports.SubContentBricks = class SubContentBricks {
 
     //click on Definitions/Sub Content Bricks TAB
     await this.subContentBricksTab.click();
-    await this.page.waitForTimeout(4000);
+    await this.page.waitForTimeout(timeOuts.timeXXL);
 
     let elements = await this.page.$$(`body >> text=${this.mainName}`);
 
@@ -206,11 +206,11 @@ exports.SubContentBricks = class SubContentBricks {
         await elementHandle.click();
         await this.deleteDraftButtton.click();
         await this.modalDeleteButton.click();
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(timeOuts.timeL);
 
         // Fetch the latest elements after the deletion
         elements = await this.page.$$(`body >> text=${this.mainName}`);
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(timeOuts.timeL);
 
         // Reset the index to recheck the elements
         i = -1;

@@ -1,6 +1,6 @@
 const { expect } = require("@playwright/test");
 
-const { baseURL } = require("./constants");
+const { baseURL, timeOuts } = require("./constants");
 
 exports.Tasks = class Tasks {
   constructor(page) {
@@ -87,13 +87,13 @@ exports.Tasks = class Tasks {
   async filterCheck() {
     //Expand the list by clicking on a filter
     await this.filterMenu.click();
-    await this.page.waitForTimeout(2000);
+    await this.page.waitForTimeout(timeOuts.timeL);
 
     //Clicking on first task no matter what it is
     await this.firstTaskValue.click();
     await expect(this.page).not.toHaveURL(baseURL);
     await this.page.goBack();
-    await this.page.waitForTimeout(2000);
+    await this.page.waitForTimeout(timeOuts.timeL);
 
     //Enable checkbox My recent items
     await this.myRecentItems.click();
@@ -102,35 +102,35 @@ exports.Tasks = class Tasks {
     await this.myRecentItems.click();
 
     //Enable checkbox is being repaired
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.isBeingRepaired.click();
     const checkboxIsBeRe = await this.page.locator('[aria-checked="true"]');
     await expect(checkboxIsBeRe).toBeChecked();
     await this.isBeingRepaired.click();
 
     //Enable checkbox Postponed
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.postponed.click();
     const checkboxPostponed = await this.page.locator('[aria-checked="true"]');
     await expect(checkboxPostponed).toBeChecked();
     await this.postponed.click();
 
     //Enable checkbox Unread
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.unread.click();
     const checkboxUnread = await this.page.locator('[aria-checked="true"]');
     await expect(checkboxUnread).toBeChecked();
     await this.unread.click();
 
     //Enable switch Show finished
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.finished.click();
     const switchFinished = await this.page.locator('[aria-checked="true"]');
     await expect(switchFinished).toBeChecked();
     await this.finished.click();
 
     //Enable switch Show closed
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.closed.click();
     const switchClosed = await this.page.locator('[aria-checked="true"]');
     await expect(switchClosed).toBeChecked();

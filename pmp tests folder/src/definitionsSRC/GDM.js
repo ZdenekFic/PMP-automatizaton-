@@ -1,5 +1,6 @@
 const { expect } = require("@playwright/test");
 const exp = require("constants");
+const { timeOuts } = require("../constants");
 
 exports.GDM = class GDM {
   constructor(page, gdmName) {
@@ -178,7 +179,7 @@ exports.GDM = class GDM {
   async generalForm(gdmName) {
     //click on add button to get into new GDM generalForm
     await this.newGDMAddButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     //validate if newGDMAddButton was successful
     await expect(this.page.url()).toContain("/generalDataModels/new");
 
@@ -203,7 +204,7 @@ exports.GDM = class GDM {
     //TAGS
     //click on arrow to open menu with tags values
     await this.tagsArrow.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     //add some tags
     await this.tag1.click();
     const tagTextValue = await this.tag2text.textContent();
@@ -218,7 +219,7 @@ exports.GDM = class GDM {
     //OWNER
     //click on arrow to open menu with owner values
     await this.ownerInput.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     //add owner
     await this.owner1.click();
     //confirm table
@@ -228,7 +229,7 @@ exports.GDM = class GDM {
     await expect(this.dataModelTabCheck).toHaveClass("v-tab v-tab--disabled");
     //save gdm
     await this.saveButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     //validation(if save was successfull datamodel tab shoud have class v-tab v-tab--active)
     await expect(this.dataModelTabCheck).toHaveClass("v-tab v-tab--active");
   }
@@ -236,15 +237,15 @@ exports.GDM = class GDM {
   async findAndDelete(searchedText) {
     //Click on a searchbar
     await this.searchBarInput.fill(searchedText);
-    await this.page.waitForTimeout(3000);
+    await this.page.waitForTimeout(timeOuts.timeXL);
 
     if (await this.searchedObject.isVisible()) {
       await this.searchedObject.click();
-      await this.page.waitForTimeout(1000);
+      await this.page.waitForTimeout(timeOuts.timeM);
       await this.page.locator("body").click();
       await this.deleteDraftButtton.click();
       await this.modalDeleteButton.click();
-      await this.page.waitForTimeout(2000);
+      await this.page.waitForTimeout(timeOuts.timeL);
     } else {
       await this.page.locator("body").click();
     }
@@ -270,7 +271,7 @@ exports.GDM = class GDM {
     //fill in our name
     await this.dataModelMenuObjectsContainterName.fill(containerName);
     //validation
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await expect(this.dataModelMenuObjectsContainterName).not.toBeEmpty();
     //click to get automated identifier
     await this.dataModelMenuObjectsIdentifierButton.click();
@@ -282,10 +283,10 @@ exports.GDM = class GDM {
 
     //click on  GDM button in minimenu
     await this.dataModelMenuObjectsGDMButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     // choose first object in table
     await this.firstObjectGDMTable.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.buttonNodeSelectionGDM.click();
     await this.dataModelMenuObjectsGDMConfirm.click();
     // click on menu "three dots button"
@@ -294,21 +295,21 @@ exports.GDM = class GDM {
 
     //add contant brick
     await this.dataModelMenuObjectsCBButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.dataModelMenuObjectsCBFirstObject.click();
     await this.dataModelMenuObjectsCBConfirm.click();
 
     // lets add DGL
     await this.dataModelThreeDotsButton.click();
     await expect(this.dataModelMenuObjects).toBeVisible();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
 
     await this.dataModelMenuObjectsDGLButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.dataModelMenuObjectsDGLFirstOBject.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.dataModelMenuObjectsDGLConfirm.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
 
     await this.dataModelMenuObjectsSaveAll.click();
   }

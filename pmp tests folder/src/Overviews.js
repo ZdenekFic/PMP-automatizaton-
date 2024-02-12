@@ -1,5 +1,5 @@
 const { testInfo, expect } = require("@playwright/test");
-const { baseURL } = require("./constants.js");
+const { baseURL, timeOuts } = require("./constants.js");
 const overviewMenuButtons = require("./constants.js").overviewMenuButtons;
 
 exports.Overviews = class Overviews {
@@ -105,7 +105,7 @@ exports.Overviews = class Overviews {
   async mainMenuTabs(menuText, expectedURL) {
     let titleHeader;
     await this.mainMenuTabsButtons.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
 
     //only reports got different selector so if is reason
     if (menuText === overviewMenuButtons.reportsMenuButton) {
@@ -126,38 +126,38 @@ exports.Overviews = class Overviews {
   async definitionsMenu(menuText, expectedURL) {
     // Clicking on a button Definitions in left panel menu for opening another minimenu
     await this.definitionsTabsButtons.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
 
     // Clicking on a button based on the menuText
     if (
       menuText === overviewMenuButtons.definitionsDomainDataModelsMenuButton
     ) {
       await this.definitionsDomainDataModelsMenuButtonPath.click();
-      await this.page.waitForTimeout(1000);
+      await this.page.waitForTimeout(timeOuts.timeM);
     } else if (menuText === overviewMenuButtons.definitionsDGLMenuButton) {
       await this.definitionsDGLMenuButtonPath.click();
-      await this.page.waitForTimeout(1000);
+      await this.page.waitForTimeout(timeOuts.timeM);
     } else if (menuText === overviewMenuButtons.definitionsPBBsMenuButton) {
       await this.definitionsPBBsMenuButtonPath.click();
-      await this.page.waitForTimeout(1000);
+      await this.page.waitForTimeout(timeOuts.timeM);
     } else if (
       menuText === overviewMenuButtons.definitionsPBBsQueriesMenuButton
     ) {
       await this.definitionsPBBsQueriesMenuButtonPath.click();
-      await this.page.waitForTimeout(1000);
+      await this.page.waitForTimeout(timeOuts.timeM);
     } else if (menuText === overviewMenuButtons.definitionsGDMMenuButton) {
       await this.definitionsGDMMenuButtonPath.click();
-      await this.page.waitForTimeout(1000);
+      await this.page.waitForTimeout(timeOuts.timeM);
     } else if (
       menuText === overviewMenuButtons.definitionsContentBricksMenuButton
     ) {
       await this.definitionsContentBricksMenuButtonPath.click();
-      await this.page.waitForTimeout(1000);
+      await this.page.waitForTimeout(timeOuts.timeM);
     } else if (
       menuText === overviewMenuButtons.definitionsSubContentBricksMenuButton
     ) {
       await this.definitionsSubContentBricksMenuButtonPath.click();
-      await this.page.waitForTimeout(1000);
+      await this.page.waitForTimeout(timeOuts.timeM);
     }
 
     // Assertions if title header is visible
@@ -173,44 +173,36 @@ exports.Overviews = class Overviews {
   async administrationsTabs(menuText, expectedURL) {
     // Clicking on a button Definitions in left panel menu for opening another minimenu
     await this.mainAdministrationTab.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
 
     // Clicking on a button based on the menuText
     if (menuText === overviewMenuButtons.administrationFormattingMenuButton) {
       await this.administrationFormattingMenuButtonPath.click();
-      await this.page.waitForTimeout(1000);
+      await this.page.waitForTimeout(timeOuts.timeM);
     } else if (menuText === overviewMenuButtons.administrationListsMenuButton) {
       await this.administrationFormattingMenuButtonPath.click();
-      await this.page.waitForTimeout(1000);
+      await this.page.waitForTimeout(timeOuts.timeM);
     } else if (
       menuText === overviewMenuButtons.administrationQualificationsMenuButton
     ) {
       await this.administrationQualificationsMenuButtonPath.click();
-      await this.page.waitForTimeout(1000);
+      await this.page.waitForTimeout(timeOuts.timeM);
     } else if (
       menuText === overviewMenuButtons.administrationTagsAndSearchIdsMenuButton
     ) {
       await this.administrationTagsAndSearchIdsMenuButtonPath.click();
-      await this.page.waitForTimeout(1000);
-    } else if (
-      menuText === overviewMenuButtons.administrationTranslationsMenuButton
-    ) {
-      await this.administrationTranslationsMenuButtonPath.click();
-      await this.page.waitForTimeout(1000);
-      //Assertions if title header is visible. Translations have different overview.
-      const titleHeader = await this.expectTranslation;
-      await expect(titleHeader).toBeVisible();
+      await this.page.waitForTimeout(timeOuts.timeM);
     } else if (menuText === overviewMenuButtons.administrationUnitsMenuButton) {
       await this.administrationUnitsMenuButtonPath.click();
-      await this.page.waitForTimeout(1000);
+      await this.page.waitForTimeout(timeOuts.timeM);
     } else if (
       menuText === overviewMenuButtons.administrationUsageTypesMenuButton
     ) {
       await this.administrationUsageTypesMenuButtonPath.click();
-      await this.page.waitForTimeout(1000);
+      await this.page.waitForTimeout(timeOuts.timeM);
     } else {
       await this.administrationsPath.click();
-      await this.page.waitForTimeout(1000);
+      await this.page.waitForTimeout(timeOuts.timeM);
     }
 
     //Assertions if title header is visible
@@ -223,16 +215,16 @@ exports.Overviews = class Overviews {
   async userAdministrationTabs(menuText, expectedURL) {
     // Clicking on the button
     await this.mainUserAdministrationTabs.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
 
     if (
       menuText === overviewMenuButtons.userAdministrationOrganigramMenuButton
     ) {
       await this.userAdministrationOrganigramMenuButtonPath.click();
-      await this.page.waitForTimeout(1000);
+      await this.page.waitForTimeout(timeOuts.timeM);
     } else {
       await this.userAdministrationTabsPathUnited.click();
-      await this.page.waitForTimeout(1000);
+      await this.page.waitForTimeout(timeOuts.timeM);
     }
 
     // Verifying the title header

@@ -1,5 +1,5 @@
 const { testInfo, expect } = require("@playwright/test");
-const { baseURL } = require("./constants");
+const { baseURL,timeOuts } = require("./constants");
 
 exports.HomePage = class HomePage {
   constructor(page) {
@@ -41,7 +41,7 @@ exports.HomePage = class HomePage {
   async switchDomains() {
     //click on e.g. task to get to Overview to get enabled menu dropdown for domains
     await this.taskButton.click();
-    await this.page.waitForTimeout(3000);
+    await this.page.waitForTimeout(timeOuts.timeXL);
     //click on input to get dropdown with domains
     await this.page.locator(this.inputDomains).click();
     await this.page.waitForSelector(this.dropDownDomainsMenu);
@@ -54,14 +54,14 @@ exports.HomePage = class HomePage {
     const dropdownElement = await this.page.locator(this.checkedDomain);
     //await expect(dropdownElement).toBeVisible();
     if (await dropdownElement.isVisible()) {
-      await this.page.waitForTimeout(1000);
+      await this.page.waitForTimeout(timeOuts.timeM);
     }
   }
 
   async searchBar(searchedText) {
     //Click on a searchbar
     await this.searchBarInput.fill(searchedText);
-    await this.page.waitForTimeout(3000);
+    await this.page.waitForTimeout(timeOuts.timeXL);
 
     const firstListItem = await this.page.locator(this.firstItemInBox);
     console.log(this.page.url());
@@ -75,16 +75,16 @@ exports.HomePage = class HomePage {
     const currentURL = this.page.url();
     expect(currentURL).not.toBe(baseURL);
 
-    await this.page.waitForTimeout(3000);
+    await this.page.waitForTimeout(timeOuts.timeXL);
     console.log(this.page.url());
 
     await this.page.goto(baseURL);
-    await this.page.waitForTimeout(2000);
+    await this.page.waitForTimeout(timeOuts.timeXL);
   }
 
   async helpDesk() {
     await this.buttonHelp.click();
-    await this.page.waitForTimeout(3400);
+    await this.page.waitForTimeout(timeOuts.timeXXL);
 
     const element = await this.menuHelp;
 

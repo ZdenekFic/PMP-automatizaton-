@@ -1,4 +1,5 @@
 const { expect } = require("@playwright/test");
+const { timeOuts } = require("./constants");
 
 exports.ActiveProjects = class ActiveProjects {
   constructor(page) {
@@ -196,13 +197,13 @@ exports.ActiveProjects = class ActiveProjects {
   async enterToOverviews() {
     //Click on active projects Tab and get into it
     await this.activeProjectTab.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
   }
 
   async enterToItem() {
     //Click on first item
     await this.firstProject.click();
-    await this.page.waitForTimeout(5000);
+    await this.page.waitForTimeout(timeOuts.timeXXL);
 
     //Validation
     await expect.soft(this.page.url()).toContain("/project/detail");
@@ -286,7 +287,7 @@ exports.ActiveProjects = class ActiveProjects {
     //TAGS
     //click on arrow to open menu with tags values
     await this.tagsArrow.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     //add some tags
     await this.tag1.click();
     const tagTextValue = await this.tag2text.textContent();
@@ -302,7 +303,7 @@ exports.ActiveProjects = class ActiveProjects {
     //click on arrow to open menu with owner values
     await this.ownerRedArrow.click();
     await this.ownerTableSearchInput.fill(name);
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     //add owner
     await this.owner1.click();
     //confirm table
@@ -316,7 +317,7 @@ exports.ActiveProjects = class ActiveProjects {
     //click on arrow to open menu with applicant values
     await this.applicantRedArrow.click();
     await this.applicantTableSearchInput.fill(name);
-    await this.page.waitForTimeout(700);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.applicantNewApplicant.click();
     await this.applicantConfirm.click();
 
@@ -340,7 +341,7 @@ exports.ActiveProjects = class ActiveProjects {
 
     //button for redirecting to DMI detail
     await this.dmiRedirectDMIDetatil.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     //check if we were redirected
     console.log(
       "You were successfully redirected to -> " + this.page.url() + "."
@@ -349,7 +350,7 @@ exports.ActiveProjects = class ActiveProjects {
 
     //go back
     await this.page.goBack();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     //check if we are really back in project
     console.log(
       "You were successfully redirected back  to -> " + this.page.url() + "."

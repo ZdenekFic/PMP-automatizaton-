@@ -1,4 +1,5 @@
 const { expect } = require("@playwright/test");
+const { timeOuts } = require("../constants");
 
 exports.DGL = class DGL {
   constructor(page, dropdownElement, mainName) {
@@ -129,13 +130,13 @@ exports.DGL = class DGL {
 
     // click on domain models
     await this.designGuidelinesTab.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
   }
 
   async generalForm(name, text) {
     // click on ADD button
     await this.designGuidelinesAddButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
 
     //General Form
     //click and fill name
@@ -146,7 +147,7 @@ exports.DGL = class DGL {
 
     //add usage types -> opening modal window with usage types
     await this.generalFormUsageTypesRedArrow.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.firstObjectInTable.click();
     await this.secondObjectInTable.click();
     await this.fifthObjectUsageInTable.click();
@@ -154,7 +155,7 @@ exports.DGL = class DGL {
 
     // add tags
     await this.generalFormTagsRedArrow.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.firstObjectInTableTags.click();
     await this.secondObjectInTableTags.click();
     await this.fifthObjectUsageInTableTags.click();
@@ -162,7 +163,7 @@ exports.DGL = class DGL {
 
     // add search identifiers
     await this.generalFormSearchIdentifierRedArrow.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.firstOBjectInTableSearchIdentifiers.click();
     await this.secondObjectInTableSearchIdentifiers.click();
     await this.fifthOBjectInTableSearchIdentifiers.click();
@@ -175,13 +176,13 @@ exports.DGL = class DGL {
   async add_fields(name, valueName) {
     //add fields
     await this.addFieldButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.addFiledButtonSecondary.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.fieldNameInput.fill(name);
     await this.fieldIdentifier.click();
     await this.fieldDataTypeButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.elementDropdown.click();
     await this.switchIsMandatory.click();
     await this.fieldAddButton.click();
@@ -189,10 +190,11 @@ exports.DGL = class DGL {
     //add value fields
     await this.addFieldButton.click();
     await this.addValueFieldButton.click();
+    await this.page.waitForTimeout(timeOuts.timeL);
     await this.fieldNameInput.fill(valueName);
     await this.fieldIdentifier.click();
     await this.fieldDataTypeButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.elementDropdown.click();
 
     await this.fieldAddButton.click();
@@ -210,6 +212,7 @@ exports.DGL = class DGL {
     //assertions after save cb
     await expect(this.generalFormName).not.toBeEmpty();
     await expect(this.generalFormIdentifier).not.toBeEmpty();
+    await this.page.waitForTimeout(timeOuts.timeL);
   }
 
   async checkAndDelete() {
@@ -218,7 +221,7 @@ exports.DGL = class DGL {
 
     //click on Definitions/Content Bricks TAB
     await this.designGuidelinesTab.click();
-    await this.page.waitForTimeout(4000);
+    await this.page.waitForTimeout(timeOuts.timeXXL);
 
     let elements = await this.page.$$(`body >> text=${this.mainName}`);
 
@@ -230,11 +233,11 @@ exports.DGL = class DGL {
         await elementHandle.click();
         await this.deleteDraftButtton.click();
         await this.modalDeleteButton.click();
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(timeOuts.timeL);
 
         // Fetch the latest elements after the deletion
         elements = await this.page.$$(`body >> text=${this.mainName}`);
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(timeOuts.timeL);
 
         // Reset the index to recheck the elements
         i = -1;

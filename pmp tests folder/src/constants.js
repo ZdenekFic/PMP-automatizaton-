@@ -14,6 +14,14 @@ const loggedOUTpageTitle = "Log in to PMP DEV";
 //const baseURL = "https://stag.einhellpmp.com";
 //const loggedOUTpageTitle = "Log in to PMP UAT"
 
+// Timeouts
+const timeOuts = {
+  timeS: 500,
+  timeM: 1000,
+  timeL: 2000,
+  timeXL: 3000,
+  timeXXL: 4000,
+};
 //Constants for test AccountEdit
 
 const domain = 14;
@@ -205,4 +213,5 @@ module.exports = {
   pbbName,
   pbbNameNormal,
   gdmName,
+  timeOuts
 };

@@ -1,4 +1,4 @@
-const { cbName } = require("../constants");
+const { cbName, timeOuts } = require("../constants");
 const { expect } = require("@playwright/test");
 
 exports.DDM = class DDM {
@@ -169,20 +169,20 @@ exports.DDM = class DDM {
 
     // click on domain models
     await this.domainModelsTab.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
   }
 
   async generalForm(name, containerName) {
     // click on ADD button
     await this.domainModelsAddButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
 
     // fill the name
     await this.generalFormName.fill(name);
 
     //click on dropdown for domains
     await this.generalFormDomainsRedArrow.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.domainKWB.click();
     await this.domainEcos.click();
     await this.domainMarketing.click();
@@ -191,7 +191,7 @@ exports.DDM = class DDM {
 
     // add tags
     await this.generalFormTagsRedArrow.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.firstObjectInTableTags.click();
     await this.secondObjectInTableTags.click();
     await this.fifthObjectUsageInTableTags.click();
@@ -217,7 +217,7 @@ exports.DDM = class DDM {
 
     //save general form
     await this.saveGreenButton.click();
-    await this.page.waitForTimeout(2000);
+    await this.page.waitForTimeout(timeOuts.timeL);
 
     //validation of success message
     const successMessage = await this.ddmHasBeenCreated.textContent();
@@ -252,10 +252,10 @@ exports.DDM = class DDM {
 
     //click on  GDM button in minimenu
     await this.dataModelMenuObjectsGDMButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     // choose first object in table
     await this.firstObjectGDMTable.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.buttonNodeSelectionGDM.click();
     await this.dataModelMenuObjectsGDMConfirm.click();
     // click on menu "three dots button"
@@ -264,21 +264,21 @@ exports.DDM = class DDM {
 
     //add contant brick
     await this.dataModelMenuObjectsCBButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.dataModelMenuObjectsCBFirstObject.click();
     await this.dataModelMenuObjectsCBConfirm.click();
 
     // lets add DGL
     await this.dataModelThreeDotsButton.click();
     await expect(this.dataModelMenuObjects).toBeVisible();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
 
     await this.dataModelMenuObjectsDGLButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.dataModelMenuObjectsDGLFirstOBject.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.dataModelMenuObjectsDGLConfirm.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
 
     await this.dataModelMenuObjectsSaveAll.click();
 
@@ -296,15 +296,15 @@ exports.DDM = class DDM {
       console.log(elementText);
 
       if (elementText === this.ddmName) {
-        await this.page.waitForTimeout(1000);
+        await this.page.waitForTimeout(timeOuts.timeM);
         await elementHandle.click();
         await this.deleteDraftButtton.click();
         await this.modalDeleteButton.click();
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(timeOuts.timeL);
 
         // Fetch the latest elements after the deletion
         elements = await this.page.$$(`body >> text=${this.ddmName}`);
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(timeOuts.timeL);
 
         // Reset the index to recheck the elements
         i = -1;

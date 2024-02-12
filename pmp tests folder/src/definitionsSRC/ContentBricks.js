@@ -1,4 +1,4 @@
-const { baseURL, cbName } = require("../constants");
+const { baseURL, cbName, timeOuts } = require("../constants");
 const { expect } = require("@playwright/test");
 
 exports.ContentBricks = class ContentBricks {
@@ -131,7 +131,7 @@ exports.ContentBricks = class ContentBricks {
 
     //add usage types -> opening modal window with usage types
     await this.generalFormUsageTypesRedArrow.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.firstObjectInTable.click();
     await this.secondObjectInTable.click();
     await this.fifthObjectUsageInTable.click();
@@ -139,7 +139,7 @@ exports.ContentBricks = class ContentBricks {
 
     // add tags
     await this.generalFormTagsRedArrow.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.firstObjectInTableTags.click();
     await this.secondObjectInTableTags.click();
     await this.fifthObjectUsageInTableTags.click();
@@ -147,7 +147,7 @@ exports.ContentBricks = class ContentBricks {
 
     // add search identifiers
     await this.generalFormSearchIdentifierRedArrow.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.firstOBjectInTableSearchIdentifiers.click();
     await this.secondObjectInTableSearchIdentifiers.click();
     await this.fifthOBjectInTableSearchIdentifiers.click();
@@ -159,11 +159,11 @@ exports.ContentBricks = class ContentBricks {
 
   async add_fields(name) {
     await this.addFieldButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.fieldNameInput.fill(name);
     await this.fieldIdentifier.click();
     await this.fieldDataTypeButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.elementDropdown.click();
     await this.switchIsMandatory.click();
     await this.fieldAddButton.click();
@@ -173,7 +173,7 @@ exports.ContentBricks = class ContentBricks {
     await this.comboboxCBstate.click();
     await this.stateDraft.click();
     await this.saveCBbutton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
 
     //validation of success message
     const successMessage = await this.cbHasBeenCreated.textContent();
@@ -190,7 +190,7 @@ exports.ContentBricks = class ContentBricks {
 
     //click on Definitions/Content Bricks TAB
     await this.contentBricksTab.click();
-    await this.page.waitForTimeout(4000);
+    await this.page.waitForTimeout(timeOuts.timeXXL);
 
     let elements = await this.page.$$(`body >> text=${this.mainName}`);
 
@@ -201,13 +201,13 @@ exports.ContentBricks = class ContentBricks {
       if (elementText === this.mainName) {
         await elementHandle.click();
         await this.deleteDraftButtton.click();
-        await this.page.waitForTimeout(1000);
+        await this.page.waitForTimeout(timeOuts.timeM);
         await this.modalDeleteButton.click();
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(timeOuts.timeL);
 
         // Fetch the latest elements after the deletion
         elements = await this.page.$$(`body >> text=${this.mainName}`);
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(timeOuts.timeL);
 
         // No need to reset the index, as the loop will check the updated elements
       } else {

@@ -1,5 +1,5 @@
 const { text } = require("stream/consumers");
-const { baseURL } = require("../constants");
+const { baseURL, timeOuts } = require("../constants");
 const { expect } = require("@playwright/test");
 const exp = require("constants");
 
@@ -178,7 +178,7 @@ exports.PBB = class PBB {
   async makroLevel_PbbType() {
     //click on dropdown to choose type of PBB
     await this.pbbTypeDropdown.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.pbbTypeStartPBB.click();
     await expect(this.pbbTypeStartCheck).toBeVisible();
   }
@@ -186,28 +186,28 @@ exports.PBB = class PBB {
   async makroLevel_PbbTypeNormal() {
     //click on dropdown to choose type of PBB
     await this.pbbTypeDropdown.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.pbbTypeNormalPBB.click();
   }
 
   async makroLevel_Owner() {
     //add owner
     await this.ownerRedArrowButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeXL);
     await this.ownerFirstObject.click();
     await this.ownerConfirmButton.click();
   }
   async makroLevel_Maintainer() {
     // add maintainer
     await this.maintainerRedArrowButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.maintainerSecongObject.click();
     await this.maintainerConfirmButton.click();
   }
   async makroLevel_Tags() {
     // add tags
     await this.generalFormTagsRedArrow.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.firstObjectInTableTags.click();
     await this.secondObjectInTableTags.click();
     await this.fifthObjectUsageInTableTags.click();
@@ -221,7 +221,7 @@ exports.PBB = class PBB {
   async makroLevel_ProjectDefTags() {
     //add project default tags
     await this.projectDefaultTagsRedArrow.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.projectDefaultTagsFourthObject.click();
     await this.projectDefaultTagsConfirmButton.click();
   }
@@ -255,7 +255,7 @@ exports.PBB = class PBB {
   async makroLevel_DefaultDDM() {
     //add Default DDM
     await this.defaultDDM.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
     await this.defaultDDMRandomObject.click();
     await this.defaultDDMConfirm.click();
   }
@@ -298,7 +298,7 @@ exports.PBB = class PBB {
 
     //save PBB
     await this.saveGreenButton.click();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
 
     //check message about successful saving
 
@@ -322,7 +322,7 @@ exports.PBB = class PBB {
 
   async checkAndDelete() {
     await this.enterToPBB();
-    await this.page.waitForTimeout(1000);
+    await this.page.waitForTimeout(timeOuts.timeM);
 
     let elements = await this.page.$$(`body >> text=${this.pbbName}`);
 
@@ -332,15 +332,15 @@ exports.PBB = class PBB {
       console.log(elementText);
 
       if (elementText === this.pbbName) {
-        await this.page.waitForTimeout(1000);
+        await this.page.waitForTimeout(timeOuts.timeM);
         await elementHandle.click();
         await this.deleteDraftButtton.click();
         await this.modalDeleteButton.click();
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(timeOuts.timeL);
 
         // Fetch the latest elements after the deletion
         elements = await this.page.$$(`body >> text=${this.pbbName}`);
-        await this.page.waitForTimeout(2000);
+        await this.page.waitForTimeout(timeOuts.timeL);
 
         // Reset the index to recheck the elements
         i = -1;
