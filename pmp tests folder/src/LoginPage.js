@@ -2,20 +2,26 @@ const { expect, getByLabel } = require("@playwright/test");
 exports.LoginPage = class LoginPage {
   constructor(page, language) {
     this.page = page;
-    this.usernameInput = page.getByLabel("Username or email");
-    this.passwordInput = page.getByLabel("Password");
-    this.submitButton = page.getByRole("button", { type: "submit" });
-    this.titlePMP = page.getByRole("link", { name: "PMP" });
-    this.logOutMenuButton = page.locator("header").getByRole("button").nth(2);
-    this.logOutMenu = "//div[@class='v-list v-sheet theme--light']";
+    //login
+    this.usernameInput = page.locator('input[type="text"][data-v-86df1422]');
+    this.passwordInput = page.locator('input[type="password"][data-v-86df1422]');
+    this.submitButton = page.locator('button[data-v-5bf93122][name="login"]');
+    this.titlePMP = page.locator('span[data-v-32e88e0e].nav-menu-title');
+    
+    //log out
+    this.logOutMenuButton = page.locator('i[data-v-464da812]').nth(1);
+    this.logOutMenu = '[ui-test-data="top-bar-more-options-my-acc"][data-v-464da812]';
     this.logOutButton = page.locator(
-      'span[ui-test-data="top-bar-more-options-logout"]'
+      'span[ui-test-data="top-bar-more-options-logout"][data-v-464da812]'
     );
-    this.expectedText = page.locator(".flip-card-inner");
+    this.expectedText = page.locator('h1[data-v-a29247dc]');
+    
     //Language tests
     this.mainLanguageMenu =
-      "(//i[@class='v-icon notranslate mdi mdi-earth theme--light'])[1]";
-    this.aktualniJazykElement = page.locator(
+      'i.mdi.mdi-earth[data-v-95744cba]';
+
+    this.languageBox = ".v-list";
+    this.actualLanguage = page.locator(
       "//div[@class='v-list v-sheet theme--light v-list--dense']//span[@class='font-weight-bold']"
     );
     this.choosenLanguage = page.locator(
@@ -63,17 +69,17 @@ exports.LoginPage = class LoginPage {
     await this.page.$eval(this.mainLanguageMenu, (element) => element.click());
 
     // Počkejte na zobrazení seznamu jazyků
-    await this.page.waitForSelector(".v-list");
+    await this.page.waitForSelector(this.languageBox);
 
     // Získejte aktuální jazyk (tučný text)
 
     // Získání textu z elementu
-    const aktualniJazykText = await this.aktualniJazykElement.innerText();
+    const actualLanguageText = await this.actualLanguage.innerText();
 
-    console.log("Current language is " + aktualniJazykText);
+    console.log("Current language is " + actualLanguageText);
 
     // Vraťte hodnotu, kterou chcete použít mimo funkci
-    return aktualniJazykText;
+    return actualLanguageText;
   }
 
   async languageResult(language) {

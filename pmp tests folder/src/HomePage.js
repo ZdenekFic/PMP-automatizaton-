@@ -1,41 +1,40 @@
 const { testInfo, expect } = require("@playwright/test");
-const { baseURL,timeOuts } = require("./constants");
+const { baseURL, timeOuts, mainDomain } = require("./constants");
 
 exports.HomePage = class HomePage {
-  constructor(page) {
+  constructor(page, mainDomain) {
     this.page = page;
+    this.mainDomain = mainDomain;
 
-    this.testInfo = testInfo;
+    // switch domain test objects
     this.taskButton = page
       .getByRole("navigation")
       .locator("span")
       .filter({ hasText: "Tasks" });
-    this.inputDomains = "(//div[@class='v-select__slot'])[1]";
-    this.dropDownDomainsMenu =
-      "//div[@class='v-menu__content theme--light v-menu__content--fixed menuable__content__active']";
-    this.changedDomain = "//div[contains(text(),'Marketing')]";
-    this.checkedDomain =
-      "//div[@class='v-select__selection v-select__selection--comma'][normalize-space()='Marketing']";
+
+    this.inputDomains = page.locator("div.v-select[data-v-32e88e0e]");
+    this.dropDownDomainsMenu = "div[data-v-32e88e0e='true']";
+    this.changedDomain = `//div[contains(text(),'${mainDomain}')]`;
+    this.checkedDomain = page.locator(
+      `//div[@class='v-select__selection v-select__selection--comma'][normalize-space()='${mainDomain}']`
+    );
+
+    // searchBar function
     this.searchBarInput = page.locator(
       "//input[@ui-test-data='top-bar-search']"
     );
+    this.searchedBoxMenu = 'div[role="listbox"][data-v-461eae61]';
+    this.firstItemInBox = 'div[data-v-461eae61][role="menuitem"]';
 
-    this.firstItemInBox = "//body/div[1]/div[2]/div/div[2]";
-    this.buttonHelp = page
-      .frameLocator('[data-testid="launcher-frame"]')
-      .locator("path");
-    this.menuHelp = page
-      .frameLocator('[data-testid="widget-frame"]')
-      .getByTestId("widget-body-home")
-      .locator("div")
-      .filter({
-        hasText:
-          "Got questions?SearchSuggested articlesNothing found.Contact us",
-      })
-      .first();
-    this.closeHelp = page
-      .frameLocator('[data-testid="widget-frame"]')
-      .getByTestId("header-close");
+    //Menu hiding
+    this.buttonOpenLeftMenu = page
+      .getByRole("navigation")
+      .locator("button")
+      .nth(1);
+
+    this.buttonHideLeftMenu = page
+      .getByRole("link", { name: "PMP" })
+      .getByRole("button");
   }
 
   async switchDomains() {
@@ -43,7 +42,7 @@ exports.HomePage = class HomePage {
     await this.taskButton.click();
     await this.page.waitForTimeout(timeOuts.timeXL);
     //click on input to get dropdown with domains
-    await this.page.locator(this.inputDomains).click();
+    await this.inputDomains.click();
     await this.page.waitForSelector(this.dropDownDomainsMenu);
 
     //Choose a marketing domain
@@ -51,9 +50,7 @@ exports.HomePage = class HomePage {
   }
 
   async switchDomainsAssert() {
-    const dropdownElement = await this.page.locator(this.checkedDomain);
-    //await expect(dropdownElement).toBeVisible();
-    if (await dropdownElement.isVisible()) {
+    if (await this.checkedDomain.isVisible()) {
       await this.page.waitForTimeout(timeOuts.timeM);
     }
   }
@@ -63,34 +60,51 @@ exports.HomePage = class HomePage {
     await this.searchBarInput.fill(searchedText);
     await this.page.waitForTimeout(timeOuts.timeXL);
 
-    const firstListItem = await this.page.locator(this.firstItemInBox);
-    console.log(this.page.url());
+    console.log(
+      "Current URL before redirecting to item from box is " + this.page.url()
+    );
 
-    await firstListItem.click();
+    //wait for menu with results
+    await this.page.waitForSelector(this.searchedBoxMenu);
+
+    await this.page
+      .locator(this.searchedBoxMenu)
+      .locator(this.firstItemInBox)
+      .nth(1)
+      .click();
 
     // Wait for navigation to complete
     await this.page.waitForNavigation();
 
     // Verify that the current URL is not equal to baseURL
     const currentURL = this.page.url();
-    expect(currentURL).not.toBe(baseURL);
+    await expect(currentURL).not.toBe(baseURL);
 
     await this.page.waitForTimeout(timeOuts.timeXL);
-    console.log(this.page.url());
+    console.log(
+      "Current URL after clicking on item from box" + this.page.url()
+    );
 
     await this.page.goto(baseURL);
     await this.page.waitForTimeout(timeOuts.timeXL);
   }
 
-  async helpDesk() {
-    await this.buttonHelp.click();
-    await this.page.waitForTimeout(timeOuts.timeXXL);
+  async hideMenu() {
+    //clicking on button for hiding left menu
+    await this.buttonHideLeftMenu.click();
 
-    const element = await this.menuHelp;
+    //Assertions left menu is realla hidden
+    await expect(this.buttonOpenLeftMenu).toBeVisible();
+  }
 
-    await expect(element).toBeVisible();
+  async openMenu() {
+    // hide menu and check it
+    await this.hideMenu();
 
-    //close modal
-    await this.closeHelp.click();
+    // open menu
+    await this.buttonOpenLeftMenu.click();
+
+    //Assertions left menu is realla hidden
+    await expect(this.buttonHideLeftMenu).toBeVisible();
   }
 };

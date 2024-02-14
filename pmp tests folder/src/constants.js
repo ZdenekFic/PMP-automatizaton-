@@ -3,16 +3,13 @@
 // Login to TEST env PMP
 const username = "testaa@memos.cz";
 const password = "sunandmoon";
+const mainDomain = "Marketing";
 const username2 = "zdenek.fic@memos.cz";
 const password2 = "memos";
 const baseURL = "https://test.einhellpmp.com";
 const loggedOUTpageTitle = "Log in to PMP DEV";
 
-// Login to STAG env PMP
-//const username = "synchronization.acc";
-//const password = "GFFdNsylP6tW96OsXGRV";
-//const baseURL = "https://stag.einhellpmp.com";
-//const loggedOUTpageTitle = "Log in to PMP UAT"
+
 
 // Timeouts
 const timeOuts = {
@@ -213,5 +210,6 @@ module.exports = {
   pbbName,
   pbbNameNormal,
   gdmName,
-  timeOuts
+  timeOuts,
+  mainDomain
 };

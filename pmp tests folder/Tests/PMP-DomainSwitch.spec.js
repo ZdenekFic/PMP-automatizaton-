@@ -7,8 +7,9 @@ const username = constants.username;
 const password = constants.password;
 const baseURL = constants.baseURL;
 const loggedOUTpageTitle = constants.loggedOUTpageTitle;
+const mainDomain = constants.mainDomain;
 
-test("Domain switch", async ({ page }, testInfo) => {
+test("Domain switch", async ({ page }) => {
   //Login
   const login = new LoginPage(page);
   await login.gotoLoginPage(baseURL);
@@ -17,7 +18,7 @@ test("Domain switch", async ({ page }, testInfo) => {
 
   //HomePage
 
-  const home = new HomePage(page);
+  const home = new HomePage(page,mainDomain);
   await home.switchDomains();
   await home.switchDomainsAssert();
 

@@ -9,9 +9,7 @@ exports.Users = class Users {
       name: "User Administration",
     });
     this.buttonUsersTab = page.getByText("Users");
-    this.searchBarInput = page.locator(
-      "//div[@class='row justify-space-between']//input"
-    );
+    this.searchBarInput = page.locator('input[autofocus][type="text"]');
     this.buttonUserDetail = page.getByRole("link", { name: account });
     this.tabDomainRoles = page.getByRole("tab", { name: "User domain roles" });
     this.buttonAdd = page.getByRole("button", { name: "Add" });
@@ -46,6 +44,7 @@ exports.Users = class Users {
 
     // Clicking on user detail
     await this.buttonUserDetail.click();
+    await this.page.waitForTimeout(timeOuts.timeM);
 
     // In user detail we choose User domain roles tabb
     await this.tabDomainRoles.click();
