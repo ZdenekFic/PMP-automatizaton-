@@ -17,7 +17,7 @@ exports.Users = class Users {
     this.domainChoice = page.getByRole("option").nth(domain);
     this.rolesList = page.getByLabel("Role", { exact: true });
     this.rolesChoice = page.getByRole("option").nth(role);
-    this.noData = page.getByText("Nejsou dostupná žádná data");
+    
     this.somaData = page.locator(
       "//div[@class='v-menu__content theme--light v-menu__content--fixed menuable__content__active v-autocomplete__content']"
     );

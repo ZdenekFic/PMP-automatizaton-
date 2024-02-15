@@ -12,9 +12,8 @@ const loggedOUTpageTitle = constants.loggedOUTpageTitle;
 const name = constants.scbName;
 const text = constants.scbText;
 const fieldName1 = constants.subcontentBrickFieldName1;
-const fieldName2 = constants.subcontentBrickFieldName2;
+
 const subCBdropdownElement1 = constants.subCBdropdownElement1;
-const subCBdropdownElement2 = constants.subCBdropdownElement2;
 
 //Setting for non parralel running of tests
 test.describe.configure({ mode: "serial" });
@@ -22,7 +21,7 @@ test.describe.configure({ mode: "serial" });
 test.describe("PMP Creation of SCB", () => {
   let login;
   let scb;
-  let scb2;
+
   let home;
 
   test.beforeEach(async ({ page }) => {
@@ -31,7 +30,7 @@ test.describe("PMP Creation of SCB", () => {
     await login.gotoLoginPage(baseURL);
     await login.login(username, password);
     await login.loginAssert();
-    home = new HomePage(page);
+    home = new HomePage(page, constants.mainDomain);
     await home.switchDomains();
   });
 

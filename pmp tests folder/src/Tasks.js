@@ -5,77 +5,111 @@ const { baseURL, timeOuts } = require("./constants");
 exports.Tasks = class Tasks {
   constructor(page) {
     this.page = page;
-    this.filterMenu = page.getByRole("button", {
-      name: "Filter (Active filters: My",
-    });
-    this.filterBox = ".v-expansion-panel-content__wrap";
-    this.myRecentItems = page
-      .locator(".v-input--selection-controls__ripple")
-      .first();
-    this.firstTaskValue = page.locator("//table/tbody/tr[1]");
-    this.taskTab = page
-      .getByRole("navigation")
-      .locator("span")
-      .filter({ hasText: "Tasks" });
-    this.isBeingRepaired = page.getByText("Is being repaired");
-    this.postponed = page.getByText("Postponed");
+    //clicking on filter to get more filters
+    this.filterMenu = page.locator(
+      "div[data-v-4a17d8ec].v-item-group.theme--light.v-expansion-panels.v-expansion-panels--flat"
+    );
+    this.filterArrowButton =
+      "div.v-expansion-panel-header__icon > i.v-icon.notranslate.mdi.mdi-chevron-down.theme--light";
+    this.filterBox =
+      "div[data-v-4a17d8ec].v-expansion-panel-content.table-filter-panel-content";
+
+    // action to get into first item in table
+    this.tableTasks = page.locator(
+      "div[data-v-266d60f8].v-data-table.overview-table.pmtool-table.v-data-table--dense.theme--light"
+    );
+
+    // CHECKBOXES
+    // My recenet items
+    this.myRecentItemsDiv = page.locator("div[data-v-4a17d8ec].p-0.col.col-2");
+    this.myRecentItemsCheckbox = ".v-input--selection-controls__ripple";
+    // Is being repaired
+    this.isBeingRepairedDiv = page.locator(
+      'div[data-v-266d60f8][xs="12"].p-0.col-sm-12.col-md-3.col-lg-3.col-xl-3.col-12'
+    );
+    this.isBeingRepairedCheckbox = ".v-input--selection-controls__ripple";
+    // Postponed
+    this.postponedDiv = page.locator(
+      'div[data-v-266d60f8][xs="12"].p-0.col-sm-12.col-md-3.col-lg-3.col-xl-3.col-12'
+    );
+    this.postponedCheckbox = ".v-input--selection-controls__ripple";
+    // Unread
     this.unread = page.getByText("Unread");
+    // Show finished
     this.finished = page.getByText("Show Finished");
+    // Show closed
     this.closed = page.getByText("Show Closed");
-    this.deadlineRangeList = page.getByRole("button", {
-      name: "Deadline range All",
-    });
-    this.deadlineRangeListValue = page.getByText("After Deadline");
+
     //Choose columns filter
     this.buttonColumnsChooser = page.getByRole("button", {
       name: "Choose columns",
       exact: true,
     });
+
+    // Checkboxes for columns picker
+    this.allCheckboxesDiv = page.locator("div[data-v-65ea29d0].row.no-gutters");
+
+    //Actions
     this.checkboxActions = page
       .locator(".v-input--selection-controls__ripple")
       .first();
+    //Assigned to
     this.checkboxAssignedTo = page.locator(
       "div:nth-child(2) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple"
     );
+    //Async
     this.checkboxAsync = page.locator(
       "div:nth-child(3) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple"
     );
+    //Friendly
     this.checkboxFriendly = page.locator(
       "div:nth-child(4) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple"
     );
+    //Milestone Due Date
     this.checkboxMilestoneDueDate = page.locator(
       "div:nth-child(5) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple"
     );
+    //Name
     this.checkboxName = page.locator(
       "div:nth-child(6) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple"
     );
+    //PBB Code
     this.checkboxPBBCode = page.locator(
       "div:nth-child(7) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple"
     );
+    //Postpone end date
     this.checkboxPostponeEndDate = page.locator(
       "div:nth-child(8) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple"
     );
+    //Prority
     this.checkboxPriority = page.locator(
       "div:nth-child(9) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple"
     );
+    //Project Applicant
     this.checkboxProjectApplicant = page.locator(
       "div:nth-child(10) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple"
     );
+    //Project code
     this.checkboxProjectCode = page.locator(
       "div:nth-child(11) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple"
     );
+    //Project Name
     this.checkboxProjectName = page.locator(
       "div:nth-child(12) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple"
     );
+    //Project owner
     this.checkboxProjectOwner = page.locator(
       "div:nth-child(13) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple"
     );
+    //Start date
     this.checkboxStartDate = page.locator(
       "div:nth-child(14) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple"
     );
+    //Status
     this.checkboxStatus = page.locator(
       "div:nth-child(15) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple"
     );
+    //Task code
     this.checkboxTaskCode = page.locator(
       "div:nth-child(16) > .v-input > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple"
     );
@@ -86,34 +120,45 @@ exports.Tasks = class Tasks {
 
   async filterCheck() {
     //Expand the list by clicking on a filter
-    await this.filterMenu.click();
-    await this.page.waitForTimeout(timeOuts.timeL);
+    await this.page.waitForTimeout(timeOuts.timeM);
+    await this.filterMenu.locator(this.filterArrowButton).click();
 
-    //Clicking on first task no matter what it is
-    await this.firstTaskValue.click();
+    await this.page.waitForTimeout(timeOuts.timeS);
+    await this.page.waitForSelector(this.filterBox);
+
+    //Clicking on first task no matter what it is, this action get checkbox myrecentitems enabled
+    await this.tableTasks.locator("//tr").nth(1).click();
     await expect(this.page).not.toHaveURL(baseURL);
     await this.page.goBack();
     await this.page.waitForTimeout(timeOuts.timeL);
 
     //Enable checkbox My recent items
-    await this.myRecentItems.click();
+    await this.myRecentItemsDiv.locator(this.myRecentItemsCheckbox).click();
     const checkboxMyRecIT = await this.page.locator('[aria-checked="true"]');
     await expect(checkboxMyRecIT).toBeChecked();
-    await this.myRecentItems.click();
+    //Click again to get unchecked
+    await this.myRecentItemsDiv.locator(this.myRecentItemsCheckbox).click();
 
     //Enable checkbox is being repaired
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.isBeingRepaired.click();
+    await this.isBeingRepairedDiv
+      .nth(0)
+      .locator(this.isBeingRepairedCheckbox)
+      .click();
     const checkboxIsBeRe = await this.page.locator('[aria-checked="true"]');
     await expect(checkboxIsBeRe).toBeChecked();
-    await this.isBeingRepaired.click();
+    //Click again to get unchecked
+    await this.isBeingRepairedDiv
+      .nth(0)
+      .locator(this.isBeingRepairedCheckbox)
+      .click();
 
     //Enable checkbox Postponed
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.postponed.click();
+    await this.postponedDiv.nth(1).locator(this.postponedCheckbox).click();
     const checkboxPostponed = await this.page.locator('[aria-checked="true"]');
     await expect(checkboxPostponed).toBeChecked();
-    await this.postponed.click();
+    await this.postponedDiv.nth(1).locator(this.postponedCheckbox).click();
 
     //Enable checkbox Unread
     await this.page.waitForTimeout(timeOuts.timeM);
@@ -143,6 +188,10 @@ exports.Tasks = class Tasks {
 
     //checkboxex clicking to active it
     await this.checkboxActions.click();
+    
+
+    
+
     await this.checkboxAssignedTo.click();
     await this.checkboxAsync.click();
     await this.checkboxFriendly.click();

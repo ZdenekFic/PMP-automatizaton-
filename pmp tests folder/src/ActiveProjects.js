@@ -13,31 +13,35 @@ exports.ActiveProjects = class ActiveProjects {
 
     //ENTERTOITEM function
     //first item in table
-    this.firstProject = page.locator(
-      "//div[@class='v-card__text']//tbody/tr[1]"
+    this.projectDiv = page.locator(
+      "div[data-v-a8d76044].container.pl-5.pt-5.container--fluid"
     );
+
     this.checkedDiv = page.locator(
-      "//div[@class='container project-detail container--fluid']"
+      'div[data-v-a8d76044] .container.project-detail.container--fluid .entity-detail-card.v-card.v-sheet.theme--light'
     );
 
     //PBB tree function
-    //PBB tree tab
-    this.pbbTreeTab = page.locator("//div[normalize-space()='PBB Tree']");
+    //Tabs div area 
+    this.tabsNav = page.locator('div.v-slide-group__content.v-tabs-bar__content');
+    
+    // tab   in methods is used "nth(n)" to pick right tab due to situation
+    this.tab = 'div[role="tab"]';
 
     //unfold button
     this.unfoldButton = page.locator(
-      "//button[@class='v-btn v-btn--flat v-btn--icon v-btn--round theme--light elevation-2 v-size--default']//span[@class='v-btn__content']"
+      'button[type="button"].v-btn.v-btn--flat.v-btn--icon.v-btn--round.theme--light.elevation-2.v-size--default[role="button"][aria-haspopup="true"][aria-expanded="false"]'
     );
 
     //show/hide columns button
     this.show_hideColumns = page.locator(
-      "//button[@class='ml-2 v-btn v-btn--flat v-btn--icon v-btn--round theme--light elevation-2 v-size--default']//span[@class='v-btn__content']"
+      'button[type="button"].ml-2.v-btn.v-btn--flat.v-btn--icon.v-btn--round.theme--light.elevation-2.v-size--default'
     );
     this.show_hideColumnsModal = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent']//div[@class='v-card v-sheet theme--light']"
+      'div[data-v-65ea29d0].v-card.v-sheet.theme--light'
     );
     this.show_hideColumnsSaveButton = page.locator(
-      "//span[normalize-space()='Save']"
+      'button[data-v-65ea29d0][type="button"].error.v-btn.v-btn--flat.v-btn--text.theme--light.v-size--default'
     );
 
     //show root checkbox
@@ -64,9 +68,9 @@ exports.ActiveProjects = class ActiveProjects {
 
     //GENERAL tab function
     //general
-    this.generalTab = page.locator("//div[contains(text(),'General')]");
+    
     this.mainProjectTitleName = page.locator(
-      "//div[@class='pl-0 pt-0 pb-0 col col-12 col-md-6 col-lg-8 col-xl-8']"
+      'div[data-v-c1836cc6].v-card__title.pt-2.pb-0 .pl-0.pt-0.pb-0.col.col-12.col-md-6.col-lg-8.col-xl-8'
     );
     this.inputName = page.getByLabel("Project name");
 
@@ -194,6 +198,8 @@ exports.ActiveProjects = class ActiveProjects {
     );
   }
 
+  //_____________________________________Methods_________________________________________________
+
   async enterToOverviews() {
     //Click on active projects Tab and get into it
     await this.activeProjectTab.click();
@@ -202,7 +208,7 @@ exports.ActiveProjects = class ActiveProjects {
 
   async enterToItem() {
     //Click on first item
-    await this.firstProject.click();
+    await this.projectDiv.locator("//tr").nth(1).click();
     await this.page.waitForTimeout(timeOuts.timeXXL);
 
     //Validation
@@ -213,7 +219,8 @@ exports.ActiveProjects = class ActiveProjects {
 
   async pbbTree() {
     //check if pbb tree is defaultly set as active tab after opening a project detail
-    await expect.soft(this.pbbTreeTab).toHaveClass("v-tab v-tab--active");
+     const pbbTreeCheck = await this.tabsNav.locator(this.tab).nth(1);
+    await expect.soft(pbbTreeCheck).toHaveClass("v-tab v-tab--active");
 
     //unfold button click and check
     await this.unfoldButton.click();
@@ -252,8 +259,10 @@ exports.ActiveProjects = class ActiveProjects {
   }
 
   async general(name) {
-    await this.generalTab.click();
-    await expect(this.generalTab).toHaveClass("v-tab v-tab--active");
+    //Check if general tab is active
+    const generalTab = await this.tabsNav.locator(this.tab).nth(0);
+    await generalTab.click();
+    await expect(generalTab).toHaveClass("v-tab v-tab--active");
 
     //Check if title of project matches to title project in generalForm
     const projectMain = await this.mainProjectTitleName.textContent();

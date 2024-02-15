@@ -31,7 +31,7 @@ test.describe("PMP Creation of CB", () => {
     await login.gotoLoginPage(baseURL);
     await login.login(username, password);
     await login.loginAssert();
-    home = new HomePage(page);
+    home = new HomePage(page,constants.mainDomain);
     await home.switchDomains();
   });
 
