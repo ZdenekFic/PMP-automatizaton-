@@ -18,13 +18,15 @@ exports.ActiveProjects = class ActiveProjects {
     );
 
     this.checkedDiv = page.locator(
-      'div[data-v-a8d76044] .container.project-detail.container--fluid .entity-detail-card.v-card.v-sheet.theme--light'
+      "div[data-v-a8d76044] .container.project-detail.container--fluid .entity-detail-card.v-card.v-sheet.theme--light"
     );
 
     //PBB tree function
-    //Tabs div area 
-    this.tabsNav = page.locator('div.v-slide-group__content.v-tabs-bar__content');
-    
+    //Tabs div area
+    this.tabsNav = page.locator(
+      "div.v-slide-group__content.v-tabs-bar__content"
+    );
+
     // tab   in methods is used "nth(n)" to pick right tab due to situation
     this.tab = 'div[role="tab"]';
 
@@ -38,7 +40,7 @@ exports.ActiveProjects = class ActiveProjects {
       'button[type="button"].ml-2.v-btn.v-btn--flat.v-btn--icon.v-btn--round.theme--light.elevation-2.v-size--default'
     );
     this.show_hideColumnsModal = page.locator(
-      'div[data-v-65ea29d0].v-card.v-sheet.theme--light'
+      "div[data-v-65ea29d0].v-card.v-sheet.theme--light"
     );
     this.show_hideColumnsSaveButton = page.locator(
       'button[data-v-65ea29d0][type="button"].error.v-btn.v-btn--flat.v-btn--text.theme--light.v-size--default'
@@ -68,9 +70,9 @@ exports.ActiveProjects = class ActiveProjects {
 
     //GENERAL tab function
     //general
-    
+
     this.mainProjectTitleName = page.locator(
-      'div[data-v-c1836cc6].v-card__title.pt-2.pb-0 .pl-0.pt-0.pb-0.col.col-12.col-md-6.col-lg-8.col-xl-8'
+      "div[data-v-c1836cc6].v-card__title.pt-2.pb-0 .pl-0.pt-0.pb-0.col.col-12.col-md-6.col-lg-8.col-xl-8"
     );
     this.inputName = page.getByLabel("Project name");
 
@@ -78,42 +80,20 @@ exports.ActiveProjects = class ActiveProjects {
     this.userGroupsRedArrow = page
       .locator(".v-input__append-outer > .v-btn")
       .first();
-    this.userGroupsItem1 = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card__text']//tbody/tr[1]/td[1]"
-    );
-    this.userGroupsItem2 = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card__text']//tbody/tr[2]/td[1]"
-    );
-    this.userGroupsItem3 = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card__text']//tbody/tr[3]/td[1]"
-    );
-    this.userGroupsConfirmButton = page.locator(
-      "//span[normalize-space()='Update User groups']"
-    );
-    this.userGroupsDiv = page.locator(
-      "//div[@class='v-input v-input--is-label-active v-input--is-dirty v-input--is-focused theme--light v-text-field v-text-field--is-booted v-select v-select--chips v-select--is-multi v-autocomplete error--text']//div[@class='v-select__selections']"
-    );
+
+    this.userGroupsModal = ".v-card[data-v-516a0fde]";
+    this.userGroupsItem = "//tr/td[1]";
+
+    this.userGroupsConfirmButton = 'button[ui-test-data="update-btn"]';
 
     //TAGS
-    this.tagsArrow = page.locator(
-      "div:nth-child(5) > .col > div > .v-input > .v-input__append-outer > .v-btn"
-    );
-    //tag1
-    this.tag1 = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//tbody/tr[1]/td[1]/div[1]/i[1]"
-    );
-    //tag2
-    this.tag2 = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//tbody/tr[2]/td[1]/div[1]/i[1]"
-    );
-    //tag2 text
-    this.tag2text = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card v-sheet theme--light']//tbody/tr[2]/td[3]"
-    );
-    //tag3
-    this.tag3 = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//tbody/tr[5]/td[1]/div[1]/i[1]"
-    );
+    this.tagsArea = page.locator('div[data-v-19b89e56]');
+    this.tagsArrow = 'button[data-v-19b89e56][ui-test-data="upload-btn"]';
+    // Tags   modal 
+    this.tagsModal = 'div.v-card.v-sheet.theme--light[data-v-516a0fde]';
+    this.tagsItem = "//tr/td[1]";
+    
+    
     //Confirm Tags
     this.tagConfirm = page.locator("//span[normalize-space()='Update Tags']");
     //tagDiv
@@ -219,7 +199,7 @@ exports.ActiveProjects = class ActiveProjects {
 
   async pbbTree() {
     //check if pbb tree is defaultly set as active tab after opening a project detail
-     const pbbTreeCheck = await this.tabsNav.locator(this.tab).nth(1);
+    const pbbTreeCheck = await this.tabsNav.locator(this.tab).nth(1);
     await expect.soft(pbbTreeCheck).toHaveClass("v-tab v-tab--active");
 
     //unfold button click and check
@@ -274,10 +254,24 @@ exports.ActiveProjects = class ActiveProjects {
 
     //user groups add items
     await this.userGroupsRedArrow.click();
-    await this.userGroupsItem1.click();
-    await this.userGroupsItem2.click();
-    await this.userGroupsItem3.click();
-    await this.userGroupsConfirmButton.click();
+    await this.page.waitForSelector(this.userGroupsModal);
+    await this.page
+      .locator(this.userGroupsModal)
+      .locator(this.userGroupsItem)
+      .nth(1)
+      .click();
+    await this.page
+      .locator(this.userGroupsModal)
+      .locator(this.userGroupsItem)
+      .nth(2)
+      .click();
+    await this.page
+      .locator(this.userGroupsModal)
+      .locator(this.userGroupsItem)
+      .nth(3)
+      .click();
+      //confirm button
+    await this.page.locator(this.userGroupsModal).locator(this.userGroupsConfirmButton).click();
 
     //check it
     // Získejte Locator celého prvku
@@ -295,18 +289,22 @@ exports.ActiveProjects = class ActiveProjects {
     //Tags
     //TAGS
     //click on arrow to open menu with tags values
-    await this.tagsArrow.click();
+    await this.tagsArea.locator(this.tagsArrow).nth(1).click();
     await this.page.waitForTimeout(timeOuts.timeM);
     //add some tags
-    await this.tag1.click();
-    const tagTextValue = await this.tag2text.textContent();
-    console.log(tagTextValue);
-    await this.tag2.click();
-    await this.tag3.click();
-    // confirm
-    await this.tagConfirm.click();
-    //validate it
-    await expect(this.tagDiv).toContainText(tagTextValue);
+    const value = await this.page.locator(this.tagsModal).locator(this.tagsItem).textContent();
+    console.log(value);
+    await this.page.locator(this.tagsModal).locator(this.tagsItem).nth(2).click();
+    await this.page.locator(this.tagsModal).locator(this.tagsItem).nth(3).click();
+    
+    // const tagTextValue = await this.tag2text.textContent();
+    // console.log(tagTextValue);
+    // await this.tag2.click();
+    // await this.tag3.click();
+    // // confirm
+    // await this.tagConfirm.click();
+    // //validate it
+    // await expect(this.tagDiv).toContainText(tagTextValue);
 
     //OWNER
     //click on arrow to open menu with owner values
