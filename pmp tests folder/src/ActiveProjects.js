@@ -76,7 +76,7 @@ exports.ActiveProjects = class ActiveProjects {
     );
     this.inputName = page.getByLabel("Project name");
 
-    //user groups
+    //USER GROUPS
     this.userGroupsRedArrow = page
       .locator(".v-input__append-outer > .v-btn")
       .first();
@@ -87,15 +87,19 @@ exports.ActiveProjects = class ActiveProjects {
     this.userGroupsConfirmButton = 'button[ui-test-data="update-btn"]';
 
     //TAGS
-    this.tagsArea = page.locator('div[data-v-19b89e56]');
+
     this.tagsArrow = 'button[data-v-19b89e56][ui-test-data="upload-btn"]';
-    // Tags   modal 
-    this.tagsModal = 'div.v-card.v-sheet.theme--light[data-v-516a0fde]';
+
+    // Tags   modal
+    this.tagsModalTitle = page.locator(
+      'div.v-card__title[data-v-516a0fde][ui-test-data="dialog-header"]'
+    );
+    this.tagsModal = page.locator("div.v-card__text[data-v-516a0fde]");
     this.tagsItem = "//tr/td[1]";
-    
-    
+
     //Confirm Tags
-    this.tagConfirm = page.locator("//span[normalize-space()='Update Tags']");
+    this.tagConfirm =
+      'button.error.v-btn.v-btn--flat.v-btn--text.theme--light.v-size--default[data-v-516a0fde][ui-test-data="update-btn"]';
     //tagDiv
     this.tagDiv = page.locator(
       "div:nth-child(5) > .col > div > .v-input > .v-input__control > .v-input__slot > .v-select__slot > .v-select__selections"
@@ -270,8 +274,11 @@ exports.ActiveProjects = class ActiveProjects {
       .locator(this.userGroupsItem)
       .nth(3)
       .click();
-      //confirm button
-    await this.page.locator(this.userGroupsModal).locator(this.userGroupsConfirmButton).click();
+    //confirm button
+    await this.page
+      .locator(this.userGroupsModal)
+      .locator(this.userGroupsConfirmButton)
+      .click();
 
     //check it
     // Získejte Locator celého prvku
@@ -289,14 +296,17 @@ exports.ActiveProjects = class ActiveProjects {
     //Tags
     //TAGS
     //click on arrow to open menu with tags values
-    await this.tagsArea.locator(this.tagsArrow).nth(1).click();
+    await this.page.locator(this.tagsArrow).nth(1).click();
     await this.page.waitForTimeout(timeOuts.timeM);
+    const valueText = await this.tagsModalTitle.nth(1).textContent();
+    await expect(valueText).toContain("Select one or more Tags");
     //add some tags
-    const value = await this.page.locator(this.tagsModal).locator(this.tagsItem).textContent();
-    console.log(value);
-    await this.page.locator(this.tagsModal).locator(this.tagsItem).nth(2).click();
-    await this.page.locator(this.tagsModal).locator(this.tagsItem).nth(3).click();
-    
+    await this.tagsModal.nth(1).locator(this.tagsItem).nth(1).click();
+    await this.tagsModal.nth(1).locator(this.tagsItem).nth(2).click();
+    await this.tagsModal.nth(1).locator(this.tagsItem).nth(3).click();
+    //confirm
+    await this.tagsModal.nth(1).locator(this.tagConfirm).click();
+
     // const tagTextValue = await this.tag2text.textContent();
     // console.log(tagTextValue);
     // await this.tag2.click();
