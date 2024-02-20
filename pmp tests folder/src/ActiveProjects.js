@@ -98,8 +98,8 @@ exports.ActiveProjects = class ActiveProjects {
     this.tagsItem = "//tr/td[1]";
 
     //Confirm Tags
-    this.tagConfirm =
-      'button.error.v-btn.v-btn--flat.v-btn--text.theme--light.v-size--default[data-v-516a0fde][ui-test-data="update-btn"]';
+    this.tagConfirm =page.locator(
+      'button.error.v-btn.v-btn--flat.v-btn--text.theme--light.v-size--default[data-v-516a0fde][ui-test-data="update-btn"]');
     //tagDiv
     this.tagDiv = page.locator(
       "div:nth-child(5) > .col > div > .v-input > .v-input__control > .v-input__slot > .v-select__slot > .v-select__selections"
@@ -305,7 +305,7 @@ exports.ActiveProjects = class ActiveProjects {
     await this.tagsModal.nth(1).locator(this.tagsItem).nth(2).click();
     await this.tagsModal.nth(1).locator(this.tagsItem).nth(3).click();
     //confirm
-    await this.tagsModal.nth(1).locator(this.tagConfirm).click();
+    await this.tagConfirm.nth(1).click();
 
     // const tagTextValue = await this.tag2text.textContent();
     // console.log(tagTextValue);
