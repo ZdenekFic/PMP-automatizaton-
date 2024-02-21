@@ -96,19 +96,20 @@ exports.ActiveProjects = class ActiveProjects {
     );
     this.tagsModal = page.locator("div.v-card__text[data-v-516a0fde]");
     this.tagsItem = "//tr/td[1]";
+    this.tagsItemTextValue = "//tr/td[3]";
 
     //Confirm Tags
-    this.tagConfirm =page.locator(
-      'button.error.v-btn.v-btn--flat.v-btn--text.theme--light.v-size--default[data-v-516a0fde][ui-test-data="update-btn"]');
+    this.tagConfirm = page.locator(
+      'button.error.v-btn.v-btn--flat.v-btn--text.theme--light.v-size--default[data-v-516a0fde][ui-test-data="update-btn"]'
+    );
     //tagDiv
-    this.tagDiv = page.locator(
-      "div:nth-child(5) > .col > div > .v-input > .v-input__control > .v-input__slot > .v-select__slot > .v-select__selections"
+    this.tagDivArea = page.locator(
+      "div.v-input.theme--light.v-text-field.v-text-field--is-booted.v-select.v-select--chips.v-select--is-multi.v-autocomplete[data-v-19b89e56]"
     );
 
     //OWNER
     this.ownerRedArrow = page
-      .locator(".add-reference-textfield-append")
-      .first();
+      .locator('button[ui-test-data="open-list-btn"]');
     this.ownerTableSearchInput = page.locator(
       "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='row']//input"
     );
@@ -302,23 +303,31 @@ exports.ActiveProjects = class ActiveProjects {
     await expect(valueText).toContain("Select one or more Tags");
     //add some tags
     await this.tagsModal.nth(1).locator(this.tagsItem).nth(1).click();
+    // save value text for later validation
+    const tagTextValue = await this.tagsModal
+      .nth(1)
+      .locator(this.tagsItemTextValue)
+      .nth(3)
+      .textContent();
+    console.log(tagTextValue);
+    const tagTextValueTrimmed = tagTextValue.trim();
+    //add some next items
     await this.tagsModal.nth(1).locator(this.tagsItem).nth(2).click();
     await this.tagsModal.nth(1).locator(this.tagsItem).nth(3).click();
+
     //confirm
     await this.tagConfirm.nth(1).click();
+    await this.page.waitForTimeout(timeOuts.timeM);
 
-    // const tagTextValue = await this.tag2text.textContent();
-    // console.log(tagTextValue);
-    // await this.tag2.click();
-    // await this.tag3.click();
-    // // confirm
-    // await this.tagConfirm.click();
-    // //validate it
-    // await expect(this.tagDiv).toContainText(tagTextValue);
+    //validate it
+    const inputValues = await this.tagDivArea.nth(1).textContent();
+    console.log(inputValues);
+
+    await expect(inputValues).toContain(tagTextValueTrimmed);
 
     //OWNER
     //click on arrow to open menu with owner values
-    await this.ownerRedArrow.click();
+    await this.ownerRedArrow.nth(0).click();
     await this.ownerTableSearchInput.fill(name);
     await this.page.waitForTimeout(timeOuts.timeM);
     //add owner
