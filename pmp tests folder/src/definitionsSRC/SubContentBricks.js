@@ -1,3 +1,4 @@
+const exp = require("constants");
 const { baseURL, scbName, timeOuts } = require("../constants");
 const { expect } = require("@playwright/test");
 
@@ -6,60 +7,28 @@ exports.SubContentBricks = class SubContentBricks {
     this.page = page;
     this.mainName = mainName;
     this.dropdownElement = dropdownElement;
-    this.definitionsTab = page.getByRole("button", { name: "Definitions" });
-    this.subContentBricksTab = page
-      .locator("span")
-      .filter({ hasText: "Sub Content Bricks" })
-      .first();
-    this.addButton = page.getByRole("link", { name: "Add" });
+    this.definitionsTab = page.locator('div[ui-test-data="nav-definitions"]');
+    this.subContentBricksTab = page.locator('span[ui-test-data="nav-definitions-sub-content-bricks"]')
+    this.addButton = page.locator('a[ui-test-data="overview-header-add-btn"]');
+    
     this.generalFormName = page.getByLabel("Name", { exact: true });
     this.generalFormIdentifier = page.getByLabel("Identifier", { exact: true });
-    // Uasge types objects
-    this.generalFormUsageTypesRedArrow = page
-      .locator(".v-input__append-outer > .v-btn")
-      .first();
-    this.firstObjectInTable = page.locator("//tbody/tr[1]/td[1]/div[1]/i[1]");
-    this.secondObjectInTable = page.locator("//tbody/tr[2]/td[1]/div[1]/i[1]");
-    this.fifthObjectUsageInTable = page.locator(
-      "//tbody/tr[5]/td[1]/div[1]/i[1]"
+    
+    // Domains
+    this.domainsSelect = page.locator('.v-input__append-inner .v-input__icon.v-input__icon--append i.mdi.mdi-menu-down');
+    this.domainsListBox = page.locator('div.v-list.v-select-list[data-v-320c660f]');
+    this.domainsItem = this.domainsListBox.locator('.v-list-item[role="option"]');
+    // Tags and Search ids
+    this.inputArea = 'div.row[data-v-320c660f]';
+    this.redArrow = page.locator(
+      'button[ui-test-data="upload-btn"]'
     );
-    this.buttonUpdateUsageTypes = page.locator(
-      "//span[normalize-space()='Update Usage types']"
-    );
-    // Tags objects
-    this.generalFormTagsRedArrow = page.locator(
-      "(//i[@class='v-icon notranslate mdi mdi-upload theme--light'])[1]"
-    );
-    this.firstObjectInTableTags = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card__text']//tbody/tr[2]/td[1]"
-    );
-    this.secondObjectInTableTags = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card__text']//tbody/tr[3]/td[1]"
-    );
-    this.fifthObjectUsageInTableTags = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card__text']//tbody/tr[6]/td[1]"
-    );
-    this.buttonUpdateTags = page.locator(
-      "//span[normalize-space()='Update Tags']"
-    );
+    this.modalWindow = page.locator('div.v-card.v-sheet.theme--light[data-v-516a0fde]');
+    this.item = "//tr/td[1]";
+    this.buttonUpdate = page.locator('button[ui-test-data="update-btn"]');
 
-    // Search identifiers
-    this.generalFormSearchIdentifierRedArrow = page.locator(
-      "(//i[@class='v-icon notranslate mdi mdi-upload theme--light'])[2]"
-    );
-    this.firstOBjectInTableSearchIdentifiers = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card__text']//tbody/tr[1]/td[1]"
-    );
-    this.secondObjectInTableSearchIdentifiers = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card__text']//tbody/tr[2]/td[1]"
-    );
-    this.fifthOBjectInTableSearchIdentifiers = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card__text']//tbody/tr[5]/td[1]"
-    );
-    this.buttonUpdateSearchIdentifiers = page.locator(
-      "//span[normalize-space()='Update Search identifiers']"
-    );
-
+    
+   
     // Fields objects
     this.addFieldButton = page.locator(
       "(//button[@class='mt-3 v-btn theme--light elevation-2 v-size--default'])[1]"
@@ -136,25 +105,70 @@ exports.SubContentBricks = class SubContentBricks {
   async formSCB_General(name) {
     //click and fill name
     await this.generalFormName.fill(name);
+    await expect.soft(this.generalFormName).not.toBeEmpty();
 
     //click on identifier to get automaticaly identifier
     await this.generalFormIdentifier.click();
+    await expect.soft(this.generalFormIdentifier).not.toBeEmpty();
 
+    //DOMAINS
+    await this.domainsSelect.nth(3).click();
+    await expect(this.domainsListBox).toBeVisible();
+    await this.domainsItem.nth(1).click();
+    await this.domainsItem.nth(2).click();
+
+    
+    //TAGS
     // add tags
-    await this.generalFormTagsRedArrow.click();
+    await this.redArrow.nth(0).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.firstObjectInTableTags.click();
-    await this.secondObjectInTableTags.click();
-    await this.fifthObjectUsageInTableTags.click();
-    await this.buttonUpdateTags.click();
+    await this.modalWindow.locator(this.item).nth(1).click();
+    await this.modalWindow.locator(this.item).nth(3).click();
+    await this.modalWindow.locator(this.item).nth(5).click();
+    await this.modalWindow.locator(this.item).nth(6).click();
+    await this.modalWindow.locator(this.item).nth(2).click();
+    
+    await this.buttonUpdate.click();
 
+    // validation
+    
+    const tagsInputElements =await  this.page.locator(this.inputArea.nth(3)).locator(".v-select__slot");
+
+    // Získejte počet span prvků v celém prvku
+    const tagsSpanCount = await tagsInputElements
+      .locator("span.v-chip__content")
+      .count();
+
+    // Ověřte, že počet span prvků je alespoň jeden
+    await expect(tagsSpanCount).toBeGreaterThanOrEqual(5);
+    console.log(tagsSpanCount);
+
+    
+    //SEARCH Identifiers
     // add search identifiers
-    await this.generalFormSearchIdentifierRedArrow.click();
+    await this.redArrow.nth(1).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.firstOBjectInTableSearchIdentifiers.click();
-    await this.secondObjectInTableSearchIdentifiers.click();
-    await this.fifthOBjectInTableSearchIdentifiers.click();
-    await this.buttonUpdateSearchIdentifiers.click();
+    await this.modalWindow.nth(1).locator(this.item).nth(1).click();
+    await this.modalWindow.nth(1).locator(this.item).nth(2).click();
+    await this.modalWindow.nth(1).locator(this.item).nth(3).click();
+    
+
+    await this.buttonUpdate.nth(1).click();
+    await this.page.waitForTimeout(timeOuts.timeM);
+
+    
+    // validation
+    
+    const wholeElement =await this.inputArea.nth(4).locator(".v-select__slot");
+
+    // Získejte počet span prvků v celém prvku
+    const spanCount = await wholeElement
+      .locator("span.v-chip__content")
+      .count();
+
+    // Ověřte, že počet span prvků je alespoň jeden
+    await expect(spanCount).toBeGreaterThanOrEqual(3);
+    console.log(spanCount);
   }
 
   async add_fields(name) {
