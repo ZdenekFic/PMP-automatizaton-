@@ -19,7 +19,7 @@ exports.SubContentBricks = class SubContentBricks {
     this.domainsListBox = page.locator('div.v-list.v-select-list[data-v-320c660f]');
     this.domainsItem = this.domainsListBox.locator('.v-list-item[role="option"]');
     // Tags and Search ids
-    this.inputArea = 'div.row[data-v-320c660f]';
+    this.inputArea =page.locator('div.row[data-v-320c660f]');
     this.redArrow = page.locator(
       'button[ui-test-data="upload-btn"]'
     );
@@ -31,10 +31,11 @@ exports.SubContentBricks = class SubContentBricks {
    
     // Fields objects
     this.addFieldButton = page.locator(
-      "(//button[@class='mt-3 v-btn theme--light elevation-2 v-size--default'])[1]"
-    );
-    this.fieldNameInput = page.locator(
-      "(//div[@class='col col-3'])[1] >> text='Name'"
+      'button.mt-3.v-btn.theme--light.elevation-2.v-size--default[data-v-320c660f]')
+    ;
+    this.fieldsModal = page.locator('div.v-card.v-sheet.theme--light');
+    this.fieldNameInput = (
+      'div.v-text-field__slot'
     );
     this.fieldIdentifier = page.locator(
       "//div[@class='col col-3']//div[@class='v-input theme--light v-text-field v-text-field--is-booted']//input"
@@ -132,7 +133,7 @@ exports.SubContentBricks = class SubContentBricks {
 
     // validation
     
-    const tagsInputElements =await  this.page.locator(this.inputArea.nth(3)).locator(".v-select__slot");
+    const tagsInputElements =await  this.inputArea.nth(3).locator(".v-select__slot");
 
     // Získejte počet span prvků v celém prvku
     const tagsSpanCount = await tagsInputElements
@@ -174,7 +175,8 @@ exports.SubContentBricks = class SubContentBricks {
   async add_fields(name) {
     await this.addFieldButton.click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.fieldNameInput.fill(name);
+    await this.fieldsModal.locator(this.fieldNameInput.nth(5)).fill(name);
+    
     await this.fieldIdentifier.click();
     await this.fieldDataTypeButton.click();
     await this.page.waitForTimeout(timeOuts.timeM);
