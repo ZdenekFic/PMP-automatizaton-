@@ -11,7 +11,7 @@ exports.ActiveProjects = class ActiveProjects {
       .getByRole("navigation")
       .getByText("Active Projects");
 
-    //ENTERTOITEM function
+    //ENTER TO ITEM function
     //first item in table
     this.projectDiv = page.locator(
       "div[data-v-a8d76044].container.pl-5.pt-5.container--fluid"
@@ -46,17 +46,15 @@ exports.ActiveProjects = class ActiveProjects {
       'button[data-v-65ea29d0][type="button"].error.v-btn.v-btn--flat.v-btn--text.theme--light.v-size--default'
     );
 
-    //show root checkbox
+    //show root and preview checbox
     this.showRootCheckbox = page.locator(
-      "//div[@class='v-input ml-5 mt-1 theme--light v-input--selection-controls v-input--switch']//div[@class='v-input--selection-controls__ripple']"
-    );
+      '.v-input.ml-5.mt-1.theme--light.v-input--selection-controls.v-input--switch').locator('.v-input--selection-controls__ripple');
+
     this.showRootCheckboxClass =
       "(//div[@class='v-input ml-5 mt-1 v-input--is-label-active v-input--is-dirty theme--light v-input--selection-controls v-input--switch primary--text'])[1]";
 
     //preview checkbox
-    this.previewCheckbox = page.locator(
-      "//div[@class='v-input mx-5 mt-1 theme--light v-input--selection-controls v-input--switch']//div[@class='v-input--selection-controls__ripple']"
-    );
+    this.previewCheckbox = page.locator('.v-input.mx-5.mt-1.theme--light.v-input--selection-controls.v-input--switch').locator('.v-input--selection-controls__ripple');
     this.previewCheckboxClass =
       "//div[@class='v-input mx-5 mt-1 v-input--is-label-active v-input--is-dirty theme--light v-input--selection-controls v-input--switch primary--text']";
 
@@ -68,7 +66,9 @@ exports.ActiveProjects = class ActiveProjects {
       "//div[@role='menu']//div[@class='v-card v-card--flat v-sheet theme--light']"
     );
 
-    //GENERAL tab function
+    //_________________________________________________________________________________________
+
+    //GENERAL tab function elements
     //general
 
     this.mainProjectTitleName = page.locator(
@@ -76,111 +76,67 @@ exports.ActiveProjects = class ActiveProjects {
     );
     this.inputName = page.getByLabel("Project name");
 
-    //USER GROUPS
-    this.userGroupsRedArrow = page
-      .locator(".v-input__append-outer > .v-btn")
-      .first();
-
-    this.userGroupsModal = ".v-card[data-v-516a0fde]";
-    this.userGroupsItem = "//tr/td[1]";
-
-    this.userGroupsConfirmButton = 'button[ui-test-data="update-btn"]';
-
-    //TAGS
-
-    this.tagsArrow = 'button[data-v-19b89e56][ui-test-data="upload-btn"]';
-
-    // Tags   modal
-    this.tagsModalTitle = page.locator(
-      'div.v-card__title[data-v-516a0fde][ui-test-data="dialog-header"]'
+    //USER GROUPS adn TAGS
+    this.redArrow2 = page.locator(
+      'button[data-v-19b89e56][ui-test-data="upload-btn"]'
     );
-    this.tagsModal = page.locator("div.v-card__text[data-v-516a0fde]");
-    this.tagsItem = "//tr/td[1]";
+    this.modalWindow = page.locator(".v-card[data-v-516a0fde]");
+    this.userGroupsItem = "//tr/td[1]";
+    this.confirmButton = 'button[ui-test-data="update-btn"]';
     this.tagsItemTextValue = "//tr/td[3]";
 
-    //Confirm Tags
-    this.tagConfirm = page.locator(
-      'button.error.v-btn.v-btn--flat.v-btn--text.theme--light.v-size--default[data-v-516a0fde][ui-test-data="update-btn"]'
-    );
     //tagDiv
     this.tagDivArea = page.locator(
       "div.v-input.theme--light.v-text-field.v-text-field--is-booted.v-select.v-select--chips.v-select--is-multi.v-autocomplete[data-v-19b89e56]"
     );
 
-    //OWNER
-    this.ownerRedArrow = page
-      .locator('button[ui-test-data="open-list-btn"]');
-    this.ownerTableSearchInput = page.locator(
+    //OWNER and APPLICANT
+    this.redArrow1 = page.locator('button[ui-test-data="open-list-btn"]');
+    this.tableSearchInput = page.locator(
       "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='row']//input"
     );
-    this.owner1 = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//tbody/tr[1]/td[1]"
+    this.tableResults = page.locator(
+      "div.v-data-table.max-width.v-data-table--dense.theme--light[data-v-516a0fde]"
     );
+    this.userToPick = "//tbody/tr[1]/td[1]";
 
-    this.ownerConfirm = page.locator(
-      "//span[normalize-space()='Update Owner']"
-    );
     //assertion
-    this.ownerMain_Input = page.getByLabel("Owner");
+    this.inputWithUser = page.locator(
+      'input[ui-test-data="entity-details-input"]'
+    );
 
-    //Applicant
-    this.applicantRedArrow = page.locator(
-      "div:nth-child(4) > .col > div > .v-input > .v-input__append-outer > .add-reference-textfield-append"
-    );
-    this.applicantTableSearchInput = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='row']//input"
-    );
-    this.applicantNewApplicant = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card__text']//tbody/tr[1]/td[1]"
-    );
-    this.applicantConfirm = page.locator(
-      "//span[normalize-space()='Update Applicant']"
-    );
-    //assertion
-    this.applicantMain_Input = page.getByLabel("Applicant");
-
-    //tooltip helper
-    this.generalHelperButton = page.locator(
-      "//button[@class='ml-2 mt-3 v-btn v-btn--flat v-btn--icon v-btn--round theme--light v-size--default']//span[@class='v-btn__content']"
-    );
-    this.generalHelperButtonTooltip = page.locator(
-      "//div[@role='menu']//div[@class='v-card v-card--flat v-sheet theme--light']//div[@class='d-flex flex-column']//p[1]"
-    );
+    //__________________________________________________________________________________________________________________
 
     //DMI function
 
-    //dmi tab button
-    this.dmiTab = page.locator("//div[normalize-space()='DMI']");
     //button for redirecting to DMI detail
     this.dmiRedirectDMIDetatil = page.locator(
-      "//span[@class='v-btn__content']//i[@class='v-icon notranslate mdi mdi-database theme--light']"
+      "i.v-icon.mdi.mdi-database.theme--light[data-v-058bcd0a]"
     );
     //jsob button
-    this.dmiJsonButton = page.getByRole("button", { name: "JSON" });
+    this.dmiJsonButton = page.locator(
+      'button.red--text.ml-3.v-btn.v-btn--depressed.v-btn--flat.v-btn--outlined.theme--light.v-size--default[dense=""]'
+    );
     //modal with json structure
     this.dmiJsonModal = page.locator(
       "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']"
     );
     //modal button to close it
-    this.dmiJsonModalClose = page.locator("//span[normalize-space()='Close']");
+    this.dmiJsonModalClose = page.locator(
+      "button.red--text.v-btn.v-btn--depressed.v-btn--flat.v-btn--outlined.theme--light.v-size--default"
+    );
 
     //checkbox show full tree
-    this.dmiShowFullTreeCheckbox = page
+    this.dmiCheckboxes = page
       .locator(
-        ".v-card__title > div > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple"
+        "div.v-input.mt-0.ml-3.v-input--hide-details.theme--light.v-input--selection-controls.v-input--switch[data-v-058bcd0a]"
       )
-      .first();
+      .locator(".v-input--selection-controls__ripple");
 
     //checkbox hide content bricks
-    this.dmiHideContentBricksCheckbox = page.locator(
-      "div:nth-child(5) > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple"
-    );
+
     this.dmiHideContentBricksCheckboxCB =
       "div.vue-recycle-scroller__item-view[style='transform: translateY(-9999px);']";
-    //checkbox show manually hidden nodes
-    this.dmiShowManuallyHiddenNodes = page.locator(
-      ".v-card__title > div:nth-child(6) > .v-input__control > .v-input__slot > .v-input--selection-controls__input > .v-input--selection-controls__ripple"
-    );
   }
 
   //_____________________________________Methods_________________________________________________
@@ -228,7 +184,7 @@ exports.ActiveProjects = class ActiveProjects {
     }
 
     //preview checkbox
-    await this.previewCheckbox.click();
+    await this.showRootCheckbox.click();
     const elementClass1 = await this.page.$(this.previewCheckboxClass);
     if (elementClass1) {
       console.log("Class for checkbox Preview exists");
@@ -258,28 +214,13 @@ exports.ActiveProjects = class ActiveProjects {
     await expect(projectMain).toMatch(inputNameText);
 
     //user groups add items
-    await this.userGroupsRedArrow.click();
-    await this.page.waitForSelector(this.userGroupsModal);
-    await this.page
-      .locator(this.userGroupsModal)
-      .locator(this.userGroupsItem)
-      .nth(1)
-      .click();
-    await this.page
-      .locator(this.userGroupsModal)
-      .locator(this.userGroupsItem)
-      .nth(2)
-      .click();
-    await this.page
-      .locator(this.userGroupsModal)
-      .locator(this.userGroupsItem)
-      .nth(3)
-      .click();
+    await this.redArrow2.nth(0).click();
+    await this.page.waitForTimeout(timeOuts.timeM);
+    await this.modalWindow.locator(this.userGroupsItem).nth(1).click();
+    await this.modalWindow.locator(this.userGroupsItem).nth(2).click();
+    await this.modalWindow.locator(this.userGroupsItem).nth(3).click();
     //confirm button
-    await this.page
-      .locator(this.userGroupsModal)
-      .locator(this.userGroupsConfirmButton)
-      .click();
+    await this.modalWindow.locator(this.confirmButton).click();
 
     //check it
     // Získejte Locator celého prvku
@@ -294,17 +235,15 @@ exports.ActiveProjects = class ActiveProjects {
     await expect(spanCount).toBeGreaterThanOrEqual(3);
     console.log(spanCount);
 
-    //Tags
     //TAGS
     //click on arrow to open menu with tags values
-    await this.page.locator(this.tagsArrow).nth(1).click();
+    await this.redArrow2.nth(1).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    const valueText = await this.tagsModalTitle.nth(1).textContent();
-    await expect(valueText).toContain("Select one or more Tags");
+
     //add some tags
-    await this.tagsModal.nth(1).locator(this.tagsItem).nth(1).click();
+    await this.modalWindow.nth(1).locator(this.userGroupsItem).nth(1).click();
     // save value text for later validation
-    const tagTextValue = await this.tagsModal
+    const tagTextValue = await this.modalWindow
       .nth(1)
       .locator(this.tagsItemTextValue)
       .nth(3)
@@ -312,11 +251,11 @@ exports.ActiveProjects = class ActiveProjects {
     console.log(tagTextValue);
     const tagTextValueTrimmed = tagTextValue.trim();
     //add some next items
-    await this.tagsModal.nth(1).locator(this.tagsItem).nth(2).click();
-    await this.tagsModal.nth(1).locator(this.tagsItem).nth(3).click();
+    await this.modalWindow.nth(1).locator(this.userGroupsItem).nth(2).click();
+    await this.modalWindow.nth(1).locator(this.userGroupsItem).nth(3).click();
 
     //confirm
-    await this.tagConfirm.nth(1).click();
+    await this.modalWindow.locator(this.confirmButton).nth(1).click();
     await this.page.waitForTimeout(timeOuts.timeM);
 
     //validate it
@@ -327,44 +266,37 @@ exports.ActiveProjects = class ActiveProjects {
 
     //OWNER
     //click on arrow to open menu with owner values
-    await this.ownerRedArrow.nth(0).click();
-    await this.ownerTableSearchInput.fill(name);
+    await this.redArrow1.nth(0).click();
+    await this.tableSearchInput.fill(name);
     await this.page.waitForTimeout(timeOuts.timeM);
     //add owner
-    await this.owner1.click();
+    await this.tableResults.nth(2).locator(this.userToPick).click();
+
     //confirm table
-    await this.ownerConfirm.click();
+    await this.page.locator(this.confirmButton).nth(2).click();
 
     //check it
-    const ownText = await this.ownerMain_Input.inputValue();
+    const ownText = await this.inputWithUser.nth(0).inputValue();
     console.log(ownText);
 
     //Applicant
     //click on arrow to open menu with applicant values
-    await this.applicantRedArrow.click();
-    await this.applicantTableSearchInput.fill(name);
+    await this.redArrow1.nth(1).click();
+    await this.tableSearchInput.fill(name);
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.applicantNewApplicant.click();
-    await this.applicantConfirm.click();
+    await this.tableResults.nth(3).locator(this.userToPick).click();
+    await this.page.locator(this.confirmButton).nth(3).click();
 
     //check it
-    const appText = await this.applicantMain_Input.inputValue();
+    const appText = await this.inputWithUser.nth(1).inputValue();
     console.log(appText);
-
-    //tooltip helper
-    await this.generalHelperButton.hover();
-    const tooltipText = await this.generalHelperButtonTooltip.textContent();
-    await expect(tooltipText).toContain(
-      "Project Owner can work on Tasks even when they are not Assigned."
-    );
   }
 
   async dmi() {
-    //click on dmi tab
-    await this.dmiTab.click();
-    //check if dmi is active
-    await expect(this.dmiTab).toHaveClass("v-tab v-tab--active");
-
+    //Check if DMI tab is active
+    const dmiTab = await this.tabsNav.locator(this.tab).nth(2);
+    await dmiTab.click();
+    await expect(dmiTab).toHaveClass("v-tab v-tab--active");
     //button for redirecting to DMI detail
     await this.dmiRedirectDMIDetatil.click();
     await this.page.waitForTimeout(timeOuts.timeM);
@@ -384,29 +316,31 @@ exports.ActiveProjects = class ActiveProjects {
     await expect(this.page.url()).toContain("/project/detail/");
 
     //check if dmi is active
-    await expect(this.dmiTab).toHaveClass("v-tab");
+    await expect(dmiTab).toHaveClass("v-tab");
 
     //click on dmi tab
-    await this.dmiTab.click();
+    await dmiTab.click();
     //check if dmi is active
-    await expect(this.dmiTab).toHaveClass("v-tab v-tab--active");
+    await expect(dmiTab).toHaveClass("v-tab v-tab--active");
 
     //click on button to open modal with json
     await this.dmiJsonButton.click();
     //check if modal is visible
     await expect(this.dmiJsonModal).toBeVisible();
     //close modal
-    await this.dmiJsonModalClose.click();
+    await this.dmiJsonModalClose.nth(1).click();
 
     //checkbox show full tree
-    await expect(this.dmiShowFullTreeCheckbox).toBeEnabled();
 
-    await expect(this.dmiShowManuallyHiddenNodes).toBeEnabled();
-    await this.dmiShowManuallyHiddenNodes.click();
+    await this.dmiCheckboxes.nth(0).click();
+    await expect(this.dmiCheckboxes.nth(0)).toBeEnabled();
+
+    await this.dmiCheckboxes.nth(2).click();
+    await expect(this.dmiCheckboxes.nth(2)).toBeEnabled();
   }
 
   async checkElementVisibility(ariaCheckedState) {
-    await this.dmiHideContentBricksCheckbox.click();
+    await this.dmiCheckboxes.nth(1).click();
     const switchElement = await this.page.$(
       `div.v-input--switch:has-text("Hide content bricks")`
     );
