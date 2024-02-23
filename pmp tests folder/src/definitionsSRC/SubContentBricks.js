@@ -43,9 +43,9 @@ exports.SubContentBricks = class SubContentBricks {
     this.fieldNameInput = page.locator(
       'input[autofocus="autofocus"][type="text"]'
     );
-    //identifier and data type in fields
+   //identifier and data type in fields
     this.fieldsMultiElement = page.locator('input[type="text"]');
-
+ 
     this.elementDropdown = page.locator(
       `.v-list-item__title:has-text('${dropdownElement}')`
     );

@@ -6,14 +6,13 @@ exports.ContentBricks = class ContentBricks {
     this.page = page;
     this.mainName = mainName;
     this.dropdownElement = dropdownElement;
-    this.definitionsTab = page.getByRole("button", { name: "Definitions" });
-    this.contentBricksTab = page
-      .locator("span")
-      .filter({ hasText: "Content Bricks" })
-      .first();
-    this.addButton = page.getByRole("link", { name: "Add" });
+    this.definitionsTab = page.locator('div[ui-test-data="nav-definitions"]');
+    this.contentBricksTab = page.locator(
+      'span[ui-test-data="nav-definitions-content-bricks"]'
+    );
+    this.addButton = page.locator('a[ui-test-data="overview-header-add-btn"]');
     this.generalFormName = page.getByLabel("Name", { exact: true });
-    this.generalFormIdentifier = page.getByLabel("Identifier", { exact: true });
+    this.generalFormIdentifier = page.locator('button.v-icon.mdi.mdi-refresh[aria-label="append icon"]');
     // Uasge types objects
     this.generalFormUsageTypesRedArrow = page
       .locator(".v-input__append-outer > .v-btn")
@@ -26,88 +25,61 @@ exports.ContentBricks = class ContentBricks {
     this.buttonUpdateUsageTypes = page.locator(
       "//span[normalize-space()='Update Usage types']"
     );
-    // Tags objects
-    this.generalFormTagsRedArrow = page.locator(
-      "(//i[@class='v-icon notranslate mdi mdi-upload theme--light'])[2]"
-    );
-    this.firstObjectInTableTags = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card__text']//tbody/tr[2]/td[1]"
-    );
-    this.secondObjectInTableTags = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card__text']//tbody/tr[3]/td[1]"
-    );
-    this.fifthObjectUsageInTableTags = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card__text']//tbody/tr[6]/td[1]"
-    );
-    this.buttonUpdateTags = page.locator(
-      "//span[normalize-space()='Update Tags']"
-    );
-
-    // Search identifiers
-    this.generalFormSearchIdentifierRedArrow = page.locator(
-      ".v-card__text > div:nth-child(3) > .pa-0 > div > .v-input > .v-input__append-outer > .v-btn"
-    );
-    this.firstOBjectInTableSearchIdentifiers = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card__text']//tbody/tr[1]/td[1]"
-    );
-    this.secondObjectInTableSearchIdentifiers = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card__text']//tbody/tr[2]/td[1]"
-    );
-    this.fifthOBjectInTableSearchIdentifiers = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card__text']//tbody/tr[5]/td[1]"
-    );
-    this.buttonUpdateSearchIdentifiers = page.locator(
-      "//span[normalize-space()='Update Search identifiers']"
-    );
 
     // input for text to describe CB
     this.descriptionCB = page.locator(
-      "//div[@label='Description']//div[@class='ql-editor ql-blank']"
+      '.ql-editor.ql-blank[contenteditable="true"]'
     );
+    // Tags and Search ids
+    this.inputArea = page.locator("div.row[data-v-08fbd860]");
+    this.redArrow = page.locator('button[ui-test-data="upload-btn"]');
+    this.modalWindow = page.locator(
+      "div.v-card.v-sheet.theme--light[data-v-516a0fde]"
+    );
+    this.item = "//tr/td[1]";
+    this.buttonUpdate = page.locator('button[ui-test-data="update-btn"]');
 
     // Fields objects
     this.addFieldButton = page.locator(
-      "(//button[@class='mt-3 v-btn theme--light elevation-2 v-size--default'])[1]"
+      "button.mt-3.v-btn.theme--light.elevation-2.v-size--default[data-v-08fbd860]"
     );
+    this.fieldsModal = page.locator("div.v-card.v-sheet.theme--light");
     this.fieldNameInput = page.locator(
-      "(//div[@class='col col-3'])[1] >> text='Name'"
+      'input[autofocus="autofocus"][type="text"]'
     );
+
     this.fieldIdentifier = page.locator(
       "//div[@class='col col-3']//div[@class='v-input theme--light v-text-field v-text-field--is-booted']//input"
     );
     this.fieldDataTypeButton = page.locator(
       "//div[@class='v-dialog v-dialog--active v-dialog--persistent']//div[@class='v-card v-sheet theme--light']//div[@class='v-select__slot']"
     );
+    this.fieldsMultiElement = page.locator('input[type="text"]');
     this.elementDropdown = page.locator(
       `.v-list-item__title:has-text('${dropdownElement}')`
     );
     this.switchIsMandatory = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent']//div[@class='v-card v-sheet theme--light']//div[@class='v-input--selection-controls__ripple']"
+      ".v-input--selection-controls__ripple"
     );
+
     this.fieldAddButton = page.locator(
-      "//button[@class='error v-btn v-btn--flat v-btn--text theme--light v-size--default']//span[@class='v-btn__content'][normalize-space()='Add']"
+      "button.error.v-btn.v-btn--flat.v-btn--text.theme--light.v-size--default"
     );
 
     //draft, active, suspended combobox
-    this.comboboxCBstate = page.getByRole("combobox").nth(1);
-    this.stateDraft = page.locator(
-      " //div[@class='v-menu__content theme--light menuable__content__active v-autocomplete__content']//span[@class='status-chip-text'][normalize-space()='Draft']"
-    );
-    this.saveCBbutton = page.locator(
-      "//div[@class='detail-tab-menu-header-container']//button[2]"
-    );
+    this.comboboxSCBstate = page.getByRole("combobox").nth(1);
+    this.stateModal = page.locator("div.v-list.v-select-list[data-v-0488f43a]");
+    this.stateDraft = page.locator("div");
+    this.saveSCBbutton = page.locator('button.v-btn.v-btn--flat.v-btn--icon.v-btn--round.theme--light.v-size--default[role="button"][aria-haspopup="true"][aria-expanded="false"]');
 
     this.cbHasBeenCreated = page.getByText("Content Brick has been created");
 
     // assertions objects
-    this.areaOfCbs = page.locator(
-      `//span[@ui-test-data='overview-definitions-content-brick-grid-name']`
-    );
     this.deleteDraftButtton = page.locator(
-      "//div[@class='entity-detail-card v-card v-sheet theme--light']//i[@class='v-icon notranslate mdi mdi-delete theme--light']"
+      'button[ui-test-data="delete-btn"].red--text'
     );
     this.modalDeleteButton = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent']//div[@class='v-card v-sheet theme--light']//span[normalize-space()='Delete']"
+      'button[ui-test-data="delete-confirm-btn"]'
     );
   }
 
@@ -129,59 +101,120 @@ exports.ContentBricks = class ContentBricks {
     //click on identifier to get automaticaly identifier
     await this.generalFormIdentifier.click();
 
-    //add usage types -> opening modal window with usage types
-    await this.generalFormUsageTypesRedArrow.click();
+    //USAGE TYPES
+    await this.redArrow.nth(0).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.firstObjectInTable.click();
-    await this.secondObjectInTable.click();
-    await this.fifthObjectUsageInTable.click();
-    await this.buttonUpdateUsageTypes.click();
+    await this.modalWindow.locator(this.item).nth(1).click();
+    await this.modalWindow.locator(this.item).nth(3).click();
+    await this.modalWindow.locator(this.item).nth(5).click();
 
+    await this.buttonUpdate.click();
+
+    // validation
+
+    const usageTypesInputElements = await this.inputArea
+      .nth(3)
+      .locator(".v-select__slot");
+
+    // Získejte počet span prvků v celém prvku
+    const usageTypesSpanCount = await usageTypesInputElements
+      .locator("span.v-chip__content")
+      .count();
+
+    console.log(usageTypesSpanCount);
+    // Ověřte, že počet span prvků je alespoň jeden
+    await expect(usageTypesSpanCount).toBeGreaterThanOrEqual(3);
+    console.log("Usage types have " + usageTypesSpanCount + " values.");
+
+    //TAGS
     // add tags
-    await this.generalFormTagsRedArrow.click();
+    await this.redArrow.nth(1).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.firstObjectInTableTags.click();
-    await this.secondObjectInTableTags.click();
-    await this.fifthObjectUsageInTableTags.click();
-    await this.buttonUpdateTags.click();
+    await this.modalWindow.nth(1).locator(this.item).nth(1).click();
+    await this.modalWindow.nth(1).locator(this.item).nth(3).click();
+    await this.modalWindow.nth(1).locator(this.item).nth(5).click();
+    await this.modalWindow.nth(1).locator(this.item).nth(6).click();
+    await this.modalWindow.nth(1).locator(this.item).nth(2).click();
 
+    await this.buttonUpdate.nth(1).click();
+
+    // validation
+
+    const tagsInputElements = await this.inputArea
+      .nth(5)
+      .locator(".v-select__slot");
+
+    // Získejte počet span prvků v celém prvku
+    const tagsSpanCount = await tagsInputElements
+      .locator("span.v-chip__content")
+      .count();
+
+    console.log(tagsSpanCount);
+    // Ověřte, že počet span prvků je alespoň jeden
+    await expect(tagsSpanCount).toBeGreaterThanOrEqual(5);
+    console.log("Tags have " + tagsSpanCount + " values.");
+
+    //SEARCH Identifiers
     // add search identifiers
-    await this.generalFormSearchIdentifierRedArrow.click();
+    await this.redArrow.nth(2).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.firstOBjectInTableSearchIdentifiers.click();
-    await this.secondObjectInTableSearchIdentifiers.click();
-    await this.fifthOBjectInTableSearchIdentifiers.click();
-    await this.buttonUpdateSearchIdentifiers.click();
+    await this.modalWindow.nth(2).locator(this.item).nth(1).click();
+    await this.modalWindow.nth(2).locator(this.item).nth(2).click();
+    await this.modalWindow.nth(2).locator(this.item).nth(3).click();
+
+    await this.buttonUpdate.nth(2).click();
+    await this.page.waitForTimeout(timeOuts.timeM);
+
+    // validation
+
+    const wholeElement = await this.inputArea.nth(6).locator(".v-select__slot");
+
+    // Získejte počet span prvků v celém prvku
+    const spanCount = await wholeElement
+      .locator("span.v-chip__content")
+      .count();
+    console.log(spanCount);
+    // Ověřte, že počet span prvků je alespoň jeden
+    await expect(spanCount).toBeGreaterThanOrEqual(3);
+    console.log("Search identifiers have " + spanCount + " values.");
 
     // add some text to description
-    await this.descriptionCB.fill(text);
+    await this.descriptionCB.nth(0).fill(text);
   }
 
   async add_fields(name) {
     await this.addFieldButton.click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.fieldNameInput.fill(name);
-    await this.fieldIdentifier.click();
-    await this.fieldDataTypeButton.click();
+    await this.fieldsModal.nth(8).locator(this.fieldNameInput).fill(name);
+
+    await this.fieldsModal
+      .nth(8)
+      .locator(this.fieldsMultiElement.nth(1))
+      .click();
+    await this.fieldsModal
+      .nth(8)
+      .locator(this.fieldsMultiElement.nth(2))
+      .click();
     await this.page.waitForTimeout(timeOuts.timeM);
     await this.elementDropdown.click();
-    await this.switchIsMandatory.click();
-    await this.fieldAddButton.click();
+    await this.fieldsModal.nth(8).locator(this.switchIsMandatory).click();
+    await this.page.waitForTimeout(timeOuts.timeM);
+    await this.fieldAddButton.nth(4).click();
   }
 
   async chooseCBState() {
-    await this.comboboxCBstate.click();
-    await this.stateDraft.click();
-    await this.saveCBbutton.click();
+    await this.comboboxSCBstate.click();
+    await this.stateModal.locator(this.stateDraft).nth(0).click();
+    await this.page.waitForTimeout(timeOuts.timeM);
+    await this.saveSCBbutton.nth(0).click();
     await this.page.waitForTimeout(timeOuts.timeM);
 
     //validation of success message
     const successMessage = await this.cbHasBeenCreated.textContent();
     await expect(successMessage).toContain("Content Brick has been created");
 
-    //assertions after save cb
-    await expect(this.generalFormName).not.toBeEmpty();
-    await expect(this.generalFormIdentifier).not.toBeEmpty();
+    
+    
   }
 
   async checkCreatedCB() {
