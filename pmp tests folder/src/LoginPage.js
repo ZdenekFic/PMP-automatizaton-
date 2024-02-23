@@ -6,7 +6,7 @@ exports.LoginPage = class LoginPage {
     this.usernameInput = page.locator('input[type="text"][data-v-86df1422]');
     this.passwordInput = page.locator('input[type="password"][data-v-86df1422]');
     this.submitButton = page.locator('button[data-v-5bf93122][name="login"]');
-    this.titlePMP = page.locator('span[data-v-32e88e0e].nav-menu-title');
+    this.titlePMP = page.locator('span[data-v-196d5d6f].nav-menu-title');
     
     //log out
     this.logOutMenuButton = page.locator('i[data-v-464da812]').nth(1);

@@ -7,30 +7,30 @@ exports.Tasks = class Tasks {
     this.page = page;
     //clicking on filter to get more filters
     this.filterMenu = page.locator(
-      "div[data-v-4a17d8ec].v-item-group.theme--light.v-expansion-panels.v-expansion-panels--flat"
+      'button.v-expansion-panel-header.bg240[data-v-4040346b]'
     );
     this.filterArrowButton =
-      "div.v-expansion-panel-header__icon > i.v-icon.notranslate.mdi.mdi-chevron-down.theme--light";
+      '.v-expansion-panel-header__icon .v-icon.mdi.mdi-chevron-down.theme--light';
     this.filterBox =
-      "div[data-v-4a17d8ec].v-expansion-panel-content.table-filter-panel-content";
+    'div.v-expansion-panel-content.table-filter-panel-content[data-v-4040346b]';
 
     // action to get into first item in table
     this.tableTasks = page.locator(
-      "div[data-v-266d60f8].v-data-table.overview-table.pmtool-table.v-data-table--dense.theme--light"
+      'div.v-data-table.overview-table.pmtool-table.v-data-table--dense.theme--light[data-v-43cc7eff]'
     );
 
     // CHECKBOXES
     // My recenet items
-    this.myRecentItemsDiv = page.locator("div[data-v-4a17d8ec].p-0.col.col-2");
+    this.myRecentItemsDiv = page.locator('div.p-0.col.col-2[data-v-4040346b]');
     this.myRecentItemsCheckbox = ".v-input--selection-controls__ripple";
     // Is being repaired
     this.isBeingRepairedDiv = page.locator(
-      'div[data-v-266d60f8][xs="12"].p-0.col-sm-12.col-md-3.col-lg-3.col-xl-3.col-12'
+      'div[data-v-43cc7eff][xs="12"].p-0.col-sm-12.col-md-3.col-lg-3.col-xl-3.col-12'
     );
     this.isBeingRepairedCheckbox = ".v-input--selection-controls__ripple";
     // Postponed
     this.postponedDiv = page.locator(
-      'div[data-v-266d60f8][xs="12"].p-0.col-sm-12.col-md-3.col-lg-3.col-xl-3.col-12'
+      'div[data-v-43cc7eff][xs="12"].p-0.col-sm-12.col-md-3.col-lg-3.col-xl-3.col-12'
     );
     this.postponedCheckbox = ".v-input--selection-controls__ripple";
     // Unread

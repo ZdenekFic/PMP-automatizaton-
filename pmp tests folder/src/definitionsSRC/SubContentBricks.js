@@ -8,89 +8,81 @@ exports.SubContentBricks = class SubContentBricks {
     this.mainName = mainName;
     this.dropdownElement = dropdownElement;
     this.definitionsTab = page.locator('div[ui-test-data="nav-definitions"]');
-    this.subContentBricksTab = page.locator('span[ui-test-data="nav-definitions-sub-content-bricks"]')
+    this.subContentBricksTab = page.locator(
+      'span[ui-test-data="nav-definitions-sub-content-bricks"]'
+    );
     this.addButton = page.locator('a[ui-test-data="overview-header-add-btn"]');
-    
+
     this.generalFormName = page.getByLabel("Name", { exact: true });
     this.generalFormIdentifier = page.getByLabel("Identifier", { exact: true });
-    
+
     // Domains
-    this.domainsSelect = page.locator('.v-input__append-inner .v-input__icon.v-input__icon--append i.mdi.mdi-menu-down');
-    this.domainsListBox = page.locator('div.v-list.v-select-list[data-v-320c660f]');
-    this.domainsItem = this.domainsListBox.locator('.v-list-item[role="option"]');
-    // Tags and Search ids
-    this.inputArea =page.locator('div.row[data-v-320c660f]');
-    this.redArrow = page.locator(
-      'button[ui-test-data="upload-btn"]'
+    this.domainsSelect = page.locator(
+      ".v-input__append-inner .v-input__icon.v-input__icon--append i.mdi.mdi-menu-down"
     );
-    this.modalWindow = page.locator('div.v-card.v-sheet.theme--light[data-v-516a0fde]');
+    this.domainsListBox = page.locator(
+      "div.v-list.v-select-list[data-v-320c660f]"
+    );
+    this.domainsItem = this.domainsListBox.locator(
+      '.v-list-item[role="option"]'
+    );
+    // Tags and Search ids
+    this.inputArea = page.locator("div.row[data-v-320c660f]");
+    this.redArrow = page.locator('button[ui-test-data="upload-btn"]');
+    this.modalWindow = page.locator(
+      "div.v-card.v-sheet.theme--light[data-v-516a0fde]"
+    );
     this.item = "//tr/td[1]";
     this.buttonUpdate = page.locator('button[ui-test-data="update-btn"]');
 
-    
-   
     // Fields objects
     this.addFieldButton = page.locator(
-      'button.mt-3.v-btn.theme--light.elevation-2.v-size--default[data-v-320c660f]')
-    ;
-    this.fieldsModal = page.locator('div.v-card.v-sheet.theme--light');
-    this.fieldNameInput = (
-      'div.v-text-field__slot'
+      "button.mt-3.v-btn.theme--light.elevation-2.v-size--default[data-v-320c660f]"
     );
-    this.fieldIdentifier = page.locator(
-      "//div[@class='col col-3']//div[@class='v-input theme--light v-text-field v-text-field--is-booted']//input"
+    this.fieldsModal = page.locator("div.v-card.v-sheet.theme--light");
+    this.fieldNameInput = page.locator(
+      'input[autofocus="autofocus"][type="text"]'
     );
-    this.fieldDataTypeButton = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent']//div[@class='v-card v-sheet theme--light']//div[@class='v-select__slot']"
-    );
+    //identifier and data type in fields
+    this.fieldsMultiElement = page.locator('input[type="text"]');
+
     this.elementDropdown = page.locator(
       `.v-list-item__title:has-text('${dropdownElement}')`
     );
     this.switchIsMandatory = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent']//div[@class='v-card v-sheet theme--light']//div[@class='v-input--selection-controls__ripple']"
+      ".v-input--selection-controls__ripple"
     );
     this.uniteTypeRedArrowButton = page.locator(
-      "(//i[@class='v-icon notranslate mdi mdi-upload theme--light'])[4]"
+      'button[ui-test-data="open-list-btn"]'
     );
-    this.uniteTypeFirstObject = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card v-sheet theme--light']//tbody/tr[2]/td[1]"
-    );
+    this.uniteTypeModal = page.locator("div.v-card__text[data-v-516a0fde]");
+    this.uniteTypeFirstObject = page.locator("//tr/td[1]");
     this.uniteTypeFirstUpdateButton = page.locator(
-      "//span[normalize-space()='Update Unit Type']"
+      "button[ui-test-data='update-btn']"
     );
-    this.unitRedArrowButton = page.locator(
-      "(//i[@class='v-icon notranslate mdi mdi-upload theme--light'])[5]"
-    );
-    this.uniteFirstObject = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card v-sheet theme--light']//tbody/tr[1]/td[1]"
-    );
-    this.uniteUpdateButton = page.locator(
-      "//span[normalize-space()='Update Unit']"
-    );
+
     this.fieldAddButton = page.locator(
-      "//button[@class='error v-btn v-btn--flat v-btn--text theme--light v-size--default']//span[@class='v-btn__content'][normalize-space()='Add']"
+      "button.error.v-btn.v-btn--flat.v-btn--text.theme--light.v-size--default"
     );
 
     //draft, active, suspended combobox
     this.comboboxSCBstate = page.getByRole("combobox").nth(1);
-    this.stateDraft = page.locator(
-      " //div[@class='v-menu__content theme--light menuable__content__active v-autocomplete__content']//span[@class='status-chip-text'][normalize-space()='Draft']"
-    );
+    this.stateModal = page.locator("div.v-list.v-select-list[data-v-0488f43a]");
+    this.stateDraft = page.locator("div");
     this.saveSCBbutton = page.locator(
-      "//div[@class='detail-tab-menu-header-container']//button[2]"
+      'button.v-btn.v-btn--flat.v-btn--icon.v-btn--round.theme--light.v-size--default[role="button"][aria-haspopup="true"][aria-expanded="false"]'
     );
 
     // assertions objects
-    this.areaOfCbs = page.locator(
-      `//span[@ui-test-data='overview-definitions-content-brick-grid-name']`
-    );
+
     this.deleteDraftButtton = page.locator(
-      "//div[@class='entity-detail-card v-card v-sheet theme--light']//i[@class='v-icon notranslate mdi mdi-delete theme--light']"
+      'button[ui-test-data="delete-btn"].red--text'
     );
     this.modalDeleteButton = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent']//div[@class='v-card v-sheet theme--light']//span[normalize-space()='Delete']"
+      'button[ui-test-data="delete-confirm-btn"]'
     );
   }
+  //______________________________________Methods_____________________________________________________________
 
   async enterToSCB() {
     //click on Definitons tab
@@ -118,7 +110,6 @@ exports.SubContentBricks = class SubContentBricks {
     await this.domainsItem.nth(1).click();
     await this.domainsItem.nth(2).click();
 
-    
     //TAGS
     // add tags
     await this.redArrow.nth(0).click();
@@ -128,12 +119,14 @@ exports.SubContentBricks = class SubContentBricks {
     await this.modalWindow.locator(this.item).nth(5).click();
     await this.modalWindow.locator(this.item).nth(6).click();
     await this.modalWindow.locator(this.item).nth(2).click();
-    
+
     await this.buttonUpdate.click();
 
     // validation
-    
-    const tagsInputElements =await  this.inputArea.nth(3).locator(".v-select__slot");
+
+    const tagsInputElements = await this.inputArea
+      .nth(3)
+      .locator(".v-select__slot");
 
     // Získejte počet span prvků v celém prvku
     const tagsSpanCount = await tagsInputElements
@@ -144,7 +137,6 @@ exports.SubContentBricks = class SubContentBricks {
     await expect(tagsSpanCount).toBeGreaterThanOrEqual(5);
     console.log(tagsSpanCount);
 
-    
     //SEARCH Identifiers
     // add search identifiers
     await this.redArrow.nth(1).click();
@@ -152,15 +144,13 @@ exports.SubContentBricks = class SubContentBricks {
     await this.modalWindow.nth(1).locator(this.item).nth(1).click();
     await this.modalWindow.nth(1).locator(this.item).nth(2).click();
     await this.modalWindow.nth(1).locator(this.item).nth(3).click();
-    
 
     await this.buttonUpdate.nth(1).click();
     await this.page.waitForTimeout(timeOuts.timeM);
 
-    
     // validation
-    
-    const wholeElement =await this.inputArea.nth(4).locator(".v-select__slot");
+
+    const wholeElement = await this.inputArea.nth(4).locator(".v-select__slot");
 
     // Získejte počet span prvků v celém prvku
     const spanCount = await wholeElement
@@ -175,32 +165,48 @@ exports.SubContentBricks = class SubContentBricks {
   async add_fields(name) {
     await this.addFieldButton.click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.fieldsModal.locator(this.fieldNameInput.nth(5)).fill(name);
-    
-    await this.fieldIdentifier.click();
-    await this.fieldDataTypeButton.click();
+    await this.fieldsModal
+      .nth(7)
+      .locator(this.fieldNameInput.nth(0))
+      .fill(name);
+
+    await this.fieldsModal
+      .nth(7)
+      .locator(this.fieldsMultiElement.nth(1))
+      .click();
+    await this.fieldsModal
+      .nth(7)
+      .locator(this.fieldsMultiElement.nth(2))
+      .click();
     await this.page.waitForTimeout(timeOuts.timeM);
     await this.elementDropdown.click();
-    await this.switchIsMandatory.click();
+    await this.fieldsModal.nth(7).locator(this.switchIsMandatory).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.uniteTypeRedArrowButton.click();
+    await this.uniteTypeRedArrowButton.nth(1).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.uniteTypeFirstObject.click();
-    await this.uniteTypeFirstUpdateButton.click();
+    await this.uniteTypeModal
+      .nth(2)
+      .locator(this.uniteTypeFirstObject.nth(0))
+      .click();
+    await this.uniteTypeFirstUpdateButton.nth(2).click();
+
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.unitRedArrowButton.click();
+    await this.uniteTypeRedArrowButton.nth(2).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.uniteFirstObject.click();
-    await this.uniteUpdateButton.click();
+    await this.uniteTypeModal
+      .nth(3)
+      .locator(this.uniteTypeFirstObject.nth(0))
+      .click();
+    await this.uniteTypeFirstUpdateButton.nth(3).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.fieldAddButton.click();
+    await this.fieldAddButton.nth(3).click();
   }
 
   async chooseSCBState() {
     await this.comboboxSCBstate.click();
-    await this.stateDraft.click();
+    await this.stateModal.locator(this.stateDraft).nth(0).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.saveSCBbutton.click();
+    await this.saveSCBbutton.nth(1).click();
     await this.page.waitForTimeout(timeOuts.timeM);
   }
 
