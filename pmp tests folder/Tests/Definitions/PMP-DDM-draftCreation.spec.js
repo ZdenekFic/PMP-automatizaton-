@@ -33,7 +33,7 @@ test.describe("PMP Creation of DDM", () => {
   test("Check and delete", async ({ page }) => {
     //main Functions
     ddm = new DDM(page, ddmNAme);
-    await ddm.checkAndDelete();
+    await ddm.checkAndDelete(ddmNAme);
   });
 
   test("PMP - main creation", async ({ page }) => {
