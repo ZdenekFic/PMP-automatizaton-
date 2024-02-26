@@ -36,12 +36,14 @@ test.describe("PMP Creation of DDM", () => {
     await ddm.checkAndDelete(ddmNAme);
   });
 
-  test("PMP - main creation", async ({ page }) => {
+  test("PMP - main creation General", async ({ page }) => {
     //main Functions
     ddm = new DDM(page);
     await ddm.enterToDDM();
     await ddm.generalForm(ddmNAme, containerName);
   });
+
+  
 
   test.afterEach(async ({}) => {
     //LogOut

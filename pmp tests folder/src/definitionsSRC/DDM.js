@@ -63,30 +63,43 @@ exports.DDM = class DDM {
     this.dataModelMenuObjects = page.locator(
       'div.v-menu__content.menuable__content__active[data-v-2bf3179e]'
     );
+    this.dataModelMenuObjectsB = page.locator(
+      'div.v-list.v-sheet.theme--light[data-v-2bf3179e]'
+    )
     
 
     this.dataModelMenuObjectsContainterButton = page.locator(
       'button.v-btn--text.error--text[data-v-2bf3179e]'
     );
     this.dataModelMenuObjectsContainter = page.locator(
-      "//span[@class='order-2'][normalize-space()='Container']"
+      'div.el-tree-node__content'
     );
     this.dataModelMenuObjectsContainterName = page.locator(
-      "(//div[@class='v-input__control'])[14]//input"
+      '.v-text-field__slot input[type="text"][autofocus="autofocus"]'
     );
-    this.dataModelMenuObjectsContainterThreeDots = page.locator(
-      "(//button[@role='button'])[5]"
-    );
+    
     this.dataModelMenuObjectsIdentifierButton = page.locator(
-      "(//div[@class='row'])[16]//button[@aria-label='append icon']"
+      'button[aria-label="append icon"].mdi-refresh'
     );
 
     this.dataModelMenuObjectsGDMButton = page.locator(
-      "(//span[@class='v-btn__content'])[24]"
+      'button.v-btn--text.error--text[data-v-2bf3179e]'
     );
+
+    this.dataModelMenuGDMModalFilter = page.locator(
+      'button.v-expansion-panel-header:has-text("Filter")'
+    );
+    this.dataModelGDMdomains = page.locator(
+      '.v-input__slot[role="button"][aria-haspopup="listbox"]'
+    );
+    this.gdmDomainsListbox = page.locator(
+      '.v-list.v-select-list .v-list-item[role="option"]'
+    )
+    
     this.dataModelMenuObjectsGDMConfirm = page.locator(
       "//button[@ui-test-data='add-btn']"
     );
+
     this.firstObjectGDMTable = page.locator("//tbody/tr[2]/td[1]");
     this.buttonNodeSelectionGDM = page.locator(
       "//div[normalize-space()='Node Selection']"
@@ -206,34 +219,40 @@ exports.DDM = class DDM {
 
     //expect if datamodel tab is enabled after save
     //await expect(this.navBar).toHaveClass("v-tab v-tab--active");
-    }};
+    
 
     
-async dataModelSet(){
+
     // DATA MODEL TAB PART
     // click on menu "three dots button"
-     this.dataModelThreeDotsButton.nth(1).click();
+    await this.dataModelThreeDotsButton.nth(1).click();
     await expect(this.dataModelMenuObjects).toBeVisible();
     //add container to tree
-    await this.dataModelMenuObjectsContainterButton.click();
-    await expect(this.dataModelMenuObjectsContainter).toBeVisible();
+    await this.dataModelMenuObjectsContainterButton.nth(0).click();
+    await expect(this.dataModelMenuObjectsContainter.nth(1)).toBeVisible();
     //check of name for  defaultcontainer
-    await expect(this.dataModelMenuObjectsContainterName).toHaveValue(
+    await expect(this.dataModelMenuObjectsContainterName.nth(1)).toHaveValue(
       "Container"
     );
     //delete default value
-    await this.dataModelMenuObjectsContainterName.clear();
+    await this.dataModelMenuObjectsContainterName.nth(1).clear();
     //fill in our name
-    await this.dataModelMenuObjectsContainterName.fill(containerName);
+    await this.dataModelMenuObjectsContainterName.nth(1).fill(containerName);
     //click to get automated identifier
     await this.dataModelMenuObjectsIdentifierButton.click();
     //click on three dots but in container
-    await this.dataModelMenuObjectsContainterThreeDots.click();
-    await expect(this.dataModelMenuObjects).toBeVisible();
+    await this.dataModelThreeDotsButton.nth(2).click();
+    await expect(this.dataModelMenuObjectsB).toBeVisible();
 
     //click on  GDM button in minimenu
-    await this.dataModelMenuObjectsGDMButton.click();
+    await this.dataModelMenuObjectsContainterButton.nth(2).click();
     await this.page.waitForTimeout(timeOuts.timeM);
+    await this.dataModelMenuGDMModalFilter.click();
+    await this.page.waitForTimeout(timeOuts.timeM);
+    await this.dataModelGDMdomains.nth(1).click();
+    await expect(this.gdmDomainsListbox).toBeVisible();
+    
+
     // choose first object in table
     await this.firstObjectGDMTable.click();
     await this.page.waitForTimeout(timeOuts.timeM);
@@ -264,7 +283,7 @@ async dataModelSet(){
     await this.dataModelMenuObjectsSaveAll.click();
 
     await expect(successMessage).toContain("Domain Data Model has been");
-  }
+  }};
 
     async checkAndDelete(searchedText) {
       //Click on a searchbar
@@ -282,4 +301,4 @@ async dataModelSet(){
       } 
     }
 
-  }
+  };
