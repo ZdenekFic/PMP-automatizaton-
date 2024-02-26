@@ -92,61 +92,53 @@ exports.DDM = class DDM {
     this.dataModelGDMdomains = page.locator(
       '.v-input__slot[role="button"][aria-haspopup="listbox"]'
     );
-    this.gdmDomainsListbox = page.locator(
-      '.v-list.v-select-list .v-list-item[role="option"]'
-    )
+    this.gdmDomainsItem = page.getByText('All');
+     
+    
     
     this.dataModelMenuObjectsGDMConfirm = page.locator(
-      "//button[@ui-test-data='add-btn']"
+      'button[ui-test-data="add-btn"]'
     );
 
     this.firstObjectGDMTable = page.locator("//tbody/tr[2]/td[1]");
     this.buttonNodeSelectionGDM = page.locator(
-      "//div[normalize-space()='Node Selection']"
-    );
+      'div.v-card__title[ui-test-data="dialog-header"]'
+    ).locator('.v-tab[role="tab"]');
 
+    // add CB 
     this.dataModelMenuObjectsCBButton = page.locator(
-      "(//i[@class='v-icon notranslate mdi mdi-cube theme--light'])[3]"
+      'button.v-btn--text.error--text[data-v-2bf3179e]'
     );
     this.dataModelMenuObjectsCBFirstObject = page.locator(
-      "//div[@class='v-data-table__wrapper']//tbody/tr[1]/td[1]"
-    );
-    this.dataModelMenuObjectsCBConfirm = page.locator(
-      "//div[@class='v-card__actions']//span[normalize-space()='Add']"
-    );
+      'div.v-data-table.v-data-table--dense.theme--light[ui-test-data="items-table"]'
+    ).locator('//tr/td[1]');
+    
 
-    this.dataModelMenuObjectsDGLButton = page.locator(
-      "//span[@class='v-btn__content']//i[@class='v-icon notranslate mdi mdi-cube-scan theme--light']"
-    );
-    this.dataModelMenuObjectsDGLFirstOBject = page.locator(
-      "//div[@class='v-data-table__wrapper']//tbody/tr[1]/td[1]"
-    );
-    this.dataModelMenuObjectsDGLConfirm = page.locator(
-      "//div[@class='v-card__actions']//button"
-    );
+    
 
     //save data model
+    this.saveArea = page.locator(
+      'header.v-toolbar.v-toolbar--dense.v-toolbar--floating'
+    );
     this.dataModelMenuObjectsSaveAll = page.locator(
-      "//header[@class='v-sheet theme--light v-toolbar v-toolbar--dense v-toolbar--floating']//button[2]"
+      'button.v-btn--icon[role="button"]'
     );
 
     ///Delete part
     //delete ddm draft
     this.deleteDraftButtton = page.locator(
-      "//i[@class='v-icon notranslate mdi mdi-delete theme--light']"
+      'button[ui-test-data="delete-btn"].red--text'
     );
     this.modalDeleteButton = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent']//span[normalize-space()='Delete']"
+      'button[ui-test-data="delete-confirm-btn"]'
     );
     this.searchBarInput = page.locator(
-      "//input[@ui-test-data='top-bar-search']"
+      "input[ui-test-data='top-bar-search']"
     );
     this.searchedObject = page.locator(
       `//div[@class='v-list-item__title'][normalize-space()='${ddmName}']`
     );
-    this.searchedArea = page.locator(
-      "//div[@class='v-menu__content theme--light menuable__content__active v-autocomplete__content']"
-    );
+    
   }
 
   async enterToDDM() {
@@ -250,37 +242,41 @@ exports.DDM = class DDM {
     await this.dataModelMenuGDMModalFilter.click();
     await this.page.waitForTimeout(timeOuts.timeM);
     await this.dataModelGDMdomains.nth(1).click();
-    await expect(this.gdmDomainsListbox).toBeVisible();
+    await this.page.waitForTimeout(timeOuts.timeM);
+    await this.gdmDomainsItem.nth(1).click();
+
+    
     
 
     // choose first object in table
     await this.firstObjectGDMTable.click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.buttonNodeSelectionGDM.click();
+    await this.buttonNodeSelectionGDM.nth(1).click();
     await this.dataModelMenuObjectsGDMConfirm.click();
+    
     // click on menu "three dots button"
-    await this.dataModelThreeDotsButton.click();
+    await this.dataModelThreeDotsButton.nth(1).click();
     await expect(this.dataModelMenuObjects).toBeVisible();
 
     //add contant brick
-    await this.dataModelMenuObjectsCBButton.click();
+    await this.dataModelMenuObjectsCBButton.nth(3).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.dataModelMenuObjectsCBFirstObject.click();
-    await this.dataModelMenuObjectsCBConfirm.click();
+    await this.dataModelMenuObjectsCBFirstObject.nth(1).click();
+    await this.dataModelMenuObjectsGDMConfirm.click();
 
     // lets add DGL
-    await this.dataModelThreeDotsButton.click();
+    await this.dataModelThreeDotsButton.nth(1).click();
     await expect(this.dataModelMenuObjects).toBeVisible();
     await this.page.waitForTimeout(timeOuts.timeM);
 
-    await this.dataModelMenuObjectsDGLButton.click();
+    await this.dataModelMenuObjectsCBButton.nth(4).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.dataModelMenuObjectsDGLFirstOBject.click();
+    await this.dataModelMenuObjectsCBFirstObject.nth(0).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.dataModelMenuObjectsDGLConfirm.click();
+    await this.dataModelMenuObjectsGDMConfirm.click();
     await this.page.waitForTimeout(timeOuts.timeM);
 
-    await this.dataModelMenuObjectsSaveAll.click();
+    await this.saveArea.locator(this.dataModelMenuObjectsSaveAll.nth(1)).click();
 
     await expect(successMessage).toContain("Domain Data Model has been");
   }};
