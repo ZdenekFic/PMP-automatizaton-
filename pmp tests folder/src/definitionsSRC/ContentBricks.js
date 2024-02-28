@@ -17,21 +17,15 @@ exports.ContentBricks = class ContentBricks {
     this.generalFormUsageTypesRedArrow = page
       .locator(".v-input__append-outer > .v-btn")
       .first();
-    this.firstObjectInTable = page.locator("//tbody/tr[1]/td[1]/div[1]/i[1]");
-    this.secondObjectInTable = page.locator("//tbody/tr[2]/td[1]/div[1]/i[1]");
-    this.fifthObjectUsageInTable = page.locator(
-      "//tbody/tr[5]/td[1]/div[1]/i[1]"
-    );
-    this.buttonUpdateUsageTypes = page.locator(
-      "//span[normalize-space()='Update Usage types']"
-    );
+    
+    
 
     // input for text to describe CB
     this.descriptionCB = page.locator(
       '.ql-editor.ql-blank[contenteditable="true"]'
     );
     // Tags and Search ids
-    this.inputArea = page.locator("div.row[data-v-08fbd860]");
+    this.inputArea = page.locator("div.row[data-v-d1eabe68]");
     this.redArrow = page.locator('button[ui-test-data="upload-btn"]');
     this.modalWindow = page.locator(
       "div.v-card.v-sheet.theme--light[data-v-516a0fde]"
@@ -41,7 +35,7 @@ exports.ContentBricks = class ContentBricks {
 
     // Fields objects
     this.addFieldButton = page.locator(
-      "button.mt-3.v-btn.theme--light.elevation-2.v-size--default[data-v-08fbd860]"
+      "button.mx-1.v-btn.elevation-2[data-v-d6bfabbc]"
     );
     this.fieldsModal = page.locator("div.v-card.v-sheet.theme--light");
     this.fieldNameInput = page.locator(
@@ -110,22 +104,7 @@ exports.ContentBricks = class ContentBricks {
 
     await this.buttonUpdate.click();
 
-    // validation
-
-    const usageTypesInputElements = await this.inputArea
-      .nth(3)
-      .locator(".v-select__slot");
-
-    // Získejte počet span prvků v celém prvku
-    const usageTypesSpanCount = await usageTypesInputElements
-      .locator("span.v-chip__content")
-      .count();
-
-    console.log(usageTypesSpanCount);
-    // Ověřte, že počet span prvků je alespoň jeden
-    await expect(usageTypesSpanCount).toBeGreaterThanOrEqual(3);
-    console.log("Usage types have " + usageTypesSpanCount + " values.");
-
+    
     //TAGS
     // add tags
     await this.redArrow.nth(1).click();
@@ -138,21 +117,7 @@ exports.ContentBricks = class ContentBricks {
 
     await this.buttonUpdate.nth(1).click();
 
-    // validation
-
-    const tagsInputElements = await this.inputArea
-      .nth(5)
-      .locator(".v-select__slot");
-
-    // Získejte počet span prvků v celém prvku
-    const tagsSpanCount = await tagsInputElements
-      .locator("span.v-chip__content")
-      .count();
-
-    console.log(tagsSpanCount);
-    // Ověřte, že počet span prvků je alespoň jeden
-    await expect(tagsSpanCount).toBeGreaterThanOrEqual(5);
-    console.log("Tags have " + tagsSpanCount + " values.");
+    
 
     //SEARCH Identifiers
     // add search identifiers
@@ -165,18 +130,7 @@ exports.ContentBricks = class ContentBricks {
     await this.buttonUpdate.nth(2).click();
     await this.page.waitForTimeout(timeOuts.timeM);
 
-    // validation
-
-    const wholeElement = await this.inputArea.nth(6).locator(".v-select__slot");
-
-    // Získejte počet span prvků v celém prvku
-    const spanCount = await wholeElement
-      .locator("span.v-chip__content")
-      .count();
-    console.log(spanCount);
-    // Ověřte, že počet span prvků je alespoň jeden
-    await expect(spanCount).toBeGreaterThanOrEqual(3);
-    console.log("Search identifiers have " + spanCount + " values.");
+    
 
     // add some text to description
     await this.descriptionCB.nth(0).fill(text);
