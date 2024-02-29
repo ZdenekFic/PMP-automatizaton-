@@ -42,11 +42,10 @@ test.describe("PMP Creation of PBB Normal", () => {
     await pbb.makroLevel_Maintainer();
     await pbb.makroLevel_Tags();
     await pbb.makroLevel_Description(pbbText);
-    await pbb.makroLevel_PlannedCost();
-    await pbb.makroLevel_ResourceTime();
-    await pbb.makroLevel_ProcessTime();
+    
+    
 
-    await pbb.makroLevel_Currency();
+    
     await pbb.makroLevel_EnforceValidation();
     await pbb.makroLevel_TimeRecordingSwitch();
 

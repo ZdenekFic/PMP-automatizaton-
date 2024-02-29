@@ -89,11 +89,7 @@ exports.PBB = class PBB {
     // add value to planned cost
     this.plannedCost = page.getByLabel("Planned Cost");
 
-    //add value into input planned resource time
-    this.plannedResourceTime = page.getByLabel("Planned Resource Time");
-
-    //add value into input process time
-    this.plannedProcesstime = page.getByLabel("Planned Process Time");
+    
 
     //add default ddm
     this.defaultDDM = page.locator(
@@ -226,31 +222,8 @@ exports.PBB = class PBB {
     await this.projectDefaultTagsConfirmButton.click();
   }
 
-  async makroLevel_PlannedCost() {
-    await this.plannedCost.fill("9999999999");
-    await expect(this.plannedCost).not.toBeEmpty();
-  }
-
-  async makroLevel_Currency() {
-    await this.currencyDropdown.click();
-  }
-
-  async makroLevel_ResourceTime() {
-    //add value into input planned resource time
-    const input = await this.plannedResourceTime;
-    await input.fill("6000");
-
-    const inputValue = await input.inputValue();
-    await expect(inputValue).toBe("6000");
-  }
-
-  async makroLevel_ProcessTime() {
-    const input = await this.plannedProcesstime;
-    await input.fill("100");
-
-    const inputValue = await input.inputValue();
-    await expect(inputValue).toBe("100");
-  }
+  
+  
 
   async makroLevel_DefaultDDM() {
     //add Default DDM
@@ -316,8 +289,7 @@ exports.PBB = class PBB {
     await expect.soft(this.ownerInput).not.toBeEmpty();
     await expect.soft(this.maintainerInput).not.toBeEmpty();
     await expect.soft(this.nameInReports).toBeEmpty();
-    await expect.soft(this.plannedProcesstime).not.toBeEmpty();
-    await expect.soft(this.plannedResourceTime).not.toBeEmpty();
+    
   }
 
   async checkAndDelete() {

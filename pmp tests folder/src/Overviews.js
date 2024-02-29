@@ -23,9 +23,8 @@ exports.Overviews = class Overviews {
       .getByText(testTitle, { exact: true });
 
     //definitons tabs
-    this.definitionsTabsButtons = page.getByRole("button", {
-      name: "Definitions",
-    });
+    this.definitionsTabsButtons = page.locator('div[ui-test-data="nav-definitions"]');
+    
     this.definitionsDomainDataModelsMenuButtonPath = page
       .getByRole("navigation")
       .locator("span")

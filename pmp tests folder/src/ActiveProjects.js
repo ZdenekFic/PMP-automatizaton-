@@ -7,9 +7,7 @@ exports.ActiveProjects = class ActiveProjects {
 
     //ENTERTOOVERVIEWS Function
     //active projects Tab
-    this.activeProjectTab = page
-      .getByRole("navigation")
-      .getByText("Active Projects");
+    this.activeProjectTab = page.locator('span[ui-test-data="nav-project-active"]');
 
     //ENTER TO ITEM function
     //first item in table
@@ -78,7 +76,7 @@ exports.ActiveProjects = class ActiveProjects {
 
     //USER GROUPS adn TAGS
     this.redArrow2 = page.locator(
-      'button[data-v-19b89e56][ui-test-data="upload-btn"]'
+      'button[data-v-d1eabe68][ui-test-data="upload-btn"]'
     );
     this.modalWindow = page.locator(".v-card[data-v-516a0fde]");
     this.userGroupsItem = "//tr/td[1]";
@@ -87,7 +85,7 @@ exports.ActiveProjects = class ActiveProjects {
 
     //tagDiv
     this.tagDivArea = page.locator(
-      "div.v-input.theme--light.v-text-field.v-text-field--is-booted.v-select.v-select--chips.v-select--is-multi.v-autocomplete[data-v-19b89e56]"
+      "div.v-input.theme--light.v-text-field.v-text-field--is-booted.v-select.v-select--chips.v-select--is-multi.v-autocomplete[data-v-d1eabe68]"
     );
 
     //OWNER and APPLICANT
@@ -150,7 +148,9 @@ exports.ActiveProjects = class ActiveProjects {
   async enterToItem() {
     //Click on first item
     await this.projectDiv.locator("//tr").nth(1).click();
-    await this.page.waitForTimeout(timeOuts.timeXXL);
+    
+    await this.page.waitForSelector('div.v-data-table.overview-table.pmtool-table.v-data-table--dense.theme--light')
+    await this.page.waitForTimeout(timeOuts.timeM);
 
     //Validation
     await expect.soft(this.page.url()).toContain("/project/detail");

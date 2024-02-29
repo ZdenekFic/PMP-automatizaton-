@@ -73,8 +73,7 @@ exports.HomePage = class HomePage {
       .nth(1)
       .click();
 
-    // Wait for navigation to complete
-    await this.page.waitForNavigation();
+    await this.page.waitForTimeout(timeOuts.timeXL);
 
     // Verify that the current URL is not equal to baseURL
     const currentURL = this.page.url();

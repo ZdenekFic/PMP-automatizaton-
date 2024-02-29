@@ -3,7 +3,7 @@
 // Login to TEST env PMP
 const username = "testaa@memos.cz";
 const password = "sunandmoon";
-const mainDomain = "Marketing";
+const mainDomain = "Test Domain";
 const username2 = "zdenek.fic@memos.cz";
 const password2 = "memos";
 const baseURL = "https://test.einhellpmp.com";

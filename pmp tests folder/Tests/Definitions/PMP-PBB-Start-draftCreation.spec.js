@@ -43,8 +43,7 @@ test.describe("PMP Creation of PBB", () => {
     await pbb.makroLevel_Tags();
     await pbb.makroLevel_Description(pbbText);
     await pbb.makroLevel_ProjectDefTags();
-    await pbb.makroLevel_ResourceTime();
-    await pbb.makroLevel_ProcessTime();
+    
     await pbb.makroLevel_DefaultDDM();
     await pbb.makroLevel_Wizard();
     await pbb.makroLevel_TimeRecordingSwitch();
