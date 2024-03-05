@@ -1,4 +1,5 @@
 const { expect } = require("@playwright/test");
+const path = require("path");
 const { timeOuts } = require("./constants");
 
 exports.ActiveProjects = class ActiveProjects {
@@ -7,7 +8,10 @@ exports.ActiveProjects = class ActiveProjects {
 
     //ENTERTOOVERVIEWS Function
     //active projects Tab
-    this.activeProjectTab = page.locator('span[ui-test-data="nav-project-active"]');
+    this.activeProjectTab = page.locator(
+      'span[ui-test-data="nav-project-active"]'
+    );
+    this.tasksTab = page.locator('span.v-list-item--link[ui-test-data="nav-tasks"]');
 
     //ENTER TO ITEM function
     //first item in table
@@ -19,6 +23,33 @@ exports.ActiveProjects = class ActiveProjects {
       "div[data-v-a8d76044] .container.project-detail.container--fluid .entity-detail-card.v-card.v-sheet.theme--light"
     );
 
+    //ADD Project
+
+    this.overviewAddBtn = page.locator(
+      'a[ui-test-data="overview-header-add-btn"]'
+    );
+    this.newProjectDraftBoard =
+      "div[data-v-c1836cc6][data-v-51a7816b].entity-detail-card";
+    this.projectType = page
+      .locator("div.container.container--fluid.grid-list-md")
+      .locator("div[data-v-8100682e].flex.xs12.md4.lg3.xl2");
+    this.projectName = page
+      .locator("div.v-window-item.v-window-item--active[data-v-51a7816b]")
+      .locator('input[autofocus="autofocus"][type="text"]');
+    this.nextAndStartBtn = page
+      .locator("div.py-0.px-4.d-flex.col.col-auto[data-v-51a7816b]")
+      .locator("button");
+    this.projectTitleText = page.locator(
+      "div.pl-0.pt-0.pb-0.col.col-12.col-md-6.col-lg-8.col-xl-8"
+    );
+    this.pbbTreeTaskBtn = page.locator("div.d-inline-flex.d-flex-nowrap");
+    this.formTaskInputs = page
+      .locator("div.pa-0.col-md-6.col-lg-3.col-xl-3.col-12[data-v-9898eaa2]")
+      .locator('input[type="number"]');
+
+    this.finishtGreenButton = page.locator('button.v-btn.v-btn--contained.theme--light.v-size--default:has(.v-icon.mdi.mdi-content-save-move)')
+    this.finishBlackButton = page.locator('button.status-btn.v-btn--depressed.v-btn--flat.v-btn--outlined:has(.mdi-content-save-check)');
+    this.backToProjectDetail = page.locator('a.v-chip--clickable .task-detail-project-link-chip-text');
     //PBB tree function
     //Tabs div area
     this.tabsNav = page.locator(
@@ -45,14 +76,21 @@ exports.ActiveProjects = class ActiveProjects {
     );
 
     //show root and preview checbox
-    this.showRootCheckbox = page.locator(
-      '.v-input.ml-5.mt-1.theme--light.v-input--selection-controls.v-input--switch').locator('.v-input--selection-controls__ripple');
+    this.showRootCheckbox = page
+      .locator(
+        ".v-input.ml-5.mt-1.theme--light.v-input--selection-controls.v-input--switch"
+      )
+      .locator(".v-input--selection-controls__ripple");
 
     this.showRootCheckboxClass =
       "(//div[@class='v-input ml-5 mt-1 v-input--is-label-active v-input--is-dirty theme--light v-input--selection-controls v-input--switch primary--text'])[1]";
 
     //preview checkbox
-    this.previewCheckbox = page.locator('.v-input.mx-5.mt-1.theme--light.v-input--selection-controls.v-input--switch').locator('.v-input--selection-controls__ripple');
+    this.previewCheckbox = page
+      .locator(
+        ".v-input.mx-5.mt-1.theme--light.v-input--selection-controls.v-input--switch"
+      )
+      .locator(".v-input--selection-controls__ripple");
     this.previewCheckboxClass =
       "//div[@class='v-input mx-5 mt-1 v-input--is-label-active v-input--is-dirty theme--light v-input--selection-controls v-input--switch primary--text']";
 
@@ -145,11 +183,98 @@ exports.ActiveProjects = class ActiveProjects {
     await this.page.waitForTimeout(timeOuts.timeM);
   }
 
+  async addProject() {
+    // Add button to get new project
+    await this.overviewAddBtn.click();
+    await this.page.waitForSelector(this.newProjectDraftBoard);
+    //select project type
+    await this.projectType.nth(2).click();
+    await this.page.waitForSelector("text=Next");
+    //fill a name
+    await this.projectName.fill("Test Perf");
+    //click on next
+    await this.nextAndStartBtn.nth(1).click();
+    //wait and click on start
+    await this.page.waitForSelector("text=Start");
+    await this.nextAndStartBtn.nth(1).click();
+
+    //check a title text
+    const titleValue = await this.projectTitleText.textContent();
+    console.log(titleValue);
+    //click on Dmi tab
+    const dmiTab = await this.tabsNav.locator(this.tab).nth(2);
+    await dmiTab.click();
+    await expect(dmiTab).toHaveClass("v-tab v-tab--active");
+    //click on button to open modal with json
+    await this.dmiJsonButton.click();
+    //check if modal is visible
+    await expect(this.dmiJsonModal).toBeVisible();
+    //close modal
+    await this.dmiJsonModalClose.nth(1).click();
+
+    //back to PBB tree
+    const pbbTreeTab = await this.tabsNav.locator(this.tab).nth(1);
+    await pbbTreeTab.click();
+    await expect(pbbTreeTab).toHaveClass("v-tab v-tab--active");
+    //click on first task
+    await this.pbbTreeTaskBtn.nth(0).click();
+    await this.page.waitForSelector("text=Finish");
+
+    //fill a task
+    await this.formTaskInputs.nth(0).fill("88");
+    await this.formTaskInputs.nth(1).fill("189");
+    
+    //upload image
+    await this.page.locator('.mdi-file-upload').nth(0).click();
+
+    await this.page.setInputFiles(
+      'input[type="file"]',
+      "C:/Users/zfic/Desktop/Playwright/PMP/attachments/SampleJPGImage_30mbmb.jpg"
+    );
+    await this.page.waitForTimeout(timeOuts.timeXXL);
+    
+    //upload video
+    await this.page.locator('.mdi-file-upload').nth(1).click();
+
+    await this.page.setInputFiles(
+      '.v-file-input input[type="file"][accept=".mp4, .webm, .ogv"][multiple]',
+      "C:/Users/zfic/Desktop/Playwright/PMP/attachments/file_example_MP4_1920_18MG.mp4"
+    );
+    await this.page.waitForTimeout(timeOuts.timeXXL);
+    
+    //upload PDF
+    await this.page.locator('button.v-icon.mdi.mdi-file-upload').nth(2).click();
+    const fileInputSelector = '.v-file-input input[type="file"][accept=".pdf"][multiple]';
+    await this.page.setInputFiles(fileInputSelector, "C:/Users/zfic/Desktop/Playwright/PMP/attachments/PM-Tool 2 Project - Appendix 1 - Main v03.finaldocx-62a618b7-259e-4102-af46-b867b10fe8d2 (2) (2).pdf");       
+    await this.page.waitForTimeout(timeOuts.timeXXL);
+
+
+    //Finish task
+    for(let i = 0;i <= 4; i++) {
+        await this.finishtGreenButton.click();
+        await this.page.waitForTimeout(timeOuts.timeS);
+        await this.page.waitForSelector("text=Finish");
+        
+  }
+    await this.finishBlackButton.click();
+    await this.page.waitForTimeout(timeOuts.timeS);
+    await this.page.waitForSelector('.status-chip-text:has-text("Finished")');
+    await this.backToProjectDetail.click();
+    await this.page.waitForTimeout(timeOuts.timeS);
+    const pbbTreeTab2 = await this.tabsNav.locator(this.tab).nth(1);
+    await expect(pbbTreeTab2).toHaveClass("v-tab v-tab--active");
+    await this.tasksTab.click();
+    console.log(await this.page.url());
+
+}
+
   async enterToItem() {
     //Click on first item
     await this.projectDiv.locator("//tr").nth(1).click();
-    
-    await this.page.waitForSelector('div.v-data-table.overview-table.pmtool-table.v-data-table--dense.theme--light')
+
+    await this.page.waitForSelector(
+      "div.v-data-table.overview-table.pmtool-table.v-data-table--dense.theme--light"
+    );
     await this.page.waitForTimeout(timeOuts.timeM);
 
     //Validation
