@@ -1,5 +1,6 @@
 const { expect } = require("@playwright/test");
 const path = require("path");
+const fs = require("fs");
 const { timeOuts } = require("./constants");
 
 exports.ActiveProjects = class ActiveProjects {
@@ -11,7 +12,9 @@ exports.ActiveProjects = class ActiveProjects {
     this.activeProjectTab = page.locator(
       'span[ui-test-data="nav-project-active"]'
     );
-    this.tasksTab = page.locator('span.v-list-item--link[ui-test-data="nav-tasks"]');
+    this.tasksTab = page.locator(
+      'span.v-list-item--link[ui-test-data="nav-tasks"]'
+    );
 
     //ENTER TO ITEM function
     //first item in table
@@ -47,9 +50,15 @@ exports.ActiveProjects = class ActiveProjects {
       .locator("div.pa-0.col-md-6.col-lg-3.col-xl-3.col-12[data-v-9898eaa2]")
       .locator('input[type="number"]');
 
-    this.finishtGreenButton = page.locator('button.v-btn.v-btn--contained.theme--light.v-size--default:has(.v-icon.mdi.mdi-content-save-move)')
-    this.finishBlackButton = page.locator('button.status-btn.v-btn--depressed.v-btn--flat.v-btn--outlined:has(.mdi-content-save-check)');
-    this.backToProjectDetail = page.locator('a.v-chip--clickable .task-detail-project-link-chip-text');
+    this.finishtGreenButton = page.locator(
+      "button.v-btn.v-btn--contained.theme--light.v-size--default:has(.v-icon.mdi.mdi-content-save-move)"
+    );
+    this.finishBlackButton = page.locator(
+      "button.status-btn.v-btn--depressed.v-btn--flat.v-btn--outlined:has(.mdi-content-save-check)"
+    );
+    this.backToProjectDetail = page.locator(
+      "a.v-chip--clickable .task-detail-project-link-chip-text"
+    );
     //PBB tree function
     //Tabs div area
     this.tabsNav = page.locator(
@@ -223,39 +232,96 @@ exports.ActiveProjects = class ActiveProjects {
     //fill a task
     await this.formTaskInputs.nth(0).fill("88");
     await this.formTaskInputs.nth(1).fill("189");
-    
-    //upload image
-    await this.page.locator('.mdi-file-upload').nth(0).click();
 
+    const imagePath = path.join(
+      "/Users/zdenekfic/Dropbox/Mac/Desktop/Automatization/PMP/attachments",
+      "SampleJPGImage_30mbmb.jpg"
+    );
+    console.log(imagePath);
+    console.log(__dirname);
+
+    if (fs.existsSync(imagePath)) {
+      console.log("Soubor existuje.");
+    } else {
+      console.log("Soubor neexistuje.");
+    }
+    // Nahrání obrázku
+    await this.page.locator(".mdi-file-upload").nth(0).click();
     await this.page.setInputFiles(
       'input[type="file"]',
-      "C:/Users/zfic/Desktop/Playwright/PMP/attachments/SampleJPGImage_30mbmb.jpg"
+      path.join(
+        __dirname,
+        "..",
+        "..",
+        "attachments",
+        "SampleJPGImage_30mbmb.jpg"
+      )
     );
-    await this.page.waitForTimeout(timeOuts.timeXXL);
-    
-    //upload video
-    await this.page.locator('.mdi-file-upload').nth(1).click();
+    // Lokátor pro element
+    const elementWithText = this.page.locator(
+      'div[data-v-9898eaa2].pa-0.col-md-12.col-lg-12.col-xl-12.col-12:has-text("1/2")'
+    );
 
+    // Čekání na element, dokud není detekován na stránce (s určitým timeoutem)
+    await elementWithText.waitFor();
+
+    // Ověření, že element obsahuje text "1/2"
+    await expect(elementWithText).toContainText("1/2");
+
+    // Nahrání videa
+    await this.page.locator(".mdi-file-upload").nth(1).click();
     await this.page.setInputFiles(
       '.v-file-input input[type="file"][accept=".mp4, .webm, .ogv"][multiple]',
-      "C:/Users/zfic/Desktop/Playwright/PMP/attachments/file_example_MP4_1920_18MG.mp4"
+      path.join(
+        __dirname,
+        "..",
+        "..",
+        "attachments",
+        "file_example_MP4_1920_18MG.mp4"
+      )
     );
-    await this.page.waitForTimeout(timeOuts.timeXXL);
-    
-    //upload PDF
-    await this.page.locator('button.v-icon.mdi.mdi-file-upload').nth(2).click();
-    const fileInputSelector = '.v-file-input input[type="file"][accept=".pdf"][multiple]';
-    await this.page.setInputFiles(fileInputSelector, "C:/Users/zfic/Desktop/Playwright/PMP/attachments/PM-Tool 2 Project - Appendix 1 - Main v03.finaldocx-62a618b7-259e-4102-af46-b867b10fe8d2 (2) (2).pdf");       
-    await this.page.waitForTimeout(timeOuts.timeXXL);
+    // Lokátor pro element
+    const elementWithText2 = this.page.locator(
+      'body:has-text("1/6")'
+    );
 
+    // Čekání na element, dokud není detekován na stránce (s určitým timeoutem)
+    await elementWithText2.waitFor();
+
+    // Ověření, že element obsahuje text "1/2"
+    await expect(elementWithText2).toContainText("1/6");
+
+    // Nahrání PDF
+    await this.page.locator("button.v-icon.mdi.mdi-file-upload").nth(2).click();
+    const fileInputSelector =
+      '.v-file-input input[type="file"][accept=".pdf"][multiple]';
+    await this.page.setInputFiles(
+      fileInputSelector,
+      path.join(
+        __dirname,
+        "..",
+        "..",
+        "attachments",
+        "PM-Tool 2 Project - Appendix 1 - Main v03.finaldocx-62a618b7-259e-4102-af46-b867b10fe8d2 (2) (2).pdf"
+      )
+    );
+    // Lokátor pro element
+    const elementWithText3 = this.page.locator(
+      'body:has-text("1/10000")'
+    );
+
+    // Čekání na element, dokud není detekován na stránce (s určitým timeoutem)
+    await elementWithText3.waitFor();
+
+    // Ověření, že element obsahuje text "1/2"
+    await expect(elementWithText3).toContainText("1/10000");
 
     //Finish task
-    for(let i = 0;i <= 4; i++) {
-        await this.finishtGreenButton.click();
-        await this.page.waitForTimeout(timeOuts.timeS);
-        await this.page.waitForSelector("text=Finish");
-        
-  }
+    for (let i = 0; i <= 4; i++) {
+      await this.finishtGreenButton.click();
+      await this.page.waitForTimeout(timeOuts.timeS);
+      await this.page.waitForSelector("text=Finish");
+    }
     await this.finishBlackButton.click();
     await this.page.waitForTimeout(timeOuts.timeS);
     await this.page.waitForSelector('.status-chip-text:has-text("Finished")');
@@ -265,8 +331,7 @@ exports.ActiveProjects = class ActiveProjects {
     await expect(pbbTreeTab2).toHaveClass("v-tab v-tab--active");
     await this.tasksTab.click();
     console.log(await this.page.url());
-
-}
+  }
 
   async enterToItem() {
     //Click on first item
