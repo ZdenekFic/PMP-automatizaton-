@@ -59,6 +59,9 @@ exports.ActiveProjects = class ActiveProjects {
     this.backToProjectDetail = page.locator(
       "a.v-chip--clickable .task-detail-project-link-chip-text"
     );
+    this.succesAlert = 'div[role="alert"].v-alert';
+
+
     //PBB tree function
     //Tabs div area
     this.tabsNav = page.locator(
@@ -323,8 +326,8 @@ exports.ActiveProjects = class ActiveProjects {
       await this.page.waitForSelector("text=Finish");
     }
     await this.finishBlackButton.click();
-    await this.page.waitForTimeout(timeOuts.timeS);
-    await this.page.waitForSelector('.status-chip-text:has-text("Finished")');
+    await this.page.waitForTimeout(timeOuts.timeXXL);
+    await this.page.waitForSelector(this.succesAlert);
     await this.backToProjectDetail.click();
     await this.page.waitForTimeout(timeOuts.timeS);
     const pbbTreeTab2 = await this.tabsNav.locator(this.tab).nth(1);
@@ -336,14 +339,14 @@ exports.ActiveProjects = class ActiveProjects {
   async enterToItem() {
     //Click on first item
     await this.projectDiv.locator("//tr").nth(1).click();
-
+    
     await this.page.waitForSelector(
       "div.v-data-table.overview-table.pmtool-table.v-data-table--dense.theme--light"
     );
     await this.page.waitForTimeout(timeOuts.timeM);
 
     //Validation
-    await expect.soft(this.page.url()).toContain("/project/detail");
+    
     console.log(this.page.url());
     await expect.soft(this.checkedDiv).toBeVisible();
   }

@@ -35,7 +35,7 @@ exports.ContentBricks = class ContentBricks {
 
     // Fields objects
     this.addFieldButton = page.locator(
-      "button.mx-1.v-btn.elevation-2[data-v-d6bfabbc]"
+      "button.mx-1.v-btn.elevation-2[data-v-3df5e63b]"
     );
     this.fieldsModal = page.locator("div.v-card.v-sheet.theme--light");
     this.fieldNameInput = page.locator(
