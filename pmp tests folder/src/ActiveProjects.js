@@ -33,9 +33,7 @@ exports.ActiveProjects = class ActiveProjects {
     );
     this.newProjectDraftBoard =
       "div[data-v-c1836cc6][data-v-51a7816b].entity-detail-card";
-    this.projectType = page
-      .locator("div.container.container--fluid.grid-list-md")
-      .locator("div[data-v-8100682e].flex.xs12.md4.lg3.xl2");
+    this.projectType = page.locator('div.v-card__title.pbb-card-title:has-text("PBB start A1")');
     this.projectName = page
       .locator("div.v-window-item.v-window-item--active[data-v-51a7816b]")
       .locator('input[autofocus="autofocus"][type="text"]');
@@ -200,7 +198,7 @@ exports.ActiveProjects = class ActiveProjects {
     await this.overviewAddBtn.click();
     await this.page.waitForSelector(this.newProjectDraftBoard);
     //select project type
-    await this.projectType.nth(2).click();
+    await this.projectType.click();
     await this.page.waitForSelector("text=Next");
     //fill a name
     await this.projectName.fill("Test Perf");

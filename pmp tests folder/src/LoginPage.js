@@ -3,9 +3,9 @@ exports.LoginPage = class LoginPage {
   constructor(page, language) {
     this.page = page;
     //login
-    this.usernameInput = page.locator('input[type="text"][data-v-86df1422]');
-    this.passwordInput = page.locator('input[type="password"][data-v-86df1422]');
-    this.submitButton = page.locator('button[data-v-5bf93122][name="login"]');
+    this.usernameInput = page.locator('input[type="text"][data-v-45711133]');
+    this.passwordInput = page.locator('input[type="password"][data-v-45711133]');
+    this.submitButton = page.locator('button[data-v-2f75b479][name="login"]');
     this.titlePMP = page.locator('span[data-v-196d5d6f].nav-menu-title');
     
     //log out
@@ -14,7 +14,7 @@ exports.LoginPage = class LoginPage {
     this.logOutButton = page.locator(
       'span[ui-test-data="top-bar-more-options-logout"][data-v-464da812]'
     );
-    this.expectedText = page.locator('h1[data-v-a29247dc]');
+    this.expectedText = page.locator('h1[data-v-9665aae8]');
     
     //Language tests
     this.mainLanguageMenu =
@@ -29,6 +29,11 @@ exports.LoginPage = class LoginPage {
     );
   }
 
+
+  //_________________________________________________Methods_____________________________//
+  
+  
+  
   async gotoLoginPage(url) {
     await this.page.goto(url);
   }
