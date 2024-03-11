@@ -67,7 +67,7 @@ exports.SubContentBricks = class SubContentBricks {
 
     //draft, active, suspended combobox
     this.comboboxSCBstate = page.getByRole("combobox").nth(1);
-    this.stateModal = page.locator("div.v-list.v-select-list[data-v-0488f43a]");
+    this.stateModal = page.locator("div.v-list.v-select-list[data-v-9da60dd4]");
     this.stateDraft = page.locator("div");
     this.saveSCBbutton = page.locator(
       'button.v-btn.v-btn--flat.v-btn--icon.v-btn--round.theme--light.v-size--default[role="button"][aria-haspopup="true"][aria-expanded="false"]'

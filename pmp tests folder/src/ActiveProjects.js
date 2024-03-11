@@ -33,7 +33,9 @@ exports.ActiveProjects = class ActiveProjects {
     );
     this.newProjectDraftBoard =
       "div[data-v-c1836cc6][data-v-51a7816b].entity-detail-card";
-    this.projectType = page.locator('div.v-card__title.pbb-card-title:has-text("PBB start A1")');
+    this.projectType = page.locator(
+      'div.v-card__title.pbb-card-title:has-text("PBB start A1")'
+    );
     this.projectName = page
       .locator("div.v-window-item.v-window-item--active[data-v-51a7816b]")
       .locator('input[autofocus="autofocus"][type="text"]');
@@ -58,7 +60,6 @@ exports.ActiveProjects = class ActiveProjects {
       "a.v-chip--clickable .task-detail-project-link-chip-text"
     );
     this.succesAlert = 'div[role="alert"].v-alert';
-
 
     //PBB tree function
     //Tabs div area
@@ -282,9 +283,7 @@ exports.ActiveProjects = class ActiveProjects {
       )
     );
     // Lokátor pro element
-    const elementWithText2 = this.page.locator(
-      'body:has-text("1/6")'
-    );
+    const elementWithText2 = this.page.locator('body:has-text("1/6")');
 
     // Čekání na element, dokud není detekován na stránce (s určitým timeoutem)
     await elementWithText2.waitFor();
@@ -307,9 +306,7 @@ exports.ActiveProjects = class ActiveProjects {
       )
     );
     // Lokátor pro element
-    const elementWithText3 = this.page.locator(
-      'body:has-text("1/10000")'
-    );
+    const elementWithText3 = this.page.locator('body:has-text("1/10000")');
 
     // Čekání na element, dokud není detekován na stránce (s určitým timeoutem)
     await elementWithText3.waitFor();
@@ -337,14 +334,14 @@ exports.ActiveProjects = class ActiveProjects {
   async enterToItem() {
     //Click on first item
     await this.projectDiv.locator("//tr").nth(1).click();
-    
+
     await this.page.waitForSelector(
       "div.v-data-table.overview-table.pmtool-table.v-data-table--dense.theme--light"
     );
     await this.page.waitForTimeout(timeOuts.timeM);
 
     //Validation
-    
+
     console.log(this.page.url());
     await expect.soft(this.checkedDiv).toBeVisible();
   }
