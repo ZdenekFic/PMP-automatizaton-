@@ -5,7 +5,7 @@ exports.DDM = class DDM {
   constructor(page, ddmName) {
     this.page = page;
     this.ddmName = ddmName;
-    this.definitionsTab = this.definitionsTab = page.locator('div[ui-test-data="nav-definitions"]');
+    this.definitionsTab = page.locator('div[ui-test-data="nav-definitions"]');
     this.domainModelsTab = page.locator(
       'span[ui-test-data="nav-definitions-data-models"]'
     );

@@ -7,12 +7,12 @@ exports.Tasks = class Tasks {
     this.page = page;
     //clicking on filter to get more filters
     this.filterMenu = page.locator(
-      'button.v-expansion-panel-header.bg240[data-v-4040346b]'
+      'button.v-expansion-panel-header.bg240'
     );
     this.filterArrowButton =
       '.v-expansion-panel-header__icon .v-icon.mdi.mdi-chevron-down.theme--light';
     this.filterBox =
-    'div.v-expansion-panel-content.table-filter-panel-content[data-v-4040346b]';
+    'div.v-expansion-panel-content.table-filter-panel-content';
 
     // action to get into first item in table
     this.tableTasks = page.locator(
@@ -21,7 +21,7 @@ exports.Tasks = class Tasks {
 
     // CHECKBOXES
     // My recenet items
-    this.myRecentItemsDiv = page.locator('div.p-0.col.col-2[data-v-4040346b]');
+    this.myRecentItemsDiv = page.locator('div.p-0.col.col-2');
     this.myRecentItemsCheckbox = ".v-input--selection-controls__ripple";
     // Is being repaired
     this.isBeingRepairedDiv = page.locator(
