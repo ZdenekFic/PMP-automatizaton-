@@ -19,6 +19,7 @@ const timeOuts = {
   timeXL: 3000,
   timeXXL: 4000,
 };
+
 //Constants for test AccountEdit
 
 const domain = 14;

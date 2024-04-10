@@ -41,7 +41,7 @@ exports.DGL = class DGL {
 
     // Fields objects
     this.addFieldButton = page.locator(
-      "button.mx-3.v-btn.elevation-2[data-v-7cba9c9f]"
+      "button.mx-3.v-btn.elevation-2"
     );
     this.addFiledButtonSecondary = page.getByRole("button", {
       name: "Field",

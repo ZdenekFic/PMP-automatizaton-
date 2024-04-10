@@ -37,10 +37,10 @@ exports.ActiveProjects = class ActiveProjects {
       'div.v-card__title.pbb-card-title:has-text("PBB start A1")'
     );
     this.projectName = page
-      .locator("div.v-window-item.v-window-item--active[data-v-51a7816b]")
+      .locator("div.v-window-item.v-window-item--active")
       .locator('input[autofocus="autofocus"][type="text"]');
     this.nextAndStartBtn = page
-      .locator("div.py-0.px-4.d-flex.col.col-auto[data-v-51a7816b]")
+      .locator("div.py-0.px-4.d-flex.col.col-auto")
       .locator("button");
     this.projectTitleText = page.locator(
       "div.pl-0.pt-0.pb-0.col.col-12.col-md-6.col-lg-8.col-xl-8"
@@ -197,7 +197,7 @@ exports.ActiveProjects = class ActiveProjects {
   async addProject() {
     // Add button to get new project
     await this.overviewAddBtn.click();
-    await this.page.waitForSelector(this.newProjectDraftBoard);
+    await this.page.waitForTimeout(timeOuts.timeM);
     //select project type
     await this.projectType.click();
     await this.page.waitForSelector("text=Next");
