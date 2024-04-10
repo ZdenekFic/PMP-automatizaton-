@@ -3,10 +3,10 @@ exports.LoginPage = class LoginPage {
   constructor(page, language) {
     this.page = page;
     //login
-    this.usernameInput = page.locator('input[type="text"][data-v-45711133]');
-    this.passwordInput = page.locator('input[type="password"][data-v-45711133]');
-    this.submitButton = page.locator('button[data-v-2f75b479][name="login"]');
-    this.titlePMP = page.locator('span[data-v-196d5d6f].nav-menu-title');
+    this.usernameInput = page.locator('input[type="text"]');
+    this.passwordInput = page.locator('input[type="password"]');
+    this.submitButton = page.locator('button[name="login"]');
+    this.titlePMP = page.locator('span.nav-menu-title');
     
     //log out
     this.logOutMenuButton = page.locator('i[data-v-464da812]').nth(1);

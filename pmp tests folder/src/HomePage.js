@@ -12,8 +12,8 @@ exports.HomePage = class HomePage {
       .locator("span")
       .filter({ hasText: "Tasks" });
 
-    this.inputDomains = page.locator("div.v-select[data-v-196d5d6f]");
-    this.dropDownDomainsMenu = "div[data-v-196d5d6f='true']";
+    this.inputDomains = page.locator("div.v-select[data-v-80becb70]");
+    this.dropDownDomainsMenu = "div[data-v-80becb70='true']";
     this.changedDomain = `//div[contains(text(),'${mainDomain}')]`;
     this.checkedDomain = page.locator(
       `//div[@class='v-select__selection v-select__selection--comma'][normalize-space()='${mainDomain}']`
@@ -24,7 +24,7 @@ exports.HomePage = class HomePage {
       "//input[@ui-test-data='top-bar-search']"
     );
     this.searchedBoxMenu = 'div[role="listbox"][data-v-b559d94e]';
-    this.firstItemInBox = 'div[data-v-b559d94e][role="menuitem"]';
+    this.firstItemInBox = 'div[role="menuitem"]';
 
     //Menu hiding
     this.buttonOpenLeftMenu = page
