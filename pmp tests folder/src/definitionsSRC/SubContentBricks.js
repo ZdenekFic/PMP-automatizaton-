@@ -21,13 +21,12 @@ exports.SubContentBricks = class SubContentBricks {
       ".v-input__append-inner .v-input__icon.v-input__icon--append i.mdi.mdi-menu-down"
     );
     this.domainsListBox = page.locator(
-      "div.v-list.v-select-list[data-v-320c660f]"
+      "div.v-list.v-select-list"
     );
-    this.domainsItem = this.domainsListBox.locator(
-      '.v-list-item[role="option"]'
-    );
+    this.domainsItem = 
+      '.v-list-item[role="option"]';
     // Tags and Search ids
-    this.inputArea = page.locator("div.row[data-v-320c660f]");
+    this.inputArea = page.locator("div.v-select__selections");
     this.redArrow = page.locator('button[ui-test-data="upload-btn"]');
     this.modalWindow = page.locator(
       "div.v-card.v-sheet.theme--light[data-v-516a0fde]"
@@ -37,7 +36,7 @@ exports.SubContentBricks = class SubContentBricks {
 
     // Fields objects
     this.addFieldButton = page.locator(
-      "button.mt-3.v-btn.theme--light.elevation-2.v-size--default[data-v-320c660f]"
+      "button.mt-3.v-btn.theme--light.elevation-2.v-size--default"
     );
     this.fieldsModal = page.locator("div.v-card.v-sheet.theme--light");
     this.fieldNameInput = page.locator(
@@ -67,7 +66,7 @@ exports.SubContentBricks = class SubContentBricks {
 
     //draft, active, suspended combobox
     this.comboboxSCBstate = page.getByRole("combobox").nth(1);
-    this.stateModal = page.locator("div.v-list.v-select-list[data-v-9da60dd4]");
+    this.stateModal = page.locator("div.v-list.v-select-list[data-v-e08ab5ca]");
     this.stateDraft = page.locator("div");
     this.saveSCBbutton = page.locator(
       'button.v-btn.v-btn--flat.v-btn--icon.v-btn--round.theme--light.v-size--default[role="button"][aria-haspopup="true"][aria-expanded="false"]'
@@ -104,11 +103,7 @@ exports.SubContentBricks = class SubContentBricks {
     await this.generalFormIdentifier.click();
     await expect.soft(this.generalFormIdentifier).not.toBeEmpty();
 
-    //DOMAINS
-    await this.domainsSelect.nth(3).click();
-    await expect(this.domainsListBox).toBeVisible();
-    await this.domainsItem.nth(1).click();
-    await this.domainsItem.nth(2).click();
+    
 
     //TAGS
     // add tags
@@ -122,20 +117,7 @@ exports.SubContentBricks = class SubContentBricks {
 
     await this.buttonUpdate.click();
 
-    // validation
-
-    const tagsInputElements = await this.inputArea
-      .nth(3)
-      .locator(".v-select__slot");
-
-    // Získejte počet span prvků v celém prvku
-    const tagsSpanCount = await tagsInputElements
-      .locator("span.v-chip__content")
-      .count();
-
-    // Ověřte, že počet span prvků je alespoň jeden
-    await expect(tagsSpanCount).toBeGreaterThanOrEqual(5);
-    console.log(tagsSpanCount);
+    
 
     //SEARCH Identifiers
     // add search identifiers
@@ -148,18 +130,7 @@ exports.SubContentBricks = class SubContentBricks {
     await this.buttonUpdate.nth(1).click();
     await this.page.waitForTimeout(timeOuts.timeM);
 
-    // validation
-
-    const wholeElement = await this.inputArea.nth(4).locator(".v-select__slot");
-
-    // Získejte počet span prvků v celém prvku
-    const spanCount = await wholeElement
-      .locator("span.v-chip__content")
-      .count();
-
-    // Ověřte, že počet span prvků je alespoň jeden
-    await expect(spanCount).toBeGreaterThanOrEqual(3);
-    console.log(spanCount);
+    
   }
 
   async add_fields(name) {

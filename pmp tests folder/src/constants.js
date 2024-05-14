@@ -64,15 +64,14 @@ const pbbName = "TestPBB Start Automatization";
 //Creation of PBB in normal type
 const pbbNameNormal = "TestPBB Normal Automatization";
 
-//Creation of GDM
-const gdmName = "TestGDM Automatization";
+
 
 // MenuButtons in Overviews page
 const overviewMenuButtons = {
   taskMenuButton: "Tasks",
   activeProjectsMenuButton: "Active Projects",
   draftProjectsMenuButton: "Draft Projects",
-  domainModelInstancesMenuButton: "DomainModelInstances",
+  domainModelInstancesMenuButton: "DMI",
   reportsMenuButton: "Reports",
 
   //Definitions parts
@@ -145,7 +144,7 @@ const pageUrls = {
   activeProjectsOverview: `${baseURL}/project/overview`,
   draftProjectsOverview: `${baseURL}/project/draft-overview`,
   domainModelInstancesOverview: `${baseURL}/domainDataModelInstances/overview`,
-  reportsOverview: `${baseURL}/report/overview`,
+  reportsOverview: `${baseURL}/report/overview/grid`,
 
   //Definitions parts
   definitionsContentBricks: `${baseURL}/contentBricks/overview`,
@@ -210,7 +209,6 @@ module.exports = {
   subCBdropdownElement2,
   pbbName,
   pbbNameNormal,
-  gdmName,
   timeOuts,
   mainDomain
 };

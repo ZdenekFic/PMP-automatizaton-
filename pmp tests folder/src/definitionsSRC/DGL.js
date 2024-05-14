@@ -74,7 +74,7 @@ exports.DGL = class DGL {
     });
 
     this.comboboxSCBstate = page.getByRole("combobox").nth(1);
-    this.stateModal = page.locator("div.v-list.v-select-list[data-v-9da60dd4]");
+    this.stateModal = page.locator("div.v-list.v-select-list[data-v-e08ab5ca]");
     this.stateDraft = page.locator("div");
     this.saveSCBbutton = page.locator('button.v-btn.v-btn--flat.v-btn--icon.v-btn--round.theme--light.v-size--default[role="button"][aria-haspopup="true"][aria-expanded="false"]');
 

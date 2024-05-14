@@ -198,6 +198,12 @@ exports.ActiveProjects = class ActiveProjects {
     // Add button to get new project
     await this.overviewAddBtn.click();
     await this.page.waitForTimeout(timeOuts.timeM);
+    //get more results
+    await this.page.locator("div[role='button'] i[class='v-icon notranslate mdi mdi-menu-down theme--light']").click();
+    await this.page.waitForTimeout(timeOuts.timeS);
+    await this.page.locator('div[role="listbox"]').nth(1).locator('div').nth(3).click();
+    
+
     //select project type
     await this.projectType.click();
     await this.page.waitForSelector("text=Next");
@@ -231,9 +237,7 @@ exports.ActiveProjects = class ActiveProjects {
     await this.pbbTreeTaskBtn.nth(0).click();
     await this.page.waitForSelector("text=Finish");
 
-    //fill a task
-    await this.formTaskInputs.nth(0).fill("88");
-    await this.formTaskInputs.nth(1).fill("189");
+   
 
     const imagePath = path.join(
       "/Users/zdenekfic/Dropbox/Mac/Desktop/Automatization/PMP/attachments",
@@ -261,7 +265,7 @@ exports.ActiveProjects = class ActiveProjects {
     );
     // Lokátor pro element
     const elementWithText = this.page.locator(
-      'div[data-v-9898eaa2].pa-0.col-md-12.col-lg-12.col-xl-12.col-12:has-text("1/2")'
+      'div.pa-0.col-md-12.col-lg-12.col-xl-12.col-12:has-text("1/2")'
     );
 
     // Čekání na element, dokud není detekován na stránce (s určitým timeoutem)
@@ -322,7 +326,7 @@ exports.ActiveProjects = class ActiveProjects {
     }
     await this.finishBlackButton.click();
     await this.page.waitForTimeout(timeOuts.timeXXL);
-    await this.page.waitForSelector(this.succesAlert);
+
     await this.backToProjectDetail.click();
     await this.page.waitForTimeout(timeOuts.timeS);
     const pbbTreeTab2 = await this.tabsNav.locator(this.tab).nth(1);

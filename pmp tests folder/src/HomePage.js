@@ -12,8 +12,8 @@ exports.HomePage = class HomePage {
       .locator("span")
       .filter({ hasText: "Tasks" });
 
-    this.inputDomains = page.locator("div.v-select[data-v-80becb70]");
-    this.dropDownDomainsMenu = "div[data-v-80becb70='true']";
+    this.inputDomains = page.locator("div.v-select__selection");
+    this.dropDownDomainsMenu = "div[role='listbox']";
     this.changedDomain = `//div[contains(text(),'${mainDomain}')]`;
     this.checkedDomain = page.locator(
       `//div[@class='v-select__selection v-select__selection--comma'][normalize-space()='${mainDomain}']`
@@ -42,7 +42,7 @@ exports.HomePage = class HomePage {
     await this.taskButton.click();
     await this.page.waitForTimeout(timeOuts.timeXL);
     //click on input to get dropdown with domains
-    await this.inputDomains.click();
+    await this.inputDomains.nth(0).click();
     await this.page.waitForSelector(this.dropDownDomainsMenu);
 
     //Choose a marketing domain
