@@ -45,7 +45,7 @@ const ddmNAme = "TestDDM Automatization";
 const containerName = "Automatization Container";
 
 //Creation of DGL
-const dglName = "TestDGL Automatization";
+const dglName = "TestDGL for Automatization version 2";
 const valueName1 = "Value field 11 automatization";
 const valueName2 = "Automatization value field DGL";
 
