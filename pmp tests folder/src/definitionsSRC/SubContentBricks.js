@@ -29,7 +29,7 @@ exports.SubContentBricks = class SubContentBricks {
     this.inputArea = page.locator("div.v-select__selections");
     this.redArrow = page.locator('button[ui-test-data="upload-btn"]');
     this.modalWindow = page.locator(
-      "div.v-card.v-sheet.theme--light[data-v-516a0fde]"
+      "div.v-card.v-sheet.theme--light[data-v-4a38d08a]"
     );
     this.item = "//tr/td[1]";
     this.buttonUpdate = page.locator('button[ui-test-data="update-btn"]');
@@ -54,7 +54,7 @@ exports.SubContentBricks = class SubContentBricks {
     this.uniteTypeRedArrowButton = page.locator(
       'button[ui-test-data="open-list-btn"]'
     );
-    this.uniteTypeModal = page.locator("div.v-card__text[data-v-516a0fde]");
+    this.uniteTypeModal = page.locator("div.v-card__text[data-v-4a38d08a]");
     this.uniteTypeFirstObject = page.locator("//tr/td[1]");
     this.uniteTypeFirstUpdateButton = page.locator(
       "button[ui-test-data='update-btn']"
@@ -157,7 +157,7 @@ exports.SubContentBricks = class SubContentBricks {
     await this.page.waitForTimeout(timeOuts.timeM);
     await this.uniteTypeModal
       .nth(2)
-      .locator(this.uniteTypeFirstObject.nth(0))
+      .locator(this.uniteTypeFirstObject.nth(2))
       .click();
     await this.uniteTypeFirstUpdateButton.nth(2).click();
 

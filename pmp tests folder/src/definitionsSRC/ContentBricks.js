@@ -28,7 +28,7 @@ exports.ContentBricks = class ContentBricks {
     this.inputArea = page.locator("div.row[data-v-d1eabe68]");
     this.redArrow = page.locator('button[ui-test-data="upload-btn"]');
     this.modalWindow = page.locator(
-      "div.v-card.v-sheet.theme--light[data-v-516a0fde]"
+      "div.v-card.v-sheet.theme--light[data-v-4a38d08a]"
     );
     this.item = "//tr/td[1]";
     this.buttonUpdate = page.locator('button[ui-test-data="update-btn"]');

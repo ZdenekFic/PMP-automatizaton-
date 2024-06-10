@@ -30,7 +30,7 @@ exports.DDM = class DDM {
       "//tr/td[1]"
     );
     this.modalWindow = page.locator(
-      "div.v-card.v-sheet.theme--light[data-v-516a0fde]"
+      "div.v-card.v-sheet.theme--light[data-v-4a38d08a]"
     );
     
     this.buttonUpdateTags = page.locator(
