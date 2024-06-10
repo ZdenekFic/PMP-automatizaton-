@@ -1,11 +1,10 @@
 // Constants which are often used in tests
 
 // Login to TEST env PMP
-const username = "testaa@memos.cz";
-const password = "sunandmoon";
-const mainDomain = "Test Domain";
-const username2 = "zdenek.fic@memos.cz";
-const password2 = "memos";
+const username = "automater.test@memos.cz";
+const password = "memos";
+const mainDomain = "Test Automation Domain";
+
 const baseURL = "https://test.einhellpmp.com";
 const loggedOUTpageTitle = "Log in to PMP DEV";
 
@@ -177,8 +176,6 @@ const pageUrls = {
 module.exports = {
   username,
   password,
-  username2,
-  password2,
   baseURL,
   domain,
   role,
