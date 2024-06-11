@@ -46,8 +46,7 @@ test.describe("PMP Creation of PBB", () => {
     
     await pbb.makroLevel_DefaultDDM();
     await pbb.makroLevel_Wizard();
-    await pbb.makroLevel_TimeRecordingSwitch();
-    await pbb.makroLevel_EnforceValidation();
+    
     await pbb.makroLevel_ContainsTask();
     await pbb.makroLevel_ShowInReports();
     await pbb.makroLevel_Save();

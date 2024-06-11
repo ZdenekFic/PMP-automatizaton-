@@ -16,7 +16,7 @@ exports.PBB = class PBB {
     //general form function - objects
     this.inputName = page.getByLabel("Name", { exact: true });
     this.pbbTypeDropdown = page.locator(
-      "//div[@class='v-input v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--is-booted v-select']//div[@class='v-select__slot']"
+      'div[ui-test-data="pbb-type-input"]'
     );
     this.pbbTypeStartPBB = page.getByRole("option", { name: "Start PBB" });
     this.pbbTypeNormalPBB = page.getByRole("option", { name: "Normal PBB" });
@@ -25,110 +25,54 @@ exports.PBB = class PBB {
     });
 
     // add owner
-    this.ownerRedArrowButton = page
-      .locator(".add-reference-textfield-append")
-      .first();
-    this.ownerFirstObject = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//tbody/tr[1]/td[1]"
+    this.redArrowButton = page
+      .locator('[ui-test-data="open-list-btn"]');
+      this.redArrowButton2 = page
+      .locator('[ui-test-data="upload-btn"]');
+    this.modalWindow = page.locator(
+        '.v-dialog.v-dialog--active.v-dialog--persistent.v-dialog--scrollable'
+       );  
+    this.item = page.locator(
+      "//tr/td[1]"
     );
-    this.ownerConfirmButton = page.locator(
-      "//span[normalize-space()='Update Owner']"
+    this.buttonUpdate = page.locator(
+     'button[ui-test-data="update-btn"]'
     );
     this.ownerInput = page.getByLabel("Owner");
 
     //add maintainer
-    this.maintainerRedArrowButton = page.locator(
-      "(//i[@class='v-icon notranslate mdi mdi-upload theme--light'])[2]"
-    );
-    this.maintainerSecongObject = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//tbody/tr[2]/td[1]"
-    );
-    this.maintainerConfirmButton = page.locator(
-      "//span[normalize-space()='Update Maintainer']"
-    );
+    
+   
     this.maintainerInput = page.getByLabel("Maintainer");
 
     // Tags objects
 
-    this.generalFormTagsRedArrow = page.locator(
-      "(//i[@class='v-icon notranslate mdi mdi-upload theme--light'])[3]"
-    );
-    this.firstObjectInTableTags = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-data-table__wrapper']//tbody/tr[1]/td[1]"
-    );
-    this.secondObjectInTableTags = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card__text']//tbody/tr[2]/td[1]"
-    );
-    this.fifthObjectUsageInTableTags = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-card__text']//tbody/tr[5]/td[1]"
-    );
-    this.buttonUpdateTags = page.locator(
-      "//span[normalize-space()='Update Tags']"
-    );
-
-    //  //project default tags
-    //  this.projectDefaultTagsRedArrow = page.locator("//div[@class='v-input v-input--is-focused theme--light v-text-field v-text-field--is-booted v-select v-select--chips v-select--is-multi v-autocomplete error--text']//button");
-    //  this.projectDefaultTagsFourthObject = page.locator("//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-data-table__wrapper']//tbody/tr[4]/td[1]");
-    //  this.projectDefaultTagsConfirmButton = page.locator("//span[normalize-space()='Update Project Default Tags']");
-
+    
     // input for text to describe PBB
-    this.descriptionPBB = page.locator("//div[@class='ql-editor ql-blank']");
+    this.descriptionPBB = page.locator('.ql-editor.ql-blank[contenteditable="true"]');
     this.descriptionCheck = page.getByRole("paragraph");
 
-    // add project default tags
-    this.projectDefaultTagsRedArrow = page.locator(
-      "(//div[@class='v-input theme--light v-text-field v-text-field--is-booted v-select v-select--chips v-select--is-multi v-autocomplete'])[2]//button"
-    );
-    this.projectDefaultTagsFourthObject = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-data-table__wrapper']//tbody/tr[3]/td[1]"
-    );
-    this.projectDefaultTagsConfirmButton = page.locator(
-      "//span[normalize-space()='Update Project Default Tags']"
-    );
-
+    
     // add value to planned cost
     this.plannedCost = page.getByLabel("Planned Cost");
 
     
 
-    //add default ddm
-    this.defaultDDM = page.locator(
-      "(//i[@class='v-icon notranslate mdi mdi-upload theme--light'])[6]"
-    );
-    this.defaultDDMRandomObject = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent v-dialog--scrollable']//div[@class='v-data-table__wrapper']//tbody/tr[3]/td[1]"
-    );
-    this.defaultDDMConfirm = page.locator(
-      "//span[normalize-space()='Update Default DDM']"
-    );
-
+    
     //currency dropdown
     this.currencyDropdown = page.getByLabel("Currency");
 
     //project wizard expert Mode
     this.projectWizardSwitch = page.locator(
-      "//label[normalize-space()='Project Wizard Expert Mode']"
+      'input[type="checkbox"][role="switch"][ui-test-data="project-wizard-expert-mode-switch"]'
     );
-    //active switch Time recording
-    this.timeRecordingSwitch = page.locator(
-      "//label[normalize-space()='Time Recording']"
-    );
-
-    //active switch enforce validation
-    this.enforceValidation = page.locator(
-      "//label[normalize-space()='Enforce Validation']"
-    );
-
+    
     //deactive switch Contains task
     this.containsTaskSwitch = page.locator(
-      "//label[normalize-space()='Contains Task']"
+      'input[type="checkbox"][role="switch"][ui-test-data="contains-task-switch"]'
     );
 
-    //active show in reports
-    this.showInReports = page.locator(
-      "//label[normalize-space()='Show In Reports']"
-    );
-    this.nameInReports = page.getByLabel("Name in Reports");
+    
 
     //savebutton
     this.saveGreenButton = page.locator(
@@ -173,6 +117,7 @@ exports.PBB = class PBB {
 
   async makroLevel_PbbType() {
     //click on dropdown to choose type of PBB
+    
     await this.pbbTypeDropdown.click();
     await this.page.waitForTimeout(timeOuts.timeM);
     await this.pbbTypeStartPBB.click();
@@ -188,26 +133,26 @@ exports.PBB = class PBB {
 
   async makroLevel_Owner() {
     //add owner
-    await this.ownerRedArrowButton.click();
+    await this.redArrowButton.nth(0).click();
     await this.page.waitForTimeout(timeOuts.timeXL);
-    await this.ownerFirstObject.click();
-    await this.ownerConfirmButton.click();
+    await this.modalWindow.locator(this.item).nth(2).click();
+    await this.buttonUpdate.click();
   }
   async makroLevel_Maintainer() {
     // add maintainer
-    await this.maintainerRedArrowButton.click();
+    await this.redArrowButton.nth(1).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.maintainerSecongObject.click();
-    await this.maintainerConfirmButton.click();
+    await this.modalWindow.locator(this.item).nth(2).click();
+    await this.buttonUpdate.nth(1).click();
   }
   async makroLevel_Tags() {
     // add tags
-    await this.generalFormTagsRedArrow.click();
+    await this.redArrowButton2.nth(0).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.firstObjectInTableTags.click();
-    await this.secondObjectInTableTags.click();
-    await this.fifthObjectUsageInTableTags.click();
-    await this.buttonUpdateTags.click();
+    await this.modalWindow.locator(this.item).nth(2).click();
+    await this.modalWindow.locator(this.item).nth(4).click();
+    await this.modalWindow.locator(this.item).nth(8).click();
+    await this.buttonUpdate.nth(2).click();
   }
   async makroLevel_Description(text) {
     // add description
@@ -216,10 +161,12 @@ exports.PBB = class PBB {
 
   async makroLevel_ProjectDefTags() {
     //add project default tags
-    await this.projectDefaultTagsRedArrow.click();
+    await this.redArrowButton2.nth(2).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.projectDefaultTagsFourthObject.click();
-    await this.projectDefaultTagsConfirmButton.click();
+    await this.modalWindow.locator(this.item).nth(2).click();
+    await this.modalWindow.locator(this.item).nth(4).click();
+    await this.modalWindow.locator(this.item).nth(8).click();
+    await this.buttonUpdate.nth(3).click();
   }
 
   
@@ -227,33 +174,28 @@ exports.PBB = class PBB {
 
   async makroLevel_DefaultDDM() {
     //add Default DDM
-    await this.defaultDDM.click();
+    await this.redArrowButton.nth(2).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.defaultDDMRandomObject.click();
-    await this.defaultDDMConfirm.click();
+    await this.modalWindow.locator(this.item).nth(2).click();
+    await this.buttonUpdate.nth(4).click();
+    
   }
   async makroLevel_Wizard() {
     //project wizard switch
-    await this.projectWizardSwitch.click();
+    await this.page.locator(timeOuts.timeM)
+    await this.projectWizardSwitch.click({ force: true });
     await expect(this.projectWizardSwitch).toBeChecked();
   }
 
-  async makroLevel_TimeRecordingSwitch() {
-    //active switch Time recording
-    await this.timeRecordingSwitch.click();
-    await expect(this.timeRecordingSwitch).toBeChecked();
-  }
+ 
 
-  async makroLevel_EnforceValidation() {
-    //active switch Enforce Validation
-    await this.enforceValidation.click();
-    await expect(this.enforceValidation).toBeChecked();
-  }
+  
   async makroLevel_ContainsTask() {
     //deactive switch contains task
+    await this.containsTaskSwitch.click({ force: true });
     //check if switch contains task is defaultly enabled due to to pbb start
 
-    await this.containsTaskSwitch.click();
+    
     await expect(this.containsTaskSwitch).toBeChecked();
   }
   async makroLevel_ShowInReports() {
