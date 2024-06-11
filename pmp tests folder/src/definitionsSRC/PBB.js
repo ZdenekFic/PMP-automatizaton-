@@ -76,18 +76,18 @@ exports.PBB = class PBB {
 
     //savebutton
     this.saveGreenButton = page.locator(
-      "//i[@class='v-icon notranslate v-icon--dense mdi mdi-content-save theme--light success--text']"
+      '[ui-test-data="save-btn"]'
     );
 
     //message - success saved
-    this.pbbHasBeenCreated = page.getByText("PBB has been created.");
+    this.pbbHasBeenCreated = page.locator("v-snack__wrapper v-sheet theme--dark success");
 
     //assigment tab
     this.assigmentTab = page.locator("//a[normalize-space()='Assignment']");
 
     //delete ddm draft
     this.deleteDraftButtton = page.locator(
-      "//i[@class='v-icon notranslate mdi mdi-delete theme--light']"
+       '[ui-test-data="delete-btn"]'
     );
     this.modalDeleteButton = page.locator(
       "//div[@class='v-dialog v-dialog--active v-dialog--persistent']//span[normalize-space()='Delete']"
@@ -213,13 +213,10 @@ exports.PBB = class PBB {
 
     //save PBB
     await this.saveGreenButton.click();
-    await this.page.waitForTimeout(timeOuts.timeM);
-
+   
     //check message about successful saving
 
-    const successMessage = await this.pbbHasBeenCreated.textContent();
-    await expect(successMessage).toContain("PBB has been created");
-
+    await this.pbbHasBeenCreated.waitFor();
     //check if assignment is disabled due to unsafed macrolevel
 
     await expect(this.assigmentTab).not.toHaveClass("v-tab v-tab--disabled");

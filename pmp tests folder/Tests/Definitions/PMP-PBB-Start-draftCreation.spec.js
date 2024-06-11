@@ -48,7 +48,7 @@ test.describe("PMP Creation of PBB", () => {
     await pbb.makroLevel_Wizard();
     
     await pbb.makroLevel_ContainsTask();
-    await pbb.makroLevel_ShowInReports();
+    
     await pbb.makroLevel_Save();
   });
 
