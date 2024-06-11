@@ -1,5 +1,6 @@
 const { expect } = require("@playwright/test");
 const { timeOuts } = require("../constants");
+const { cwd } = require("process");
 
 exports.DGL = class DGL {
   constructor(page, dropdownElement, mainName) {
@@ -23,10 +24,10 @@ exports.DGL = class DGL {
       "//span[normalize-space()='Update Usage types']"
     );
       // Tags and Search ids
-    this.inputArea = page.locator("div.row[data-v-d1eabe68]");
+   
     this.redArrow = page.locator('button[ui-test-data="upload-btn"]');
     this.modalWindow = page.locator(
-      "div.v-card.v-sheet.theme--light[data-v-516a0fde]"
+     '.v-dialog.v-dialog--active.v-dialog--persistent.v-dialog--scrollable'
     );
     this.item = "//tr/td[1]";
     this.buttonUpdate = page.locator('button[ui-test-data="update-btn"]');
@@ -74,7 +75,7 @@ exports.DGL = class DGL {
     });
 
     this.comboboxSCBstate = page.getByRole("combobox").nth(1);
-    this.stateModal = page.locator("div.v-list.v-select-list[data-v-e08ab5ca]");
+    this.stateModal = page.locator('div.v-list.v-select-list.v-sheet.theme--light.v-list--dense[role="listbox"]');
     this.stateDraft = page.locator("div");
     this.saveSCBbutton = page.locator('button.v-btn.v-btn--flat.v-btn--icon.v-btn--round.theme--light.v-size--default[role="button"][aria-haspopup="true"][aria-expanded="false"]');
 
@@ -116,6 +117,7 @@ exports.DGL = class DGL {
     //USAGE TYPES
     await this.redArrow.nth(0).click();
     await this.page.waitForTimeout(timeOuts.timeM);
+    
     await this.modalWindow.locator(this.item).nth(1).click();
     await this.modalWindow.locator(this.item).nth(3).click();
     await this.modalWindow.locator(this.item).nth(5).click();
@@ -127,11 +129,11 @@ exports.DGL = class DGL {
     // add tags
     await this.redArrow.nth(1).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.modalWindow.nth(1).locator(this.item).nth(1).click();
-    await this.modalWindow.nth(1).locator(this.item).nth(3).click();
-    await this.modalWindow.nth(1).locator(this.item).nth(5).click();
-    await this.modalWindow.nth(1).locator(this.item).nth(6).click();
-    await this.modalWindow.nth(1).locator(this.item).nth(2).click();
+    await this.modalWindow.locator(this.item).nth(1).click();
+    await this.modalWindow.locator(this.item).nth(3).click();
+    await this.modalWindow.locator(this.item).nth(5).click();
+    await this.modalWindow.locator(this.item).nth(6).click();
+    await this.modalWindow.locator(this.item).nth(2).click();
 
     await this.buttonUpdate.nth(1).click();
 
@@ -141,9 +143,9 @@ exports.DGL = class DGL {
     // add search identifiers
     await this.redArrow.nth(2).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.modalWindow.nth(2).locator(this.item).nth(1).click();
-    await this.modalWindow.nth(2).locator(this.item).nth(2).click();
-    await this.modalWindow.nth(2).locator(this.item).nth(3).click();
+    await this.modalWindow.locator(this.item).nth(1).click();
+    await this.modalWindow.locator(this.item).nth(2).click();
+    await this.modalWindow.locator(this.item).nth(3).click();
 
     await this.buttonUpdate.nth(2).click();
     await this.page.waitForTimeout(timeOuts.timeM);
@@ -194,7 +196,7 @@ exports.DGL = class DGL {
 
   async chooseCBState() {
     await this.comboboxSCBstate.click();
-    await this.stateModal.locator(this.stateDraft).nth(0).click();
+    await this.stateModal.nth(1).locator(this.stateDraft).nth(0).click();
     await this.page.waitForTimeout(timeOuts.timeM);
     await this.saveSCBbutton.nth(0).click();
     await this.page.waitForTimeout(timeOuts.timeM);

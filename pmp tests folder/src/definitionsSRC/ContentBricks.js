@@ -25,11 +25,11 @@ exports.ContentBricks = class ContentBricks {
       '.ql-editor.ql-blank[contenteditable="true"]'
     );
     // Tags and Search ids
-    this.inputArea = page.locator("div.row[data-v-d1eabe68]");
+   
     this.redArrow = page.locator('button[ui-test-data="upload-btn"]');
     this.modalWindow = page.locator(
-      "div.v-card.v-sheet.theme--light[data-v-4a38d08a]"
-    );
+      '.v-dialog.v-dialog--active.v-dialog--persistent.v-dialog--scrollable'
+     );
     this.item = "//tr/td[1]";
     this.buttonUpdate = page.locator('button[ui-test-data="update-btn"]');
 
@@ -62,7 +62,7 @@ exports.ContentBricks = class ContentBricks {
 
     //draft, active, suspended combobox
     this.comboboxSCBstate = page.getByRole("combobox").nth(1);
-    this.stateModal = page.locator("div.v-list.v-select-list[data-v-e08ab5ca]");
+    this.stateModal = page.locator('div.v-list.v-select-list.v-sheet.theme--light.v-list--dense[role="listbox"]');
     this.stateDraft = page.locator("div");
     this.saveSCBbutton = page.locator('button.v-btn.v-btn--flat.v-btn--icon.v-btn--round.theme--light.v-size--default[role="button"][aria-haspopup="true"][aria-expanded="false"]');
 
@@ -109,11 +109,11 @@ exports.ContentBricks = class ContentBricks {
     // add tags
     await this.redArrow.nth(1).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.modalWindow.nth(1).locator(this.item).nth(1).click();
-    await this.modalWindow.nth(1).locator(this.item).nth(3).click();
-    await this.modalWindow.nth(1).locator(this.item).nth(5).click();
-    await this.modalWindow.nth(1).locator(this.item).nth(6).click();
-    await this.modalWindow.nth(1).locator(this.item).nth(2).click();
+    await this.modalWindow.locator(this.item).nth(1).click();
+    await this.modalWindow.locator(this.item).nth(3).click();
+    await this.modalWindow.locator(this.item).nth(5).click();
+    await this.modalWindow.locator(this.item).nth(6).click();
+    await this.modalWindow.locator(this.item).nth(2).click();
 
     await this.buttonUpdate.nth(1).click();
 
@@ -123,9 +123,9 @@ exports.ContentBricks = class ContentBricks {
     // add search identifiers
     await this.redArrow.nth(2).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.modalWindow.nth(2).locator(this.item).nth(1).click();
-    await this.modalWindow.nth(2).locator(this.item).nth(2).click();
-    await this.modalWindow.nth(2).locator(this.item).nth(3).click();
+    await this.modalWindow.locator(this.item).nth(1).click();
+    await this.modalWindow.locator(this.item).nth(2).click();
+    await this.modalWindow.locator(this.item).nth(3).click();
 
     await this.buttonUpdate.nth(2).click();
     await this.page.waitForTimeout(timeOuts.timeM);
@@ -158,7 +158,8 @@ exports.ContentBricks = class ContentBricks {
 
   async chooseCBState() {
     await this.comboboxSCBstate.click();
-    await this.stateModal.locator(this.stateDraft).nth(0).click();
+   
+    await this.stateModal.nth(1).locator(this.stateDraft).nth(0).click();
     await this.page.waitForTimeout(timeOuts.timeM);
     await this.saveSCBbutton.nth(0).click();
     await this.page.waitForTimeout(timeOuts.timeM);

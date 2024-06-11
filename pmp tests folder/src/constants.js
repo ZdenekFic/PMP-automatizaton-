@@ -5,6 +5,8 @@ const username = "automater.test@memos.cz";
 const password = "memos";
 const mainDomain = "Test Automation Domain";
 
+const username2 = "jaroslav.vomacka@memos.cz"
+const password2 = "memos24"
 const baseURL = "https://test.einhellpmp.com";
 const loggedOUTpageTitle = "Log in to PMP DEV";
 
@@ -31,7 +33,7 @@ const czech = "Czech";
 const chinese = "Chinese";
 
 //Creation of ContentBrick
-const cbName = "TestCB Automatization";
+const cbName = "Automated created Content Brick";
 const cbText =
   "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,";
 const contentBrickFieldName1 = "Field automatization name";
@@ -40,16 +42,16 @@ const dropdownElement1 = "Text Box";
 const dropdownElement2 = "Text Area";
 
 //Creation of DDM
-const ddmNAme = "TestDDM Automatization";
+const ddmNAme = "Automated created Domain Model";
 const containerName = "Automatization Container";
 
 //Creation of DGL
-const dglName = "TestDGL for Automatization version 2";
+const dglName = "Automated created DGL";
 const valueName1 = "Value field 11 automatization";
 const valueName2 = "Automatization value field DGL";
 
 //Creation of SubContentBrick
-const scbName = "TestSCB Automatization";
+const scbName = "Automated created SubCB";
 const scbText =
   "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,";
 const subcontentBrickFieldName1 = "Field SCB automatization name";
@@ -58,10 +60,13 @@ const subCBdropdownElement1 = "Integer";
 const subCBdropdownElement2 = "Decimal";
 
 //Creation of PBB in start type
-const pbbName = "TestPBB Start Automatization";
+const pbbName = "Automated created PBB type Start";
 
 //Creation of PBB in normal type
-const pbbNameNormal = "TestPBB Normal Automatization";
+const pbbNameNormal = "Automated created PBB type Normal";
+
+
+
 
 
 
@@ -176,6 +181,8 @@ const pageUrls = {
 module.exports = {
   username,
   password,
+  username2,
+  password2,
   baseURL,
   domain,
   role,

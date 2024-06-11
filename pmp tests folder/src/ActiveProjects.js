@@ -16,23 +16,14 @@ exports.ActiveProjects = class ActiveProjects {
       'span.v-list-item--link[ui-test-data="nav-tasks"]'
     );
 
-    //ENTER TO ITEM function
-    //first item in table
-    this.projectDiv = page.locator(
-      "div[data-v-a8d76044].container.pl-5.pt-5.container--fluid"
-    );
-
-    this.checkedDiv = page.locator(
-      "div[data-v-a8d76044] .container.project-detail.container--fluid .entity-detail-card.v-card.v-sheet.theme--light"
-    );
+ 
 
     //ADD Project
 
     this.overviewAddBtn = page.locator(
       'a[ui-test-data="overview-header-add-btn"]'
     );
-    this.newProjectDraftBoard =
-      "div[data-v-c1836cc6][data-v-51a7816b].entity-detail-card";
+    
     this.projectType = page.locator(
       'div.v-card__title.pbb-card-title:has-text("PBB start A1")'
     );
@@ -46,9 +37,7 @@ exports.ActiveProjects = class ActiveProjects {
       "div.pl-0.pt-0.pb-0.col.col-12.col-md-6.col-lg-8.col-xl-8"
     );
     this.pbbTreeTaskBtn = page.locator("div.d-inline-flex.d-flex-nowrap");
-    this.formTaskInputs = page
-      .locator("div.pa-0.col-md-6.col-lg-3.col-xl-3.col-12[data-v-9898eaa2]")
-      .locator('input[type="number"]');
+    
 
     this.finishtGreenButton = page.locator(
       "button.v-btn.v-btn--contained.theme--light.v-size--default:has(.v-icon.mdi.mdi-content-save-move)"

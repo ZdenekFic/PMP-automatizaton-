@@ -30,8 +30,8 @@ exports.DDM = class DDM {
       "//tr/td[1]"
     );
     this.modalWindow = page.locator(
-      "div.v-card.v-sheet.theme--light[data-v-4a38d08a]"
-    );
+      '.v-dialog.v-dialog--active.v-dialog--persistent.v-dialog--scrollable'
+     );
     
     this.buttonUpdateTags = page.locator(
       'button[ui-test-data="update-btn"]'
@@ -61,15 +61,17 @@ exports.DDM = class DDM {
       '.mdi-dots-vertical'
     );
     this.dataModelMenuObjects = page.locator(
-      'div.v-menu__content.menuable__content__active[data-v-2bf3179e]'
+      'div[role="menu"].v-menu__content.theme--light.menuable__content__active'
     );
+
+    this.buttonItem = page.locator('button[type="button"].v-btn.v-btn--block.v-btn--flat.v-btn--text.theme--light.v-size--default.error--text[role="button"]')
     this.dataModelMenuObjectsB = page.locator(
       'div.v-list.v-sheet.theme--light[data-v-2bf3179e]'
     )
     
 
     this.dataModelMenuObjectsContainterButton = page.locator(
-      'button.v-btn--text.error--text[data-v-2bf3179e]'
+      '.v-list-item theme--light'
     );
     this.dataModelMenuObjectsContainter = page.locator(
       'div.el-tree-node__content'
@@ -82,9 +84,7 @@ exports.DDM = class DDM {
       'button[aria-label="append icon"].mdi-refresh'
     );
 
-    this.dataModelMenuObjectsGDMButton = page.locator(
-      'button.v-btn--text.error--text[data-v-2bf3179e]'
-    );
+   
 
     this.dataModelMenuGDMModalFilter = page.locator(
       'button.v-expansion-panel-header:has-text("Filter")'
@@ -92,7 +92,7 @@ exports.DDM = class DDM {
     this.dataModelGDMdomains = page.locator(
       '.v-input__slot[role="button"][aria-haspopup="listbox"]'
     );
-    this.gdmDomainsItem = page.getByText('All');
+    this.gdmDomainsItem = page.getByText('Test Domain');
      
     
     
@@ -106,9 +106,7 @@ exports.DDM = class DDM {
     ).locator('.v-tab[role="tab"]');
 
     // add CB 
-    this.dataModelMenuObjectsCBButton = page.locator(
-      'button.v-btn--text.error--text[data-v-2bf3179e]'
-    );
+    this.cbDomain = page.locator('div[role="combobox"][aria-haspopup="listbox"].v-input__slot');
     this.dataModelMenuObjectsCBFirstObject = page.locator(
       'div.v-data-table.v-data-table--dense.theme--light[ui-test-data="items-table"]'
     ).locator('//tr/td[1]');
@@ -181,14 +179,14 @@ exports.DDM = class DDM {
     // add default DMI tags
     await this.redArrow.nth(1).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.modalWindow.nth(1).locator(this.item.nth(1)).click();
-    await this.modalWindow.nth(1).locator(this.item.nth(2)).click();
-    await this.modalWindow.nth(1).locator(this.item.nth(3)).click();
+    await this.modalWindow.locator(this.item.nth(1)).click();
+    await this.modalWindow.locator(this.item.nth(2)).click();
+    await this.modalWindow.locator(this.item.nth(3)).click();
     await this.buttonUpdateTags.nth(1).click();
 
     //add owner
     await this.ownerRedArrow.click();
-    await this.modalWindow.nth(2).locator(this.item.nth(1)).click();
+    await this.modalWindow.locator(this.item.nth(1)).click();
     await this.buttonUpdateTags.nth(2).click();
 
     
@@ -220,7 +218,7 @@ exports.DDM = class DDM {
     await this.dataModelThreeDotsButton.nth(1).click();
     await expect(this.dataModelMenuObjects).toBeVisible();
     //add container to tree
-    await this.dataModelMenuObjectsContainterButton.nth(0).click();
+    await this.dataModelMenuObjects.locator(this.buttonItem).nth(0).click();
     await expect(this.dataModelMenuObjectsContainter.nth(1)).toBeVisible();
     //check of name for  defaultcontainer
     await expect(this.dataModelMenuObjectsContainterName.nth(1)).toHaveValue(
@@ -234,14 +232,14 @@ exports.DDM = class DDM {
     await this.dataModelMenuObjectsIdentifierButton.click();
     //click on three dots but in container
     await this.dataModelThreeDotsButton.nth(2).click();
-    await expect(this.dataModelMenuObjectsB).toBeVisible();
+    await expect(this.dataModelMenuObjects).toBeVisible();
 
     //click on  GDM button in minimenu
-    await this.dataModelMenuObjectsContainterButton.nth(2).click();
+    await this.dataModelMenuObjects.locator(this.buttonItem).nth(2).click();
     await this.page.waitForTimeout(timeOuts.timeM);
     await this.dataModelMenuGDMModalFilter.click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.dataModelGDMdomains.nth(1).click();
+    await this.dataModelGDMdomains.nth(2).click();
     await this.page.waitForTimeout(timeOuts.timeM);
     await this.gdmDomainsItem.nth(1).click();
 
@@ -259,9 +257,15 @@ exports.DDM = class DDM {
     await expect(this.dataModelMenuObjects).toBeVisible();
 
     //add contant brick
-    await this.dataModelMenuObjectsCBButton.nth(3).click();
+    await this.dataModelMenuObjects.locator(this.buttonItem).nth(3).click();
+    await this.page.waitForTimeout(timeOuts.timeM);
+    await this.modalWindow.locator(this.cbDomain).click()
+    
+    await this.gdmDomainsItem.nth(1).click();
     await this.page.waitForTimeout(timeOuts.timeM);
     await this.dataModelMenuObjectsCBFirstObject.nth(1).click();
+    await this.page.waitForTimeout(timeOuts.timeM);
+    await this.gdmDomainsItem.nth(1).click();
     await this.dataModelMenuObjectsGDMConfirm.click();
 
     // lets add DGL
