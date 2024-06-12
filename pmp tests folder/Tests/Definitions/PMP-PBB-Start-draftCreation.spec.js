@@ -2,6 +2,7 @@ const { test, expect } = require("@playwright/test");
 const constants = require("../../src/constants.js");
 import { LoginPage } from "../../src/LoginPage.js";
 import { PBB } from "../../src/definitionsSRC/PBB.js";
+import { HomePage } from "../../src/HomePage.js";
 
 //Login
 const username = constants.username;
@@ -17,6 +18,7 @@ test.describe.configure({ mode: "serial" });
 test.describe("PMP Creation of PBB", () => {
   let login;
   let pbb;
+  let home;
 
   test.beforeEach(async ({ page }) => {
     //Login
@@ -24,6 +26,8 @@ test.describe("PMP Creation of PBB", () => {
     await login.gotoLoginPage(baseURL);
     await login.login(username, password);
     await login.loginAssert();
+    home = new HomePage(page,constants.mainDomain);
+    await home.switchDomains();
   });
 
   test("Check and delete ", async ({ page }) => {
