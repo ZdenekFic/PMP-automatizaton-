@@ -194,7 +194,20 @@ exports.DDM = class DDM {
 
     //save general form
     await this.saveGreenButton.click();
-    await this.page.waitForTimeout(timeOuts.timeL);
+    await this.saveSCBbutton.nth(1).click();
+    const response = await this.page.waitForResponse(
+      (response) =>
+        response.url() ===
+        "https://pm-tool-2-api-test.azurewebsites.net/api/v1/DomainDataModel?createForSure=false"
+    );
+
+    expect(response.status()).toBe(201);
+    if (response.status() === 201) {
+      console.log("Request was successfull");
+      
+    } else {
+      console.error("Error message", response.status());
+    }
 
     if(await this.controlDupliciteModal.isVisible()){
       await this.page.click('button:has-text("No")');
