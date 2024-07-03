@@ -1,4 +1,7 @@
 const { expect, getByLabel } = require("@playwright/test");
+const { requestAssert } = require('./constants');
+const constants = require("./constants");
+
 exports.LoginPage = class LoginPage {
   constructor(page, language) {
     this.page = page;
@@ -39,9 +42,12 @@ exports.LoginPage = class LoginPage {
   }
 
   async login(username, password) {
+    
     await this.usernameInput.fill(username);
     await this.passwordInput.fill(password);
     await this.submitButton.click();
+    await requestAssert(this.page,constants.loginRequest,constants.statusCode200)
+    
   }
 
   async loginAssert() {

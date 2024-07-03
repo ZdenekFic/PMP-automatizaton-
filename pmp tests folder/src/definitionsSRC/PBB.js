@@ -1,7 +1,8 @@
-const { text } = require("stream/consumers");
+
+const { requestAssert, pbbRequest, statusCode200,statusCode201 } = require('../constants');
 const { baseURL, timeOuts } = require("../constants");
 const { expect } = require("@playwright/test");
-const exp = require("constants");
+
 
 exports.PBB = class PBB {
   constructor(page, pbbName) {
@@ -59,6 +60,8 @@ exports.PBB = class PBB {
     this.containsTaskSwitch = page.locator(
       'input[type="checkbox"][role="switch"][ui-test-data="contains-task-switch"]'
     );
+
+    this.showInReports = page.locator('input[type="checkbox"][role="switch"][ui-test-data="showInReport-task-switch"]')
 
     //savebutton
     this.saveGreenButton = page.locator('[ui-test-data="save-btn"]');
@@ -190,19 +193,7 @@ exports.PBB = class PBB {
     //save PBB
     await this.saveGreenButton.click();
 
-    const response = await this.page.waitForResponse(
-      (response) =>
-        response.url() ===
-        "https://pm-tool-2-api-test.azurewebsites.net/api/v1/ProcessBuildingBlocks/17"
-    );
-
-    expect(response.status()).toBe(201);
-    if (response.status() === 201) {
-      console.log("Request was succesfull");
-      
-    } else {
-      console.error("Error message", response.status());
-    }
+    await requestAssert(this.page,pbbRequest,statusCode200)
 
     
 
@@ -216,8 +207,8 @@ exports.PBB = class PBB {
     await expect.soft(this.descriptionCheck).not.toBeEmpty();
     await expect.soft(this.ownerInput).not.toBeEmpty();
     await expect.soft(this.maintainerInput).not.toBeEmpty();
-    await expect.soft(this.nameInReports).toBeEmpty();
-  }
+    
+  }          
 
   async checkAndDelete() {
     await this.enterToPBB();

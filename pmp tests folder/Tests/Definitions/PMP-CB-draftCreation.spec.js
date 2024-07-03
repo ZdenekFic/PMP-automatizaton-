@@ -45,6 +45,7 @@ test.describe("PMP Creation of CB", () => {
     //main Functions
     cb = new ContentBricks(page, dropdownElement1);
     await cb.enterToCB();
+    await cb.addNewCB();
     await cb.formCB_General(name, text);
     await cb.add_fields(fieldName1);
 
@@ -52,6 +53,18 @@ test.describe("PMP Creation of CB", () => {
     await cb2.add_fields(fieldName2);
 
     await cb.chooseCBState();
+  });
+
+  test("Script tab check", async ({ page }) => {
+    //main Functions
+    cb = new ContentBricks(page, dropdownElement1,name);
+    await cb.enterToCB();
+    await cb.enterToCBDetail();
+    await cb.scriptTab();
+
+    
+
+    
   });
 
   test.afterEach(async ({}) => {

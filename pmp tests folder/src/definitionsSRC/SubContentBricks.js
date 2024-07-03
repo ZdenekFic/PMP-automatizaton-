@@ -1,6 +1,7 @@
 const exp = require("constants");
-const { baseURL, scbName, timeOuts } = require("../constants");
+const { baseURL, scbName, timeOuts, subcbRequest, statusCode200 } = require("../constants");
 const { expect } = require("@playwright/test");
+const { requestAssert } = require('../constants');
 
 exports.SubContentBricks = class SubContentBricks {
   constructor(page, dropdownElement, mainName) {
@@ -176,19 +177,7 @@ exports.SubContentBricks = class SubContentBricks {
     await this.stateModal.nth(1).locator(this.stateDraft).nth(0).click();
     await this.page.waitForTimeout(timeOuts.timeM);
     await this.saveSCBbutton.nth(1).click();
-    const response = await this.page.waitForResponse(
-      (response) =>
-        response.url() ===
-        "https://pm-tool-2-api-test.azurewebsites.net/api/v1/SubContentBrickDefinition"
-    );
-
-    expect(response.status()).toBe(200);
-    if (response.status() === 200) {
-      console.log("Request was successfull");
-      
-    } else {
-      console.error("Error message", response.status());
-    }
+    await requestAssert(this.page,subcbRequest,statusCode200)
 
   }
 

@@ -1,3 +1,4 @@
+const { expect} = require("@playwright/test");
 // Constants which are often used in tests
 
 // Login to TEST env PMP
@@ -20,6 +21,31 @@ const timeOuts = {
   timeXL: 3000,
   timeXXL: 4000,
 };
+
+//Requests data
+const statusCode200 = 200;
+const statusCode201 = 201;
+//Login
+const loginRequest = "https://pm-tool-2-api-test.azurewebsites.net/api/v1/Domain";
+// DGL
+const dglRequest =  "https://pm-tool-2-api-test.azurewebsites.net/api/v1/ContentBrickDefinition"
+
+
+// PBB 
+const pbbRequest = "https://pm-tool-2-api-test.azurewebsites.net/api/v1/ProcessBuildingBlocks/17"
+
+// CB
+const cbRequest = "https://pm-tool-2-api-test.azurewebsites.net/api/v1/ContentBrickDefinition"
+
+
+
+// SubCB
+const subcbRequest = "https://pm-tool-2-api-test.azurewebsites.net/api/v1/SubContentBrickDefinition"
+
+
+// DDM
+const ddmRequest = "https://pm-tool-2-api-test.azurewebsites.net/api/v1/DomainDataModel?createForSure=false"
+
 
 //Constants for test AccountEdit
 
@@ -66,6 +92,51 @@ const pbbName = "Automated created PBB type Start";
 const pbbNameNormal = "Automated created PBB type Normal";
 
 
+async function requestAssert(page,requestURL,statusCode){
+
+  const response = await page.waitForResponse(
+    (response) =>
+      response.url() ===
+      requestURL
+  );
+
+  expect(response.status()).toBe(statusCode);
+  
+  if (response.status() === statusCode) {
+    console.log("Request was successfull");
+    
+  } else {
+    console.error("Unsuccessfull", response.status());
+  }
+
+};
+
+async function requestJSONAssert(page, requestURLPattern, statusCode, expectedJson) {
+  try {
+    const response = await page.waitForResponse(
+      response => new RegExp(requestURLPattern).test(response.url()),
+      { timeout: 10000 } // Nastav timeout, aby bylo jasné, pokud čekání trvá příliš dlouho
+    );
+
+    console.log(`Received response for URL matching pattern: ${requestURLPattern}`);
+    expect(response.status()).toBe(statusCode);
+    
+    if (response.status() === statusCode) {
+      console.log("Request was successful");
+      
+      if (expectedJson) {
+        const responseBody = await response.json();
+        expect(responseBody).toEqual(expectedJson);
+        console.log("JSON response matches expected");
+      }
+
+    } else {
+      console.error("Unsuccessful", response.status());
+    }
+  } catch (error) {
+    console.error(`Error while waiting for response: ${error}`);
+  }
+}
 
 
 
@@ -214,5 +285,16 @@ module.exports = {
   pbbName,
   pbbNameNormal,
   timeOuts,
-  mainDomain
+  mainDomain,
+  requestAssert,
+  loginRequest,
+  statusCode200,
+  statusCode201,
+  cbRequest,
+  dglRequest,
+  ddmRequest,
+  subcbRequest,
+  pbbRequest,
+  requestJSONAssert,
+  
 };

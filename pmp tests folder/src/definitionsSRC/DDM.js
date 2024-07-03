@@ -1,5 +1,9 @@
-const { cbName, timeOuts } = require("../constants");
 const { expect } = require("@playwright/test");
+const { timeOuts,statusCode200,statusCode201 } = require("../constants");
+const { requestAssert } = require('../constants');
+const constants = require("../constants");
+
+
 
 exports.DDM = class DDM {
   constructor(page, ddmName) {
@@ -194,20 +198,8 @@ exports.DDM = class DDM {
 
     //save general form
     await this.saveGreenButton.click();
-    await this.saveSCBbutton.nth(1).click();
-    const response = await this.page.waitForResponse(
-      (response) =>
-        response.url() ===
-        "https://pm-tool-2-api-test.azurewebsites.net/api/v1/DomainDataModel?createForSure=false"
-    );
 
-    expect(response.status()).toBe(201);
-    if (response.status() === 201) {
-      console.log("Request was successfull");
-      
-    } else {
-      console.error("Error message", response.status());
-    }
+    await requestAssert(this.page,constants.ddmRequest,constants.statusCode201)
 
     if(await this.controlDupliciteModal.isVisible()){
       await this.page.click('button:has-text("No")');

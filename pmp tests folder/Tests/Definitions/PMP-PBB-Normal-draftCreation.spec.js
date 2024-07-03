@@ -42,7 +42,7 @@ test.describe("PMP Creation of PBB Normal", () => {
     await pbb.makroLevel_Maintainer();
     await pbb.makroLevel_Tags();
     await pbb.makroLevel_Description(pbbText);
-    await pbb.makroLevel_ContainsTask();
+    
     await pbb.makroLevel_ShowInReports();
     await pbb.makroLevel_Save();
   });

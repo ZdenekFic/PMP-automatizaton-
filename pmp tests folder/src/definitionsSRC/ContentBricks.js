@@ -1,5 +1,13 @@
-const { baseURL, cbName, timeOuts } = require("../constants");
+const {
+  timeOuts,
+  cbRequest,
+  cbRequestScript,
+
+  statusCode200,
+  pageUrls,
+} = require("../constants");
 const { expect } = require("@playwright/test");
+const { requestAssert, requestJSONAssert } = require("../constants");
 
 exports.ContentBricks = class ContentBricks {
   constructor(page, dropdownElement, mainName) {
@@ -12,31 +20,35 @@ exports.ContentBricks = class ContentBricks {
     );
     this.addButton = page.locator('a[ui-test-data="overview-header-add-btn"]');
     this.generalFormName = page.getByLabel("Name", { exact: true });
-    this.generalFormIdentifier = page.locator('button.v-icon.mdi.mdi-refresh[aria-label="append icon"]');
+    this.generalFormIdentifier = page.locator(
+      'button.v-icon.mdi.mdi-refresh[aria-label="append icon"]'
+    );
+
+    // Overview table
+    this.overviewTable = page.locator(
+      ".v-data-table.overview-table.pmtool-table.v-data-table--dense.theme--light"
+    );
+
     // Uasge types objects
     this.generalFormUsageTypesRedArrow = page
       .locator(".v-input__append-outer > .v-btn")
       .first();
-    
-    
 
     // input for text to describe CB
     this.descriptionCB = page.locator(
       '.ql-editor.ql-blank[contenteditable="true"]'
     );
     // Tags and Search ids
-   
+
     this.redArrow = page.locator('button[ui-test-data="upload-btn"]');
     this.modalWindow = page.locator(
-      '.v-dialog.v-dialog--active.v-dialog--persistent.v-dialog--scrollable'
-     );
+      ".v-dialog.v-dialog--active.v-dialog--persistent.v-dialog--scrollable"
+    );
     this.item = "//tr/td[1]";
     this.buttonUpdate = page.locator('button[ui-test-data="update-btn"]');
 
     // Fields objects
-    this.addFieldButton = page.locator(
-      "button.mx-1.v-btn.elevation-2"
-    );
+    this.addFieldButton = page.locator("button.mx-1.v-btn.elevation-2");
     this.fieldsModal = page.locator("div.v-card.v-sheet.theme--light");
     this.fieldNameInput = page.locator(
       'input[autofocus="autofocus"][type="text"]'
@@ -62,9 +74,13 @@ exports.ContentBricks = class ContentBricks {
 
     //draft, active, suspended combobox
     this.comboboxSCBstate = page.getByRole("combobox").nth(1);
-    this.stateModal = page.locator('div.v-list.v-select-list.v-sheet.theme--light.v-list--dense[role="listbox"]');
+    this.stateModal = page.locator(
+      'div.v-list.v-select-list.v-sheet.theme--light.v-list--dense[role="listbox"]'
+    );
     this.stateDraft = page.locator("div");
-    this.saveSCBbutton = page.locator('button.v-btn.v-btn--flat.v-btn--icon.v-btn--round.theme--light.v-size--default[role="button"][aria-haspopup="true"][aria-expanded="false"]');
+    this.saveSCBbutton = page.locator(
+      'button.v-btn.v-btn--flat.v-btn--icon.v-btn--round.theme--light.v-size--default[role="button"][aria-haspopup="true"][aria-expanded="false"]'
+    );
 
     this.cbHasBeenCreated = page.getByText("Content Brick has been created");
 
@@ -75,6 +91,15 @@ exports.ContentBricks = class ContentBricks {
     this.modalDeleteButton = page.locator(
       'button[ui-test-data="delete-confirm-btn"]'
     );
+
+    // tab scripts objects
+    this.barDiv = page.locator(".v-slide-group__wrapper");
+    this.tab = ".v-tab";
+    this.title = ".v-card__title";
+    this.textAreaScript = page.locator('[data-testid="textarea"]').nth(0);
+    this.buttonValidate = page.locator(
+      "button.v-btn.v-btn--contained.theme--light.v-size--default"
+    );
   }
 
   async enterToCB() {
@@ -83,9 +108,55 @@ exports.ContentBricks = class ContentBricks {
 
     //click on Definitions/Content Bricks TAB
     await this.contentBricksTab.click();
+    await expect(this.page).toHaveURL(pageUrls.definitionsContentBricks);
+    await this.page.waitForTimeout(timeOuts.timeM);
+  }
 
+  async addNewCB() {
     //click on ADD button
     await this.addButton.click();
+  }
+
+  async enterToCBDetail() {
+    let elements = await this.page.$$(`body >> text=${this.mainName}`);
+
+    for (let i = 0; i < elements.length; ) {
+      const elementHandle = elements[i];
+      const elementText = await elementHandle.innerText();
+
+      if (elementText === this.mainName) {
+        await elementHandle.click();
+
+        // Fetch the latest elements after the deletion
+        elements = await this.page.$$(`body >> text=${this.mainName}`);
+        await this.page.waitForTimeout(timeOuts.timeL);
+
+        // No need to reset the index, as the loop will check the updated elements
+      } else {
+        // Increment the index only if no deletion occurred
+        i++;
+      }
+    }
+  }
+
+  async scriptTab() {
+    await this.barDiv.locator(this.tab).nth(1).click();
+    const textTitle = await this.page.locator(this.title).nth(4).textContent();
+    expect(textTitle).toContain("Scripts");
+    await this.page.waitForTimeout(timeOuts.timeM);
+    await this.textAreaScript.fill("var number = 5;");
+    expect(this.textAreaScript).not.toBeEmpty();
+
+    // button validation click
+    await this.buttonValidate.nth(0).click();
+
+
+    
+
+    await requestJSONAssert(this.page,"/api/v1/ContentBrickDefinition/.*/scripts/1/validate$",statusCode200,{
+      success: true,
+      errorMessage: null
+    })
   }
 
   async formCB_General(name, text) {
@@ -104,7 +175,6 @@ exports.ContentBricks = class ContentBricks {
 
     await this.buttonUpdate.click();
 
-    
     //TAGS
     // add tags
     await this.redArrow.nth(1).click();
@@ -117,8 +187,6 @@ exports.ContentBricks = class ContentBricks {
 
     await this.buttonUpdate.nth(1).click();
 
-    
-
     //SEARCH Identifiers
     // add search identifiers
     await this.redArrow.nth(2).click();
@@ -129,8 +197,6 @@ exports.ContentBricks = class ContentBricks {
 
     await this.buttonUpdate.nth(2).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-
-    
 
     // add some text to description
     await this.descriptionCB.nth(0).fill(text);
@@ -158,25 +224,11 @@ exports.ContentBricks = class ContentBricks {
 
   async chooseCBState() {
     await this.comboboxSCBstate.click();
-   
+
     await this.stateModal.nth(1).locator(this.stateDraft).nth(0).click();
     await this.page.waitForTimeout(timeOuts.timeM);
     await this.saveSCBbutton.nth(0).click();
-    const response = await this.page.waitForResponse(
-      (response) =>
-        response.url() ===
-        "https://pm-tool-2-api-test.azurewebsites.net/api/v1/ContentBrickDefinition"
-    );
-
-    expect(response.status()).toBe(200);
-    if (response.status() === 200) {
-      console.log("Request was succesfull");
-      
-    } else {
-      console.error("Error message", response.status());
-    }
-    
-    
+    await requestAssert(this.page, cbRequest, statusCode200);
   }
 
   async checkCreatedCB() {

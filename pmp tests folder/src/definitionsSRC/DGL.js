@@ -1,6 +1,7 @@
 const { expect } = require("@playwright/test");
-const { timeOuts } = require("../constants");
-const { cwd } = require("process");
+const { timeOuts, dglRequest, statusCode200 } = require("../constants");
+
+const { requestAssert } = require('../constants');
 
 exports.DGL = class DGL {
   constructor(page, dropdownElement, mainName) {
@@ -200,19 +201,7 @@ exports.DGL = class DGL {
     await this.page.waitForTimeout(timeOuts.timeM);
     await this.saveSCBbutton.nth(0).click();
     
-    const response = await this.page.waitForResponse(
-      (response) =>
-        response.url() ===
-        "https://pm-tool-2-api-test.azurewebsites.net/api/v1/ContentBrickDefinition"
-    );
-
-    expect(response.status()).toBe(200);
-    if (response.status() === 200) {
-      console.log("Request was succesfull");
-      
-    } else {
-      console.error("Error message", response.status());
-    }
+   await requestAssert(this.page,dglRequest,statusCode200)
 
     //assertions after save cb
     await expect(this.generalFormName).not.toBeEmpty();
