@@ -193,7 +193,7 @@ exports.PBB = class PBB {
     //save PBB
     await this.saveGreenButton.click();
 
-    await requestAssert(this.page,pbbRequest,statusCode200)
+    await requestAssert(this.page,pbbRequest,statusCode201)
 
     
 
