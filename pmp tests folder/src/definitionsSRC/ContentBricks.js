@@ -1,13 +1,13 @@
 const {
   timeOuts,
   cbRequest,
-  cbRequestScript,
-
   statusCode200,
   pageUrls,
+  requestAssert,
+  requestJSONAssert
 } = require("../constants");
 const { expect } = require("@playwright/test");
-const { requestAssert, requestJSONAssert } = require("../constants");
+
 
 exports.ContentBricks = class ContentBricks {
   constructor(page, dropdownElement, mainName) {
@@ -150,13 +150,15 @@ exports.ContentBricks = class ContentBricks {
     // button validation click
     await this.buttonValidate.nth(0).click();
 
-
-    
-
-    await requestJSONAssert(this.page,"/api/v1/ContentBrickDefinition/.*/scripts/1/validate$",statusCode200,{
-      success: true,
-      errorMessage: null
-    })
+    await requestJSONAssert(
+      this.page,
+      "/api/v1/ContentBrickDefinition/.*/scripts/1/validate$",
+      statusCode200,
+      {
+        success: true,
+        errorMessage: null,
+      }
+    );
   }
 
   async formCB_General(name, text) {

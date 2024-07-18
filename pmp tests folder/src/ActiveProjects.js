@@ -16,14 +16,12 @@ exports.ActiveProjects = class ActiveProjects {
       'span.v-list-item--link[ui-test-data="nav-tasks"]'
     );
 
- 
-
     //ADD Project
 
     this.overviewAddBtn = page.locator(
       'a[ui-test-data="overview-header-add-btn"]'
     );
-    
+
     this.projectType = page.locator(
       'div.v-card__title.pbb-card-title:has-text("PBB start A1")'
     );
@@ -37,7 +35,6 @@ exports.ActiveProjects = class ActiveProjects {
       "div.pl-0.pt-0.pb-0.col.col-12.col-md-6.col-lg-8.col-xl-8"
     );
     this.pbbTreeTaskBtn = page.locator("div.d-inline-flex.d-flex-nowrap");
-    
 
     this.finishtGreenButton = page.locator(
       "button.v-btn.v-btn--contained.theme--light.v-size--default:has(.v-icon.mdi.mdi-content-save-move)"
@@ -188,10 +185,18 @@ exports.ActiveProjects = class ActiveProjects {
     await this.overviewAddBtn.click();
     await this.page.waitForTimeout(timeOuts.timeM);
     //get more results
-    await this.page.locator("div[role='button'] i[class='v-icon notranslate mdi mdi-menu-down theme--light']").click();
+    await this.page
+      .locator(
+        "div[role='button'] i[class='v-icon notranslate mdi mdi-menu-down theme--light']"
+      )
+      .click();
     await this.page.waitForTimeout(timeOuts.timeS);
-    await this.page.locator('div[role="listbox"]').nth(1).locator('div').nth(3).click();
-    
+    await this.page
+      .locator('div[role="listbox"]')
+      .nth(1)
+      .locator("div")
+      .nth(3)
+      .click();
 
     //select project type
     await this.projectType.click();
@@ -225,8 +230,6 @@ exports.ActiveProjects = class ActiveProjects {
     //click on first task
     await this.pbbTreeTaskBtn.nth(0).click();
     await this.page.waitForSelector("text=Finish");
-
-   
 
     const imagePath = path.join(
       "/Users/zdenekfic/Dropbox/Mac/Desktop/Automatization/PMP/attachments",
