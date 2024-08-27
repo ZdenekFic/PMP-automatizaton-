@@ -1,5 +1,5 @@
-const { testInfo, expect } = require("@playwright/test");
-const { baseURL, timeOuts, mainDomain } = require("./constants");
+const { expect } = require("@playwright/test");
+const { baseURL, timeOuts } = require("./constants");
 
 exports.HomePage = class HomePage {
   constructor(page, mainDomain) {
@@ -7,12 +7,9 @@ exports.HomePage = class HomePage {
     this.mainDomain = mainDomain;
 
     // switch domain test objects
-    this.taskButton = page
-      .getByRole("navigation")
-      .locator("span")
-      .filter({ hasText: "Tasks" });
+    this.taskButton = '[ui-test-data="nav-tasks"]';
 
-    this.inputDomains = page.locator("div.v-select__selection");
+    this.inputDomains = 'div[role="button"][aria-haspopup="listbox"]';
     this.dropDownDomainsMenu = "div[role='listbox']";
     this.changedDomain = `//div[contains(text(),'${mainDomain}')]`;
     this.checkedDomain = page.locator(

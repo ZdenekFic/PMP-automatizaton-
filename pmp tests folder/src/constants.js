@@ -1,17 +1,10 @@
-const { expect} = require("@playwright/test");
+const { expect } = require("@playwright/test");
 // Constants which are often used in tests
 
 // Login to TEST env PMP
 const username = "automater.test@memos.cz";
 const password = "memos";
 const mainDomain = "Test Automation Domain";
-
-const username2 = "jaroslav.vomacka@memos.cz"
-const password2 = "memos24"
-const baseURL = "https://test.einhellpmp.com";
-const loggedOUTpageTitle = "Log in to PMP DEV";
-
-
 
 // Timeouts
 const timeOuts = {
@@ -26,26 +19,27 @@ const timeOuts = {
 const statusCode200 = 200;
 const statusCode201 = 201;
 //Login
-const loginRequest = "https://pm-tool-2-api-test.azurewebsites.net/api/v1/Domain";
+const loginRequest =
+  "https://pm-tool-2-api-test.azurewebsites.net/api/v1/Domain";
 // DGL
-const dglRequest =  "https://pm-tool-2-api-test.azurewebsites.net/api/v1/ContentBrickDefinition"
+const dglRequest =
+  "https://pm-tool-2-api-test.azurewebsites.net/api/v1/ContentBrickDefinition";
 
-
-// PBB 
-const pbbRequest = "https://pm-tool-2-api-test.azurewebsites.net/api/v1/ProcessBuildingBlocks/17"
+// PBB
+const pbbRequest =
+  "https://pm-tool-2-api-test.azurewebsites.net/api/v1/ProcessBuildingBlocks/17";
 
 // CB
-const cbRequest = "https://pm-tool-2-api-test.azurewebsites.net/api/v1/ContentBrickDefinition"
-
-
+const cbRequest =
+  "https://pm-tool-2-api-test.azurewebsites.net/api/v1/ContentBrickDefinition";
 
 // SubCB
-const subcbRequest = "https://pm-tool-2-api-test.azurewebsites.net/api/v1/SubContentBrickDefinition"
-
+const subcbRequest =
+  "https://pm-tool-2-api-test.azurewebsites.net/api/v1/SubContentBrickDefinition";
 
 // DDM
-const ddmRequest = "https://pm-tool-2-api-test.azurewebsites.net/api/v1/DomainDataModel?createForSure=false"
-
+const ddmRequest =
+  "https://pm-tool-2-api-test.azurewebsites.net/api/v1/DomainDataModel?createForSure=false";
 
 //Constants for test AccountEdit
 
@@ -91,45 +85,45 @@ const pbbName = "Automated created PBB type Start";
 //Creation of PBB in normal type
 const pbbNameNormal = "Automated created PBB type Normal";
 
-
-async function requestAssert(page,requestURL,statusCode){
-
+async function requestAssert(page, requestURL, statusCode) {
   const response = await page.waitForResponse(
-    (response) =>
-      response.url() ===
-      requestURL
+    (response) => response.url() === requestURL
   );
 
   expect(response.status()).toBe(statusCode);
-  
+
   if (response.status() === statusCode) {
     console.log("Request was successfull");
-    
   } else {
     console.error("Unsuccessfull", response.status());
   }
+}
 
-};
-
-async function requestJSONAssert(page, requestURLPattern, statusCode, expectedJson) {
+async function requestJSONAssert(
+  page,
+  requestURLPattern,
+  statusCode,
+  expectedJson
+) {
   try {
     const response = await page.waitForResponse(
-      response => new RegExp(requestURLPattern).test(response.url()),
+      (response) => new RegExp(requestURLPattern).test(response.url()),
       { timeout: 10000 } // Nastav timeout, aby bylo jasné, pokud čekání trvá příliš dlouho
     );
 
-    console.log(`Received response for URL matching pattern: ${requestURLPattern}`);
+    console.log(
+      `Received response for URL matching pattern: ${requestURLPattern}`
+    );
     expect(response.status()).toBe(statusCode);
-    
+
     if (response.status() === statusCode) {
       console.log("Request was successful");
-      
+
       if (expectedJson) {
         const responseBody = await response.json();
         expect(responseBody).toEqual(expectedJson);
         console.log("JSON response matches expected");
       }
-
     } else {
       console.error("Unsuccessful", response.status());
     }
@@ -138,122 +132,9 @@ async function requestJSONAssert(page, requestURLPattern, statusCode, expectedJs
   }
 }
 
-
-
-
-// MenuButtons in Overviews page
-const overviewMenuButtons = {
-  taskMenuButton: "Tasks",
-  activeProjectsMenuButton: "Active Projects",
-  draftProjectsMenuButton: "Draft Projects",
-  domainModelInstancesMenuButton: "DMI",
-  reportsMenuButton: "Reports",
-
-  //Definitions parts
-  definitionsContentBricksMenuButton: "Content Bricks",
-  definitionsSubContentBricksMenuButton: "Sub Content Bricks",
-  definitionsDomainDataModelsMenuButton: "Domain Models",
-  definitionsDGLMenuButton: "Design Guidelines",
-  definitionsPBBsMenuButton: "PBBs",
-  definitionsPBBsQueriesMenuButton: "PBB Queries",
-  definitionsGDMMenuButton: "General Models",
-
-  //Administrations parts
-  administrationCapabilitiesMenuButton: "Capabilities",
-  administrationDomainsMenuButton: "Domains",
-  administrationFormattingMenuButton: "Formatting",
-  administrationListsMenuButton: "Lists",
-  administrationQualificationsMenuButton: "Qualifications",
-  administrationTagsAndSearchIdsMenuButton: "Tags and search identifiers",
-  administrationTranslationsMenuButton: "Translations",
-  administrationUnitTypesMenuButton: "Unit types",
-  administrationUnitsMenuButton: "Units",
-  administrationUsageTypesMenuButton: "Usage types",
-
-  //User Administration parts
-  userAdministrationGroupsMenuButton: "Groups",
-  userAdministrationOrganigramMenuButton: "Organigram",
-  userAdministrationRolesMenuButton: "Roles",
-  userAdministrationUsersMenuButton: "Users",
-};
-
-// Headers in Overviews page
-const overviewHeaders = {
-  taskHeader: "Tasks",
-  activeProjectsHeader: "Active project overview",
-  draftProjectsHeader: "Draft project overview",
-  domainModelInstancesHeader: "Domain data model instances",
-  reportsHeader: "Reports",
-
-  //Definitions parts
-  definitionsContentBricksHeader: "Content bricks",
-  definitionsSubContentBricksHeader: "Sub content bricks",
-  definitionsDomainDataModelsHeader: "Domain data models",
-  definitionsDGLHeader: "Design guidelines",
-  definitionsPBBsHeader: "PBB Overview",
-  definitionsPBBsQueriesHeader: "PBB queries overview",
-  definitionsGDMHeader: "General data models",
-
-  //Administrations parts
-  administrationCapabilitiesHeader: "Capabilities",
-  administrationDomainsHeader: "Domains",
-  administrationFormattingHeader: "Formatting",
-  administrationListsHeader: "Lists",
-  administrationQualificationsHeader: "Qualifications",
-  administrationTagsAndSearchIdsHeader: "Tags and search identifiers",
-  administrationTranslationsHeader: "Languages",
-  administrationUnitTypesHeader: "Unit types",
-  administrationUnitsHeader: "Units",
-  administrationUsageTypesHeader: "Usage types",
-
-  //User Administration parts
-  userAdministrationGroupsHeader: "Groups",
-  userAdministrationOrganigramHeader: "Organigram",
-  userAdministrationRolesHeader: "Roles",
-  userAdministrationUsersHeader: "Users",
-};
-
-// Parts of Urls
-const pageUrls = {
-  taskOverview: `${baseURL}/tasks/overview`,
-  activeProjectsOverview: `${baseURL}/project/overview`,
-  draftProjectsOverview: `${baseURL}/project/draft-overview`,
-  domainModelInstancesOverview: `${baseURL}/domainDataModelInstances/overview`,
-  reportsOverview: `${baseURL}/report/overview/grid`,
-
-  //Definitions parts
-  definitionsContentBricks: `${baseURL}/contentBricks/overview`,
-  definitionsSubContentBricks: `${baseURL}/subContentBricks/overview`,
-  definitionsDomainDataModels: `${baseURL}/domainDataModels/overview`,
-  definitionsDGL: `${baseURL}/designGuidelines/overview`,
-  definitionsPBBs: `${baseURL}/pbb/overview`,
-  definitionsPBBsQueries: `${baseURL}/pbb/queries/overview`,
-  definitionsGDM: `${baseURL}/generalDataModels/overview`,
-
-  //Administrations parts
-  administrationCapabilities: `${baseURL}/capabilities/overview`,
-  administrationDomains: `${baseURL}/Domains`,
-  administrationFormatting: `${baseURL}/regularExpressions/overview`,
-  administrationLists: `${baseURL}/List/overview`,
-  administrationQualifications: `${baseURL}/qualifications/overview`,
-  administrationTagsAndSearchIds: `${baseURL}/tag/overview`,
-  administrationTranslations: `${baseURL}/translations/overview`,
-  administrationUnitTypes: `${baseURL}/unitTypes/overview`,
-  administrationUnits: `${baseURL}/units/overview`,
-  administrationUsageTypes: `${baseURL}/usageTypes/overview`,
-
-  //User Administration parts
-  userAdministrationGroups: `${baseURL}/user/Groups`,
-  userAdministrationOrganigram: `${baseURL}/user/orgChart`,
-  userAdministrationRoles: `${baseURL}/user/roles`,
-  userAdministrationUsers: `${baseURL}/user/overview`,
-};
-
 module.exports = {
   username,
   password,
-  username2,
-  password2,
   baseURL,
   domain,
   role,
@@ -296,5 +177,4 @@ module.exports = {
   subcbRequest,
   pbbRequest,
   requestJSONAssert,
-  
 };
