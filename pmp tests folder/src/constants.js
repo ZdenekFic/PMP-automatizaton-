@@ -5,6 +5,7 @@ const { expect } = require("@playwright/test");
 const username = "automater.test@memos.cz";
 const password = "memos";
 const mainDomain = "Test Automation Domain";
+const baseURL = "https://test.einhellpmp.com";
 
 // Timeouts
 const timeOuts = {
@@ -46,11 +47,6 @@ const ddmRequest =
 const domain = 14;
 const role = 0;
 const account = "testaaFisrt";
-
-//Languages
-const english = "English";
-const czech = "Czech";
-const chinese = "Chinese";
 
 //Creation of ContentBrick
 const cbName = "Automated created Content Brick";
@@ -139,13 +135,7 @@ module.exports = {
   domain,
   role,
   account,
-  english,
-  czech,
-  chinese,
-  pageUrls,
-  overviewHeaders,
   loggedOUTpageTitle,
-  overviewMenuButtons,
   cbName,
   cbText,
   contentBrickFieldName1,
