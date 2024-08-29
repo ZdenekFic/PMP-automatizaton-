@@ -11,6 +11,8 @@ exports.LoginPage = class LoginPage {
     this.submitButton = 'button[name="login"]';
     this.titlePMP = "span.nav-menu-title";
 
+
+
     //log out
     this.logOutMenuButton = 'button[ui-test-data="top-bar-more-options"]';
     this.logOutMenu = '[ui-test-data="top-bar-more-options-my-acc"]';
@@ -41,6 +43,8 @@ exports.LoginPage = class LoginPage {
     await expect(this.page.locator(this.titlePMP)).toBeVisible();
   }
 
+ 
+
   async logOut() {
     // Click on button for dropdown menu
     await this.page.locator(this.logOutMenuButton).click();
@@ -50,6 +54,7 @@ exports.LoginPage = class LoginPage {
 
     // Click on button for logOut
     await this.page.locator(this.logOutButton).click();
+    await this.page.waitForTimeout(constants.timeOuts.timeS);
   }
 
   async logOutAssert(expectedTitle) {

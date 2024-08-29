@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "pwa-node",
+            "request": "launch",
+            "name": "Debug Playwright Tests",
+            "program": "${workspaceFolder}/node_modules/.bin/playwright", // Změna na binární Playwright soubor
+            "args": [
+                "test",
+                "--project=chromium",
+                "--headed",
+                "--trace", "on",
+                "--timeout=0"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        }
+    ]
+}

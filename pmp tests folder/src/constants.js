@@ -6,6 +6,7 @@ const username = "automater.test@memos.cz";
 const password = "memos";
 const mainDomain = "Test Automation Domain";
 const baseURL = "https://test.einhellpmp.com";
+const loggedOUTpageTitle = "Log in to PMP DEV"
 
 // Timeouts
 const timeOuts = {
@@ -52,10 +53,13 @@ const account = "testaaFisrt";
 const cbName = "Automated created Content Brick";
 const cbText =
   "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,";
+const contentBrickGroupName1 = "Group automatization name";
 const contentBrickFieldName1 = "Field automatization name";
 const contentBrickFieldName2 = "Another field automatization name";
 const dropdownElement1 = "Text Box";
 const dropdownElement2 = "Text Area";
+const tabName = "Scripts";
+const scriptExample = "var number = 5";
 
 //Creation of DDM
 const ddmNAme = "Automated created Domain Model";
@@ -81,6 +85,7 @@ const pbbName = "Automated created PBB type Start";
 //Creation of PBB in normal type
 const pbbNameNormal = "Automated created PBB type Normal";
 
+//Validation of request
 async function requestAssert(page, requestURL, statusCode) {
   const response = await page.waitForResponse(
     (response) => response.url() === requestURL
@@ -95,6 +100,7 @@ async function requestAssert(page, requestURL, statusCode) {
   }
 }
 
+//Validation of JSON request
 async function requestJSONAssert(
   page,
   requestURLPattern,
@@ -104,7 +110,7 @@ async function requestJSONAssert(
   try {
     const response = await page.waitForResponse(
       (response) => new RegExp(requestURLPattern).test(response.url()),
-      { timeout: 10000 } // Nastav timeout, aby bylo jasné, pokud čekání trvá příliš dlouho
+      { timeout: 10000 }
     );
 
     console.log(
@@ -131,15 +137,28 @@ async function requestJSONAssert(
 module.exports = {
   username,
   password,
+  mainDomain,
   baseURL,
+  loggedOUTpageTitle,
+  timeOuts,
+  statusCode200,
+  statusCode201,
+  loginRequest,
+  dglRequest,
+  pbbRequest,
+  cbRequest,
+  subcbRequest,
+  ddmRequest,
   domain,
   role,
   account,
-  loggedOUTpageTitle,
   cbName,
   cbText,
+  contentBrickGroupName1,
   contentBrickFieldName1,
   contentBrickFieldName2,
+  tabName,
+  scriptExample,
   dropdownElement1,
   dropdownElement2,
   ddmNAme,
@@ -155,16 +174,6 @@ module.exports = {
   subCBdropdownElement2,
   pbbName,
   pbbNameNormal,
-  timeOuts,
-  mainDomain,
   requestAssert,
-  loginRequest,
-  statusCode200,
-  statusCode201,
-  cbRequest,
-  dglRequest,
-  ddmRequest,
-  subcbRequest,
-  pbbRequest,
   requestJSONAssert,
 };

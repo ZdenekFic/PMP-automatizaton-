@@ -2,131 +2,95 @@ const {
   timeOuts,
   cbRequest,
   statusCode200,
-  pageUrls,
   requestAssert,
-  requestJSONAssert
+  requestJSONAssert,
 } = require("../constants");
 const { expect } = require("@playwright/test");
-
 
 exports.ContentBricks = class ContentBricks {
   constructor(page, dropdownElement, mainName) {
     this.page = page;
     this.mainName = mainName;
     this.dropdownElement = dropdownElement;
-    this.definitionsTab = page.locator('div[ui-test-data="nav-definitions"]');
-    this.contentBricksTab = page.locator(
-      'span[ui-test-data="nav-definitions-content-bricks"]'
-    );
-    this.addButton = page.locator('a[ui-test-data="overview-header-add-btn"]');
-    this.generalFormName = page.getByLabel("Name", { exact: true });
-    this.generalFormIdentifier = page.locator(
-      'button.v-icon.mdi.mdi-refresh[aria-label="append icon"]'
-    );
+    this.definitionsTab = '[ui-test-data="nav-definitions"]';
+    this.contentBricksTab = '[ui-test-data="nav-definitions-content-bricks"]';
+    this.addButton = 'a[ui-test-data="overview-header-add-btn"]';
+    this.generalFormName = 'input[type="text"][maxlength="80"]';
+    this.generalFormIdentifier =
+      'button[type="button"][aria-label="Identifier appended action"]';
 
     // Overview table
-    this.overviewTable = page.locator(
-      ".v-data-table.overview-table.pmtool-table.v-data-table--dense.theme--light"
-    );
-
-    // Uasge types objects
-    this.generalFormUsageTypesRedArrow = page
-      .locator(".v-input__append-outer > .v-btn")
-      .first();
+    this.overviewTable =
+      ".v-data-table.overview-table.pmtool-table.v-data-table--dense.theme--light";
 
     // input for text to describe CB
-    this.descriptionCB = page.locator(
-      '.ql-editor.ql-blank[contenteditable="true"]'
-    );
-    // Tags and Search ids
+    this.descriptionCB = '.ql-editor.ql-blank[contenteditable="true"]';
 
-    this.redArrow = page.locator('button[ui-test-data="upload-btn"]');
-    this.modalWindow = page.locator(
-      ".v-dialog.v-dialog--active.v-dialog--persistent.v-dialog--scrollable"
-    );
-    this.item = "//tr/td[1]";
-    this.buttonUpdate = page.locator('button[ui-test-data="update-btn"]');
+    // Groups - fields
+    this.fieldDiv = "div.d-inline-flex align-center";
+    this.addGroupButton = "button.mx-3.v-btn.elevation-2";
+    this.groupAddButton = "button.error.v-btn.v-btn--text.theme--light";
 
     // Fields objects
-    this.addFieldButton = page.locator("button.mx-1.v-btn.elevation-2");
-    this.fieldsModal = page.locator("div.v-card.v-sheet.theme--light");
-    this.fieldNameInput = page.locator(
-      'input[autofocus="autofocus"][type="text"]'
-    );
+    this.addFieldButton = "button.mx-1.v-btn.elevation-2";
+    this.fieldsModal = "div.v-dialog.v-dialog--active.v-dialog--persistent";
+    this.fieldNameInput = 'input[autofocus="autofocus"][type="text"]';
 
-    this.fieldIdentifier = page.locator(
-      "//div[@class='col col-3']//div[@class='v-input theme--light v-text-field v-text-field--is-booted']//input"
-    );
-    this.fieldDataTypeButton = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent']//div[@class='v-card v-sheet theme--light']//div[@class='v-select__slot']"
-    );
-    this.fieldsMultiElement = page.locator('input[type="text"]');
-    this.elementDropdown = page.locator(
-      `.v-list-item__title:has-text('${dropdownElement}')`
-    );
-    this.switchIsMandatory = page.locator(
-      ".v-input--selection-controls__ripple"
-    );
-
-    this.fieldAddButton = page.locator(
-      "button.error.v-btn.v-btn--flat.v-btn--text.theme--light.v-size--default"
-    );
+    this.fieldIdentifier = 'button[aria-label="Identifier appended action"]';
+    this.fieldDataTypeButton =
+      "div.v-input__icon.v-input__icon--append .mdi-menu-down";
+    this.fieldsMultiElement = 'input[type="text"]';
+    this.elementDropdown = `.v-list-item__title:has-text('${dropdownElement}')`;
+    this.switchIsMandatory = ".v-input--selection-controls__ripple";
 
     //draft, active, suspended combobox
-    this.comboboxSCBstate = page.getByRole("combobox").nth(1);
-    this.stateModal = page.locator(
-      'div.v-list.v-select-list.v-sheet.theme--light.v-list--dense[role="listbox"]'
-    );
-    this.stateDraft = page.locator("div");
-    this.saveSCBbutton = page.locator(
-      'button.v-btn.v-btn--flat.v-btn--icon.v-btn--round.theme--light.v-size--default[role="button"][aria-haspopup="true"][aria-expanded="false"]'
-    );
+    this.stateBoxDiv = ".entity-detail-card.v-card.v-sheet.theme--light";
+    this.comboboxSCBstate =
+      "div.v-input__icon.v-input__icon--append .mdi-menu-down";
+    this.stateModal =
+      'div.v-list.v-select-list.v-sheet.theme--light.v-list--dense[role="listbox"]';
+    this.stateDraft = 'text="Draft"';
+    this.tabMenuHeader = ".detail-tab-menu-header-container";
+    this.saveSCBbutton = ".v-toolbar__content button:has(.mdi-content-save)";
 
-    this.cbHasBeenCreated = page.getByText("Content Brick has been created");
+    // deleting objects
+    this.deleteDraftButtton = 'button[ui-test-data="delete-btn"].red--text';
+    this.modalDeleteButton = 'button[ui-test-data="delete-confirm-btn"]';
 
-    // assertions objects
-    this.deleteDraftButtton = page.locator(
-      'button[ui-test-data="delete-btn"].red--text'
-    );
-    this.modalDeleteButton = page.locator(
-      'button[ui-test-data="delete-confirm-btn"]'
-    );
-
-    // tab scripts objects
-    this.barDiv = page.locator(".v-slide-group__wrapper");
-    this.tab = ".v-tab";
+    // tab scripts objects !!!!!!! not finished
+    this.barDiv = ".v-slide-group__wrapper";
+    this.tabScripts = 'text="Scripts"';
     this.title = ".v-card__title";
-    this.textAreaScript = page.locator('[data-testid="textarea"]').nth(0);
-    this.buttonValidate = page.locator(
-      "button.v-btn.v-btn--contained.theme--light.v-size--default"
-    );
+    this.textAreaScript = '[data-testid="textarea"]';
+    this.buttonArea = ".v-card__text";
+    this.buttonArea2 = ".row.row--dense";
+    this.buttonValidate = 'button';
   }
 
   async enterToCB() {
     //click on Definitons tab
-    await this.definitionsTab.click();
+    await this.page.locator(this.definitionsTab).click();
 
     //click on Definitions/Content Bricks TAB
-    await this.contentBricksTab.click();
-    await expect(this.page).toHaveURL(pageUrls.definitionsContentBricks);
-    await this.page.waitForTimeout(timeOuts.timeM);
+    await this.page.locator(this.contentBricksTab).click();
+    await this.page.waitForTimeout(timeOuts.timeL);
   }
 
   async addNewCB() {
     //click on ADD button
-    await this.addButton.click();
+    await this.page.locator(this.addButton).click();
   }
 
   async enterToCBDetail() {
+    // this function helps to find our searched element by the name, so if there is a match, function will click it.
     let elements = await this.page.$$(`body >> text=${this.mainName}`);
-
-    for (let i = 0; i < elements.length; ) {
+    for (let i =0; i < elements.length; ) {
       const elementHandle = elements[i];
       const elementText = await elementHandle.innerText();
 
       if (elementText === this.mainName) {
         await elementHandle.click();
-
+        
         // Fetch the latest elements after the deletion
         elements = await this.page.$$(`body >> text=${this.mainName}`);
         await this.page.waitForTimeout(timeOuts.timeL);
@@ -139,17 +103,25 @@ exports.ContentBricks = class ContentBricks {
     }
   }
 
-  async scriptTab() {
-    await this.barDiv.locator(this.tab).nth(1).click();
+  async scriptTab(tabName,scriptExample) {
+    //opens tab Script in Content brick
+    await this.page.locator(this.barDiv).locator(this.tabScripts).click();
+    
+    //assertion
     const textTitle = await this.page.locator(this.title).nth(4).textContent();
-    expect(textTitle).toContain("Scripts");
+    expect(textTitle).toContain(tabName);
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.textAreaScript.fill("var number = 5;");
-    expect(this.textAreaScript).not.toBeEmpty();
+    
+    //writing the value
+    await this.page.locator(this.textAreaScript).first().fill(scriptExample);
+    
+    //assertion
+    expect(this.page.locator(this.textAreaScript).first()).not.toBeEmpty();
 
-    // button validation click
-    await this.buttonValidate.nth(0).click();
-
+    //button validation click
+    await this.page.locator(this.buttonArea).locator(this.buttonArea2).locator(this.buttonValidate).first().click();
+    
+    //assertion with request
     await requestJSONAssert(
       this.page,
       "/api/v1/ContentBrickDefinition/.*/scripts/1/validate$",
@@ -161,84 +133,79 @@ exports.ContentBricks = class ContentBricks {
     );
   }
 
-  async formCB_General(name, text) {
+  async formCBGeneral(name, text) {
     //click and fill name
-    await this.generalFormName.fill(name);
+    await this.page.locator(this.generalFormName).first().fill(name);
 
     //click on identifier to get automaticaly identifier
-    await this.generalFormIdentifier.click();
-
-    //USAGE TYPES
-    await this.redArrow.nth(0).click();
-    await this.page.waitForTimeout(timeOuts.timeM);
-    await this.modalWindow.locator(this.item).nth(1).click();
-    await this.modalWindow.locator(this.item).nth(3).click();
-    await this.modalWindow.locator(this.item).nth(5).click();
-
-    await this.buttonUpdate.click();
-
-    //TAGS
-    // add tags
-    await this.redArrow.nth(1).click();
-    await this.page.waitForTimeout(timeOuts.timeM);
-    await this.modalWindow.locator(this.item).nth(1).click();
-    await this.modalWindow.locator(this.item).nth(3).click();
-    await this.modalWindow.locator(this.item).nth(5).click();
-    await this.modalWindow.locator(this.item).nth(6).click();
-    await this.modalWindow.locator(this.item).nth(2).click();
-
-    await this.buttonUpdate.nth(1).click();
-
-    //SEARCH Identifiers
-    // add search identifiers
-    await this.redArrow.nth(2).click();
-    await this.page.waitForTimeout(timeOuts.timeM);
-    await this.modalWindow.locator(this.item).nth(1).click();
-    await this.modalWindow.locator(this.item).nth(2).click();
-    await this.modalWindow.locator(this.item).nth(3).click();
-
-    await this.buttonUpdate.nth(2).click();
-    await this.page.waitForTimeout(timeOuts.timeM);
+    await this.page.locator(this.generalFormIdentifier).click();
 
     // add some text to description
-    await this.descriptionCB.nth(0).fill(text);
+    await this.page.locator(this.descriptionCB).first().fill(text);
   }
 
-  async add_fields(name) {
-    await this.addFieldButton.click();
-    await this.page.waitForTimeout(timeOuts.timeM);
-    await this.fieldsModal.nth(8).locator(this.fieldNameInput).fill(name);
+  async addGroups(name) {
+    await this.page.locator(this.addGroupButton).click();
+    await this.page.locator(this.fieldNameInput).fill(name);
+    await this.page
+      .locator(this.fieldsModal)
+      .locator(this.fieldIdentifier)
+      .click();
+    await this.page
+      .locator(this.fieldsModal)
+      .locator(this.groupAddButton)
+      .click();
+  }
 
-    await this.fieldsModal
-      .nth(8)
-      .locator(this.fieldsMultiElement.nth(1))
+  async addFields(name) {
+    await this.page.locator(this.addFieldButton).first().click();
+    await this.page.waitForTimeout(timeOuts.timeM);
+    await this.page
+      .locator(this.fieldsModal)
+      .locator(this.fieldNameInput)
+      .fill(name);
+    await this.page
+      .locator(this.fieldsModal)
+      .locator(this.fieldIdentifier)
       .click();
-    await this.fieldsModal
-      .nth(8)
-      .locator(this.fieldsMultiElement.nth(2))
+    await this.page
+      .locator(this.fieldsModal)
+      .locator(this.fieldDataTypeButton)
+      .click();
+
+    await this.page.waitForTimeout(timeOuts.timeS);
+    await this.page.locator(this.elementDropdown).click();
+    await this.page
+      .locator(this.fieldsModal)
+      .locator(this.switchIsMandatory)
       .click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.elementDropdown.click();
-    await this.fieldsModal.nth(8).locator(this.switchIsMandatory).click();
-    await this.page.waitForTimeout(timeOuts.timeM);
-    await this.fieldAddButton.nth(4).click();
+    await this.page
+      .locator(this.fieldsModal)
+      .locator(this.groupAddButton)
+      .click();
   }
 
   async chooseCBState() {
-    await this.comboboxSCBstate.click();
-
-    await this.stateModal.nth(1).locator(this.stateDraft).nth(0).click();
-    await this.page.waitForTimeout(timeOuts.timeM);
-    await this.saveSCBbutton.nth(0).click();
+    await this.page
+      .locator(this.stateBoxDiv)
+      .locator(this.comboboxSCBstate)
+      .click();
+    await this.page.locator(this.stateModal).locator(this.stateDraft).click();
+    await this.page
+      .locator(this.tabMenuHeader)
+      .locator(this.saveSCBbutton)
+      .click();
     await requestAssert(this.page, cbRequest, statusCode200);
   }
 
   async checkCreatedCB() {
+    //this function helps to find content brick which was created by this test so in the end there wont be any duplicities
     //click on Definitions tab
-    await this.definitionsTab.click();
+    await this.page.locator(this.definitionsTab).click();
 
     //click on Definitions/Content Bricks TAB
-    await this.contentBricksTab.click();
+    await this.page.locator(this.contentBricksTab).click();
     await this.page.waitForTimeout(timeOuts.timeXXL);
 
     let elements = await this.page.$$(`body >> text=${this.mainName}`);
@@ -249,9 +216,9 @@ exports.ContentBricks = class ContentBricks {
 
       if (elementText === this.mainName) {
         await elementHandle.click();
-        await this.deleteDraftButtton.click();
+        await this.page.locator(this.deleteDraftButtton).click();
         await this.page.waitForTimeout(timeOuts.timeM);
-        await this.modalDeleteButton.click();
+        await this.page.locator(this.modalDeleteButton).click();
         await this.page.waitForTimeout(timeOuts.timeL);
 
         // Fetch the latest elements after the deletion

@@ -1,106 +1,54 @@
-const { expect } = require("@playwright/test");
-const { baseURL, timeOuts } = require("./constants");
+const { timeOuts } = require("./constants");
 
 exports.HomePage = class HomePage {
   constructor(page, mainDomain) {
     this.page = page;
     this.mainDomain = mainDomain;
 
+     //productFruits
+     this.prodFruWindow = 'div.productfruits--container';
+
     // switch domain test objects
     this.taskButton = '[ui-test-data="nav-tasks"]';
 
     this.inputDomains = 'div[role="button"][aria-haspopup="listbox"]';
     this.dropDownDomainsMenu = "div[role='listbox']";
-    this.changedDomain = `//div[contains(text(),'${mainDomain}')]`;
-    this.checkedDomain = page.locator(
-      `//div[@class='v-select__selection v-select__selection--comma'][normalize-space()='${mainDomain}']`
-    );
+    this.changedDomain = `text=${mainDomain}`;
+    this.checkedDomain = 'v-list-item.primary--text.v-list-item--active';
 
-    // searchBar function
-    this.searchBarInput = page.locator(
-      "//input[@ui-test-data='top-bar-search']"
-    );
-    this.searchedBoxMenu = 'div[role="listbox"][data-v-b559d94e]';
-    this.firstItemInBox = 'div[role="menuitem"]';
-
-    //Menu hiding
-    this.buttonOpenLeftMenu = page
-      .getByRole("navigation")
-      .locator("button")
-      .nth(1);
-
-    this.buttonHideLeftMenu = page
-      .getByRole("link", { name: "PMP" })
-      .getByRole("button");
   }
 
   async switchDomains() {
     //click on e.g. task to get to Overview to get enabled menu dropdown for domains
-    await this.taskButton.click();
-    await this.page.waitForTimeout(timeOuts.timeXL);
+    await this.page.locator(this.taskButton).click();
+    
+    // Najdeme hostitele Shadow DOM
+const shadowHost = await this.page.locator('div.productfruits--container');
+
+// Přístup k shadowRoot
+const shadowRoot = await shadowHost.evaluateHandle((element) => element.shadowRoot);
+
+// Najdeme tlačítko "Close" uvnitř shadowRoot
+const closeButton = await shadowRoot.$('button:has-text("Close")');
+
+// Klikneme na tlačítko "Close", pokud existuje
+if (closeButton) {
+    await closeButton.click();
+    console.log("Pop-up was closed.");
+} else {
+    console.log("Close button not found.");
+}
+
+
+
+    
+
+   
     //click on input to get dropdown with domains
-    await this.inputDomains.nth(0).click();
+    await this.page.locator(this.inputDomains).nth(0).click();
     await this.page.waitForSelector(this.dropDownDomainsMenu);
 
     //Choose a marketing domain
-    await this.page.locator(this.changedDomain).click();
-  }
+    await this.page.click(this.changedDomain);
 
-  async switchDomainsAssert() {
-    if (await this.checkedDomain.isVisible()) {
-      await this.page.waitForTimeout(timeOuts.timeM);
-    }
-  }
-
-  async searchBar(searchedText) {
-    //Click on a searchbar
-    await this.searchBarInput.fill(searchedText);
-    await this.page.waitForTimeout(timeOuts.timeXL);
-
-    console.log(
-      "Current URL before redirecting to item from box is " + this.page.url()
-    );
-
-    //wait for menu with results
-    await this.page.waitForSelector(this.searchedBoxMenu);
-
-    await this.page
-      .locator(this.searchedBoxMenu)
-      .locator(this.firstItemInBox)
-      .nth(1)
-      .click();
-
-    await this.page.waitForTimeout(timeOuts.timeXL);
-
-    // Verify that the current URL is not equal to baseURL
-    const currentURL = this.page.url();
-    await expect(currentURL).not.toBe(baseURL);
-
-    await this.page.waitForTimeout(timeOuts.timeXL);
-    console.log(
-      "Current URL after clicking on item from box" + this.page.url()
-    );
-
-    await this.page.goto(baseURL);
-    await this.page.waitForTimeout(timeOuts.timeXL);
-  }
-
-  async hideMenu() {
-    //clicking on button for hiding left menu
-    await this.buttonHideLeftMenu.click();
-
-    //Assertions left menu is realla hidden
-    await expect(this.buttonOpenLeftMenu).toBeVisible();
-  }
-
-  async openMenu() {
-    // hide menu and check it
-    await this.hideMenu();
-
-    // open menu
-    await this.buttonOpenLeftMenu.click();
-
-    //Assertions left menu is realla hidden
-    await expect(this.buttonHideLeftMenu).toBeVisible();
-  }
-};
+  }}

@@ -4,17 +4,20 @@ import { LoginPage } from "../../src/LoginPage.js";
 import { ContentBricks } from "../../src/definitionsSRC/ContentBricks.js";
 import { HomePage } from "../../src/HomePage.js";
 
-//Login
+//variables
 const username = constants.username;
 const password = constants.password;
 const baseURL = constants.baseURL;
 const loggedOUTpageTitle = constants.loggedOUTpageTitle;
 const name = constants.cbName;
 const text = constants.cbText;
+const groupName1 = constants.contentBrickGroupName1;
 const fieldName1 = constants.contentBrickFieldName1;
 const fieldName2 = constants.contentBrickFieldName2;
 const dropdownElement1 = constants.dropdownElement1;
 const dropdownElement2 = constants.dropdownElement2;
+const tabName = constants.tabName;
+const scriptExample = constants.scriptExample;
 
 //Setting for non parralel running of tests
 test.describe.configure({ mode: "serial" });
@@ -33,6 +36,7 @@ test.describe("PMP Creation of CB", () => {
     await login.loginAssert();
     home = new HomePage(page,constants.mainDomain);
     await home.switchDomains();
+    
   });
 
   test("Check and delete", async ({ page }) => {
@@ -46,11 +50,12 @@ test.describe("PMP Creation of CB", () => {
     cb = new ContentBricks(page, dropdownElement1);
     await cb.enterToCB();
     await cb.addNewCB();
-    await cb.formCB_General(name, text);
-    await cb.add_fields(fieldName1);
+    await cb.formCBGeneral(name, text);
+    await cb.addGroups(groupName1)
+    await cb.addFields(fieldName1);
 
     cb2 = new ContentBricks(page, dropdownElement2);
-    await cb2.add_fields(fieldName2);
+    await cb2.addFields(fieldName2);
 
     await cb.chooseCBState();
   });
@@ -60,7 +65,7 @@ test.describe("PMP Creation of CB", () => {
     cb = new ContentBricks(page, dropdownElement1,name);
     await cb.enterToCB();
     await cb.enterToCBDetail();
-    await cb.scriptTab();
+    await cb.scriptTab(tabName,scriptExample);
 
     
 
