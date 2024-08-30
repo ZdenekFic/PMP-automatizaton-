@@ -82,10 +82,14 @@ const subCBdropdownElement1 = "Integer";
 const subCBdropdownElement2 = "Decimal";
 
 //Creation of PBB in start type
-const pbbName = "Automated created PBB type Start";
+const pbbName = "Automated created PBB Start type";
+const testingDDMItem = "Testing DDM";
 
 //Creation of PBB in normal type
-const pbbNameNormal = "Automated created PBB type Normal";
+const pbbNameNormal = "Automated created PBB Normal type";
+
+// Project
+const projectName = "Auto test Project";
 
 //Validation of request
 async function requestAssert(page, requestURL, statusCode) {
@@ -177,7 +181,9 @@ module.exports = {
   subCBdropdownElement1,
   subCBdropdownElement2,
   pbbName,
+  testingDDMItem,
   pbbNameNormal,
+  projectName,
   requestAssert,
   requestJSONAssert,
 };

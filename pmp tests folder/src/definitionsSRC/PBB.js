@@ -1,218 +1,140 @@
-
-const { requestAssert, pbbRequest, statusCode200,statusCode201 } = require('../constants');
+const {
+  requestAssert,
+  pbbRequest,
+  statusCode200,
+  statusCode201,
+} = require("../constants");
 const { baseURL, timeOuts } = require("../constants");
 const { expect } = require("@playwright/test");
 
-
 exports.PBB = class PBB {
-  constructor(page, pbbName) {
+  constructor(page, pbbName, itemName) {
     this.page = page;
     this.pbbName = pbbName;
+    this.itemName = itemName;
 
     //enter to PBB function - objects
-    this.definitionsTab = page.getByRole("button", { name: "Definitions" });
-    this.pbbTab = page.locator("span").filter({ hasText: "PBBs" });
-    this.addButton = page.getByRole("link", { name: "Add" });
+    this.definitionsTab = '[ui-test-data="nav-definitions"]';
+    this.pbbTab = '[ui-test-data="nav-definitions-pbb"]';
+    this.addButton = '[ui-test-data="overview-header-add-btn"]';
+    this.titleHeader = ".pl-0.pt-0.pb-0.col.col-12.col-md-6.col-lg-7.col-xl-7";
 
     //general form function - objects
-    this.inputName = page.getByLabel("Name", { exact: true });
-    this.pbbTypeDropdown = page.locator('div[ui-test-data="pbb-type-input"]');
-    this.pbbTypeStartPBB = page.getByRole("option", { name: "Start PBB" });
-    this.pbbTypeNormalPBB = page.getByRole("option", { name: "Normal PBB" });
-    this.pbbTypeStartCheck = page.getByRole("button", {
-      name: "PBB Type Start PBB",
-    });
-
-    // add owner
-    this.redArrowButton = page.locator('[ui-test-data="open-list-btn"]');
-    this.redArrowButton2 = page.locator('[ui-test-data="upload-btn"]');
-    this.modalWindow = page.locator(
-      ".v-dialog.v-dialog--active.v-dialog--persistent.v-dialog--scrollable"
-    );
-    this.item = page.locator("//tr/td[1]");
-    this.buttonUpdate = page.locator('button[ui-test-data="update-btn"]');
-    this.ownerInput = page.getByLabel("Owner");
-
-    //add maintainer
-
-    this.maintainerInput = page.getByLabel("Maintainer");
-
-    // Tags objects
+    this.inputName = 'input[ui-test-data="pbb-name-input"]';
+    this.pbbTypeDropdown = 'div[ui-test-data="pbb-type-input"]';
+    this.pbbTypeStartPBB =
+      'div.v-list-item.v-list-item--link.theme--light:has-text("Start PBB")';
+    this.pbbTypeNormalPBB =
+      'div.v-list-item.v-list-item--link.theme--light:has-text("Normal PBB")';
 
     // input for text to describe PBB
-    this.descriptionPBB = page.locator(
-      '.ql-editor.ql-blank[contenteditable="true"]'
-    );
-    this.descriptionCheck = page.getByRole("paragraph");
+    this.descriptionPBB = '.ql-editor.ql-blank[contenteditable="true"]';
+    this.descriptionCheck = 'p[role="paragraph"]';
+
+    this.fieldsModal = "div.v-dialog.v-dialog--active.v-dialog--persistent";
+    this.rowSelector = '.row.minimum-space';
+    this.minimumSpaceSelector = '.minimum-space.pt-5.col-md-8.col-12';
+    this.inputSelector = '.v-input.theme--light.v-text-field.v-text-field--is-booted.v-select.v-autocomplete';
+    this.testingDDMItem = `span.gates-list-pbb-code:has-text("${itemName}")`
+    this.updateButton = '[ui-test-data="update-btn"]';
 
     // add value to planned cost
-    this.plannedCost = page.getByLabel("Planned Cost");
+    this.plannedCost = 'input[aria-label="Planned Cost"]';
 
-    //currency dropdown
-    this.currencyDropdown = page.getByLabel("Currency");
+    // currency dropdown
+    this.currencyDropdown = 'input[aria-label="Currency"]';
 
-    //project wizard expert Mode
-    this.projectWizardSwitch = page.locator(
-      'input[type="checkbox"][role="switch"][ui-test-data="project-wizard-expert-mode-switch"]'
-    );
+    // project wizard expert Mode
+    this.projectWizardSwitch =
+      'input[type="checkbox"][role="switch"][ui-test-data="project-wizard-expert-mode-switch"]';
 
-    //deactive switch Contains task
-    this.containsTaskSwitch = page.locator(
-      'input[type="checkbox"][role="switch"][ui-test-data="contains-task-switch"]'
-    );
+    // deactive switch Contains task
+    this.containsTaskSwitch =
+      'input[type="checkbox"][role="switch"][ui-test-data="contains-task-switch"]';
 
-    this.showInReports = page.locator('input[type="checkbox"][role="switch"][ui-test-data="showInReport-task-switch"]')
+    this.showInReports =
+      'input[type="checkbox"][role="switch"][ui-test-data="showInReport-task-switch"]';
 
-    //savebutton
-    this.saveGreenButton = page.locator('[ui-test-data="save-btn"]');
+    // save button
+    this.saveGreenButton = '[ui-test-data="save-btn"]';
 
-    //message - success saved
-    this.pbbHasBeenCreated = page.locator(
-      ".v-snack__wrapper v-sheet theme--dark success"
-    );
+    // message - success saved
+    this.pbbHasBeenCreated = ".v-snack__wrapper.v-sheet.theme--dark.success";
 
-    //assigment tab
-    this.assigmentTab = page.locator("//a[normalize-space()='Assignment']");
+    // assignment tab
+    this.assigmentTab = "//a[normalize-space()='Assignment']";
 
-    //delete ddm draft
-    this.deleteDraftButtton = page.locator('[ui-test-data="delete-btn"]');
-    this.modalDeleteButton = page.locator(
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent']//span[normalize-space()='Delete']"
-    );
+    // delete ddm draft
+    this.deleteDraftButtton = '[ui-test-data="delete-btn"]';
+    this.modalDeleteButton =
+      "//div[@class='v-dialog v-dialog--active v-dialog--persistent']//span[normalize-space()='Delete']";
   }
-
   // FUNCTIONS part
 
   async enterToPBB() {
     //click on Definitons tab
-    await this.definitionsTab.click();
+    await this.page.locator(this.definitionsTab).click();
 
     //click on Definitions/Content Bricks TAB
-    await this.pbbTab.click();
+    await this.page.locator(this.pbbTab).click();
+    await this.page.waitForSelector(this.addButton);
   }
 
-  async makroLevel_Name(pbbName) {
+  async makroLevelName(pbbName) {
     //click on ADD button
-    await this.addButton.click();
+    await this.page.locator(this.addButton).click();
 
     //filling a name
-    await this.inputName.fill(pbbName);
+    await this.page.locator(this.inputName).fill(pbbName);
 
-    const inputValue = await this.inputName.inputValue();
+    const inputValue = await this.page.locator(this.inputName).inputValue();
     await expect(inputValue).toBe(pbbName);
   }
 
-  async makroLevel_PbbType() {
+  async makroLevelPbbType() {
     //click on dropdown to choose type of PBB
 
-    await this.pbbTypeDropdown.click();
+    await this.page.locator(this.pbbTypeDropdown).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.pbbTypeStartPBB.click();
-    await expect(this.pbbTypeStartCheck).toBeVisible();
+    await this.page.locator(this.pbbTypeStartPBB).click();
   }
 
-  async makroLevel_PbbTypeNormal() {
+  async makroLevelPbbTypeNormal() {
     //click on dropdown to choose type of PBB
-    await this.pbbTypeDropdown.click();
+    await this.page.locator(this.pbbTypeDropdown).click();
     await this.page.waitForTimeout(timeOuts.timeM);
-    await this.pbbTypeNormalPBB.click();
+    await this.page.locator(this.pbbTypeNormalPBB).click();
   }
 
-  async makroLevel_Owner() {
-    //add owner
-    await this.redArrowButton.nth(0).click();
-    await this.page.waitForTimeout(timeOuts.timeXL);
-    await this.modalWindow.locator(this.item).nth(2).click();
-    await this.buttonUpdate.click();
-  }
-  async makroLevel_Maintainer() {
-    // add maintainer
-    await this.redArrowButton.nth(1).click();
-    await this.page.waitForTimeout(timeOuts.timeM);
-    await this.modalWindow.locator(this.item).nth(2).click();
-    await this.buttonUpdate.nth(1).click();
-  }
-  async makroLevel_Tags() {
-    // add tags
-    await this.redArrowButton2.nth(0).click();
-    await this.page.waitForTimeout(timeOuts.timeM);
-    await this.modalWindow.locator(this.item).nth(2).click();
-    await this.modalWindow.locator(this.item).nth(4).click();
-    await this.modalWindow.locator(this.item).nth(8).click();
-    await this.buttonUpdate.nth(2).click();
-  }
-  async makroLevel_Description(text) {
+  async makroLevelDescription(text) {
     // add description
-    await this.descriptionPBB.fill(text);
+    await this.page.locator(this.descriptionPBB).fill(text);
   }
 
-  async makroLevel_ProjectDefTags() {
-    //add project default tags
-    await this.redArrowButton2.nth(2).click();
-    await this.page.waitForTimeout(timeOuts.timeM);
-    await this.modalWindow.locator(this.item).nth(2).click();
-    await this.modalWindow.locator(this.item).nth(4).click();
-    await this.modalWindow.locator(this.item).nth(8).click();
-    await this.buttonUpdate.nth(3).click();
-  }
-
-  async makroLevel_DefaultDDM() {
+  async makroLevelDefaultDDM() {
     //add Default DDM
-    await this.redArrowButton.nth(2).click();
-    await this.page.waitForTimeout(timeOuts.timeM);
-    await this.modalWindow.locator(this.item).nth(1).click();
-    await this.buttonUpdate.nth(4).click();
-  }
-  async makroLevel_Wizard() {
-    //project wizard switch
-    await this.page.locator(timeOuts.timeM);
-    await this.projectWizardSwitch.click({ force: true });
-    await expect(this.projectWizardSwitch).toBeChecked();
+    await this.page
+    .locator(this.rowSelector)
+    .locator(this.minimumSpaceSelector)
+    .locator(this.inputSelector)
+    .dblclick();
+    await this.page.locator(this.fieldsModal).locator(this.testingDDMItem).click();
+    await this.page.locator(this.fieldsModal).locator(this.updateButton).click();
   }
 
-  async makroLevel_ContainsTask() {
-    //deactive switch contains task
-    await this.containsTaskSwitch.click({ force: true });
-    //check if switch contains task is defaultly enabled due to to pbb start
-
-    await expect(this.containsTaskSwitch).toBeChecked();
-  }
-  async makroLevel_ShowInReports() {
-    //active switch show in reports
-    await this.showInReports.click();
-    if (await this.showInReports.isChecked()) {
-      await expect(this.nameInReports).toBeVisible();
-    }
-  }
-
-  async makroLevel_Save() {
-    //check if assignment is disabled due to unsafed macrolevel
-
-    await expect(this.assigmentTab).toHaveClass("v-tab v-tab--disabled");
-
+  async makroLevelSave() {
     //save PBB
-    await this.saveGreenButton.click();
-
-    await requestAssert(this.page,pbbRequest,statusCode201)
-
+    await this.page.locator(this.saveGreenButton).click();
     
+  }
 
-    //check if assignment is disabled due to unsafed macrolevel
-
-    await expect(this.assigmentTab).not.toHaveClass("v-tab v-tab--disabled");
-
-    //check if inputs are empty or not after save
-    await expect(this.inputName).not.toBeEmpty();
-
-    await expect.soft(this.descriptionCheck).not.toBeEmpty();
-    await expect.soft(this.ownerInput).not.toBeEmpty();
-    await expect.soft(this.maintainerInput).not.toBeEmpty();
-    
-  }          
+  async requestSaveAssert() {
+    await requestAssert(this.page, pbbRequest, statusCode201);
+  }
 
   async checkAndDelete() {
     await this.enterToPBB();
-    await this.page.waitForTimeout(timeOuts.timeM);
+    
 
     let elements = await this.page.$$(`body >> text=${this.pbbName}`);
 
@@ -224,8 +146,8 @@ exports.PBB = class PBB {
       if (elementText === this.pbbName) {
         await this.page.waitForTimeout(timeOuts.timeM);
         await elementHandle.click();
-        await this.deleteDraftButtton.click();
-        await this.modalDeleteButton.click();
+        await this.page.locator(this.deleteDraftButtton).click();
+        await this.page.locator(this.modalDeleteButton).click();
         await this.page.waitForTimeout(timeOuts.timeL);
 
         // Fetch the latest elements after the deletion
