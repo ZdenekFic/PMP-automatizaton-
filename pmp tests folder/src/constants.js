@@ -64,11 +64,13 @@ const scriptExample = "var number = 5";
 //Creation of DDM
 const ddmNAme = "Automated created Domain Model";
 const containerName = "Automatization Container";
+const treeValueText = "Container"
 
 //Creation of DGL
 const dglName = "Automated created DGL";
 const valueName1 = "Value field 11 automatization";
 const valueName2 = "Automatization value field DGL";
+const dglGroupName = "DGL Group name";
 
 //Creation of SubContentBrick
 const scbName = "Automated created SubCB";
@@ -162,10 +164,12 @@ module.exports = {
   dropdownElement1,
   dropdownElement2,
   ddmNAme,
+  treeValueText,
   containerName,
   dglName,
   valueName1,
   valueName2,
+  dglGroupName,
   scbName,
   scbText,
   subcontentBrickFieldName1,

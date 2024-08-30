@@ -43,11 +43,11 @@ test.describe("PMP Creation of SCB", () => {
   test("PMP main Creation of SCB", async ({ page }) => {
     //main Functions
     scb = new SubContentBricks(page, subCBdropdownElement1);
-    await scb.enterToSCB();
-    await scb.formSCB_General(name, text);
-    await scb.add_fields(fieldName1);
+    await scb.enterToCB();
+    await scb.addNewCB();
+    await scb.formCBGeneral(name, text);
 
-    await scb.chooseSCBState();
+    await scb.chooseCBState();
   });
 
   test.afterEach(async ({}) => {

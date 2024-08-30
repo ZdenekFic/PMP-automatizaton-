@@ -11,6 +11,7 @@ const baseURL = constants.baseURL;
 const loggedOUTpageTitle = constants.loggedOUTpageTitle;
 const ddmNAme = constants.ddmNAme;
 const containerName = constants.containerName;
+const treeValueText = constants.treeValueText;
 
 //Setting for non parralel running of tests
 test.describe.configure({ mode: "serial" });
@@ -40,7 +41,7 @@ test.describe("PMP Creation of DDM", () => {
     //main Functions
     ddm = new DDM(page);
     await ddm.enterToDDM();
-    await ddm.generalForm(ddmNAme, containerName);
+    await ddm.generalForm(ddmNAme, containerName,treeValueText);
   });
 
   

@@ -10,6 +10,7 @@ const password = constants.password;
 const baseURL = constants.baseURL;
 const loggedOUTpageTitle = constants.loggedOUTpageTitle;
 const dglName = constants.dglName;
+const dglGroupName = constants.dglGroupName;
 
 const text = constants.cbText;
 const fieldName1 = constants.contentBrickFieldName1;
@@ -49,10 +50,11 @@ test.describe("PMP Creation of DGL", () => {
     dgl = new DGL(page, dropdownElement1);
     await dgl.enterToDGL();
     await dgl.generalForm(dglName, text);
-    await dgl.add_fields(fieldName1, valueName1);
+    await dgl.addGroups(dglGroupName)
+    await dgl.addFields(fieldName1, valueName1);
+    await dgl.addValueField(fieldName2,valueName2)
 
-    dgl2 = new DGL(page, dropdownElement2);
-    await dgl2.add_fields(fieldName2, valueName2);
+    
 
     await dgl.chooseCBState();
   });
