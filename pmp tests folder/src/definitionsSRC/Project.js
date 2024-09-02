@@ -40,6 +40,7 @@ exports.Project = class Project {
     this.saveBlackButtonArea = ".ml-4";
     this.saveBlackButton =
       ".v-icon.notranslate.mdi.mdi-content-save-check.theme--light";
+    this.greenTaskIcon = ".v-icon.notranslate.v-alert__icon.mdi.mdi-check.theme--dark.success--text"
   }
 
   async enterToOverview() {
@@ -97,8 +98,6 @@ exports.Project = class Project {
       .locator(this.saveBlackButtonArea)
       .locator(this.saveBlackButton)
       .click();
-    await this.page.waitForSelector(
-      ".v-icon.notranslate.v-alert__icon.mdi.mdi-check.theme--dark.success--text"
-    );
+    await this.page.waitForSelector(this.greenTaskIcon);
   }
 };

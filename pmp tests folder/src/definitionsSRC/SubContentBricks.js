@@ -3,7 +3,7 @@ const { expect } = require("@playwright/test");
 const { requestAssert } = require("../constants");
 
 exports.SubContentBricks = class SubContentBricks {
-  constructor(page, dropdownElement, mainName) {
+  constructor(page, dropdownElement, mainName,labelName) {
     this.page = page;
     this.mainName = mainName;
     this.dropdownElement = dropdownElement;
@@ -17,7 +17,7 @@ exports.SubContentBricks = class SubContentBricks {
     this.titleHeader = ".pl-0.pt-0.pb-0.col.col-12.col-md-6.col-lg-7.col-xl-7";
     
     //SCB general form
-    this.generalFormName = 'input[type="text"][maxlength="80"]';
+    this.generalFormName = `.v-input:has(label:has-text("${labelName}")) input[type="text"]`;
     this.generalFormIdentifier = "body";
 
     // Overview table
@@ -88,44 +88,9 @@ exports.SubContentBricks = class SubContentBricks {
     }
   }
 
-  async scriptTab(tabName, scriptExample) {
-    //opens tab Script in Content brick
-    await this.page.locator(this.barDiv).locator(this.tabScripts).click();
-
-    //assertion
-    const textTitle = await this.page.locator(this.title).nth(4).textContent();
-    expect(textTitle).toContain(tabName);
-    await this.page.waitForTimeout(timeOuts.timeM);
-
-    //writing the value
-    await this.page.locator(this.textAreaScript).first().fill(scriptExample);
-
-    //assertion
-    expect(this.page.locator(this.textAreaScript).first()).not.toBeEmpty();
-
-    //button validation click
-    await this.page
-      .locator(this.buttonArea)
-      .locator(this.buttonArea2)
-      .locator(this.buttonValidate)
-      .first()
-      .click();
-
-    //assertion with request
-    await requestJSONAssert(
-      this.page,
-      "/api/v1/ContentBrickDefinition/.*/scripts/1/validate$",
-      statusCode200,
-      {
-        success: true,
-        errorMessage: null,
-      }
-    );
-  }
-
   async formCBGeneral(name, text) {
     //click and fill name
-    await this.page.locator(this.generalFormName).first().fill(name);
+    await this.page.locator(this.generalFormName).fill(name);
 
     //click on identifier to get automaticaly identifier
     await this.page.locator(this.generalFormIdentifier).click();

@@ -1,4 +1,4 @@
-const { test, expect } = require("@playwright/test");
+const { test} = require("@playwright/test");
 const constants = require("../../src/constants.js");
 import { LoginPage } from "../../src/LoginPage.js";
 import { SubContentBricks } from "../../src/definitionsSRC/SubContentBricks.js";
@@ -11,7 +11,7 @@ const baseURL = constants.baseURL;
 const loggedOUTpageTitle = constants.loggedOUTpageTitle;
 const name = constants.scbName;
 const text = constants.scbText;
-const fieldName1 = constants.subcontentBrickFieldName1;
+const labelName = constants.labelName;
 
 const subCBdropdownElement1 = constants.subCBdropdownElement1;
 
@@ -42,7 +42,7 @@ test.describe("PMP Creation of SCB", () => {
 
   test("PMP main Creation of SCB", async ({ page }) => {
     //main Functions
-    scb = new SubContentBricks(page, subCBdropdownElement1);
+    scb = new SubContentBricks(page, subCBdropdownElement1,undefined,labelName);
     await scb.enterToCB();
     await scb.addNewCB();
     await scb.formCBGeneral(name, text);

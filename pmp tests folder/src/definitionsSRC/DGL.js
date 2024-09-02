@@ -1,10 +1,13 @@
-const { expect } = require("@playwright/test");
 const { timeOuts, dglRequest, statusCode200 } = require("../constants");
-
 const { requestAssert } = require("../constants");
 
 exports.DGL = class DGL {
-  constructor(page, dropdownElement, mainName, labelName,fieldButtonText,valueFieldButtonText) {
+  constructor(
+    page,
+    dropdownElement,
+    mainName,
+    labelName,
+  ) {
     this.page = page;
     this.mainName = mainName;
     this.definitionsTab = '[ui-test-data="nav-definitions"]';
@@ -21,7 +24,8 @@ exports.DGL = class DGL {
       'button[type="button"][aria-label="Identifier appended action"]';
 
     // input for text to describe CB
-    this.descriptionCB = '.ql-editor.ql-blank[contenteditable="true"]';
+    this.descriptionCB = ".quillWrapper.cb-description-editor";
+    this.descriptionCBtextArea = ".ql-editor";
 
     // Groups - fields
     this.fieldDiv = "div.d-inline-flex.align-center";
@@ -29,10 +33,11 @@ exports.DGL = class DGL {
     this.groupAddButton = "button.error.v-btn.v-btn--text.theme--light";
 
     // Fields objects
-    this.addFieldButtonModal = 'button[aria-haspopup="true"][aria-expanded="false"]';
+    this.addFieldButtonModal =
+      'button[aria-haspopup="true"][aria-expanded="false"]';
     this.addFieldButton = 'button[ui-test-data="drop-down-option-btn"]';
-    this.fieldButtonSel = 'i.mdi-cube';
-    this.valueFieldButtonSel = 'i.mdi-cube-scan';
+    this.fieldButtonSel = "i.mdi-cube";
+    this.valueFieldButtonSel = "i.mdi-cube-scan";
     this.fieldsModal = "div.v-dialog.v-dialog--active.v-dialog--persistent";
     this.fieldNameInput = 'input[autofocus="autofocus"][type="text"]';
     this.fieldIdentifier = 'button[aria-label="Identifier appended action"]';
@@ -80,14 +85,14 @@ exports.DGL = class DGL {
     await this.page.locator(this.generalFormIdentifier).click();
 
     // add some text to description
-    await this.page.locator(this.descriptionCB).nth(0).fill(text);
+    await this.page
+      .locator(this.descriptionCB)
+      .locator(this.descriptionCBtextArea)
+      .fill(text);
   }
 
   async addGroups(name) {
-    await this.page
-      .locator(this.fieldDiv)
-      .locator(this.addGroupButton)
-      .click();
+    await this.page.locator(this.fieldDiv).locator(this.addGroupButton).click();
     await this.page.waitForSelector(this.fieldsModal);
     await this.page.locator(this.fieldNameInput).fill(name);
     await this.page
@@ -105,7 +110,10 @@ exports.DGL = class DGL {
       .locator(this.fieldDiv)
       .locator(this.addFieldButtonModal)
       .click();
-      await this.page.locator(this.addFieldButton).filter({ has: this.page.locator(this.fieldButtonSel) }).click();
+    await this.page
+      .locator(this.addFieldButton)
+      .filter({ has: this.page.locator(this.fieldButtonSel) })
+      .click();
 
     await this.page.waitForSelector(this.fieldsModal);
 
@@ -136,7 +144,10 @@ exports.DGL = class DGL {
       .locator(this.fieldDiv)
       .locator(this.addFieldButtonModal)
       .click();
-      await this.page.locator(this.addFieldButton).filter({ has: this.page.locator(this.valueFieldButtonSel) }).click();
+    await this.page
+      .locator(this.addFieldButton)
+      .filter({ has: this.page.locator(this.valueFieldButtonSel) })
+      .click();
     await this.page.waitForSelector(this.fieldsModal);
 
     await this.page

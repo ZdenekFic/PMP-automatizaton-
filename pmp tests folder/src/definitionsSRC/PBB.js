@@ -58,16 +58,10 @@ exports.PBB = class PBB {
     // save button
     this.saveGreenButton = '[ui-test-data="save-btn"]';
 
-    // message - success saved
-    this.pbbHasBeenCreated = ".v-snack__wrapper.v-sheet.theme--dark.success";
-
-    // assignment tab
-    this.assigmentTab = "//a[normalize-space()='Assignment']";
-
-    // delete ddm draft
-    this.deleteDraftButtton = '[ui-test-data="delete-btn"]';
-    this.modalDeleteButton =
-      "//div[@class='v-dialog v-dialog--active v-dialog--persistent']//span[normalize-space()='Delete']";
+    // check and delete
+    this.deleteDraftButtton = 'button[ui-test-data="delete-btn"].red--text';
+    this.modalDeleteButton = 'button[ui-test-data="delete-confirm-btn"]';
+    
   }
   // FUNCTIONS part
 
