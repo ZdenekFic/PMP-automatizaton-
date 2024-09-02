@@ -39,9 +39,9 @@ test.describe("PMP Creation of DDM", () => {
 
   test("PMP - main creation General", async ({ page }) => {
     //main Functions
-    ddm = new DDM(page);
+    ddm = new DDM(page,ddmNAme,treeValueText);
     await ddm.enterToDDM();
-    await ddm.generalForm(ddmNAme, containerName,treeValueText);
+    await ddm.generalForm(ddmNAme);
   });
 
   

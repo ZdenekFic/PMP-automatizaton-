@@ -60,6 +60,7 @@ const dropdownElement1 = "Text Box";
 const dropdownElement2 = "Text Area";
 const tabName = "Scripts";
 const scriptExample = "var number = 5";
+const labelName = "Name"
 
 //Creation of DDM
 const ddmNAme = "Automated created Domain Model";
@@ -163,6 +164,7 @@ module.exports = {
   contentBrickGroupName1,
   contentBrickFieldName1,
   contentBrickFieldName2,
+  labelName,
   tabName,
   scriptExample,
   dropdownElement1,

@@ -5,9 +5,6 @@ exports.HomePage = class HomePage {
     this.page = page;
     this.mainDomain = mainDomain;
 
-     //productFruits
-     this.prodFruWindow = 'div.productfruits--container';
-
     // switch domain test objects
     this.taskButton = '[ui-test-data="nav-tasks"]';
 
@@ -21,29 +18,7 @@ exports.HomePage = class HomePage {
   async switchDomains() {
     //click on e.g. task to get to Overview to get enabled menu dropdown for domains
     await this.page.locator(this.taskButton).click();
-    
-    // Najdeme hostitele Shadow DOM
-const shadowHost = await this.page.locator('div.productfruits--container');
-
-// Přístup k shadowRoot
-const shadowRoot = await shadowHost.evaluateHandle((element) => element.shadowRoot);
-
-// Najdeme tlačítko "Close" uvnitř shadowRoot
-const closeButton = await shadowRoot.$('button:has-text("Close")');
-
-// Klikneme na tlačítko "Close", pokud existuje
-if (closeButton) {
-    await closeButton.click();
-    console.log("Pop-up was closed.");
-} else {
-    console.log("Close button not found.");
-}
-
-
-
-    
-
-   
+  
     //click on input to get dropdown with domains
     await this.page.locator(this.inputDomains).nth(0).click();
     await this.page.waitForSelector(this.dropDownDomainsMenu);

@@ -18,7 +18,10 @@ const fieldName2 = constants.contentBrickFieldName2;
 const valueName1 = constants.valueName1;
 const valueName2 = constants.valueName2;
 const dropdownElement1 = constants.dropdownElement1;
-const dropdownElement2 = constants.dropdownElement2;
+const labelName = constants.labelName;
+
+
+
 
 //Setting for non parralel running of tests
 test.describe.configure({ mode: "serial" });
@@ -26,7 +29,6 @@ test.describe.configure({ mode: "serial" });
 test.describe("PMP Creation of DGL", () => {
   let login;
   let dgl;
-  let dgl2;
   let home;
 
   test.beforeEach(async ({ page }) => {
@@ -47,7 +49,7 @@ test.describe("PMP Creation of DGL", () => {
 
   test("PMP - main creation", async ({ page }) => {
     //main Functions
-    dgl = new DGL(page, dropdownElement1);
+    dgl = new DGL(page, dropdownElement1,undefined,labelName);
     await dgl.enterToDGL();
     await dgl.generalForm(dglName, text);
     await dgl.addGroups(dglGroupName)

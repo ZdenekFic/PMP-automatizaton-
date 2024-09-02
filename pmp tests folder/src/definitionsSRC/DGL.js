@@ -4,7 +4,7 @@ const { timeOuts, dglRequest, statusCode200 } = require("../constants");
 const { requestAssert } = require("../constants");
 
 exports.DGL = class DGL {
-  constructor(page, dropdownElement, mainName) {
+  constructor(page, dropdownElement, mainName, labelName,fieldButtonText,valueFieldButtonText) {
     this.page = page;
     this.mainName = mainName;
     this.definitionsTab = '[ui-test-data="nav-definitions"]';
@@ -16,7 +16,7 @@ exports.DGL = class DGL {
     this.titleHeader = ".pl-0.pt-0.pb-0.col.col-12.col-md-6.col-lg-7.col-xl-7";
 
     //general form
-    this.generalFormName = 'input[type="text"][maxlength="80"]';
+    this.generalFormName = `.v-input:has(label:has-text("${labelName}")) input[type="text"]`;
     this.generalFormIdentifier =
       'button[type="button"][aria-label="Identifier appended action"]';
 
@@ -29,8 +29,10 @@ exports.DGL = class DGL {
     this.groupAddButton = "button.error.v-btn.v-btn--text.theme--light";
 
     // Fields objects
-    this.addFieldButton = 'button[aria-haspopup="true"][aria-expanded="false"]';
-    this.addValueFieldButton = '[ui-test-data="drop-down-option-btn"]';
+    this.addFieldButtonModal = 'button[aria-haspopup="true"][aria-expanded="false"]';
+    this.addFieldButton = 'button[ui-test-data="drop-down-option-btn"]';
+    this.fieldButtonSel = 'i.mdi-cube';
+    this.valueFieldButtonSel = 'i.mdi-cube-scan';
     this.fieldsModal = "div.v-dialog.v-dialog--active.v-dialog--persistent";
     this.fieldNameInput = 'input[autofocus="autofocus"][type="text"]';
     this.fieldIdentifier = 'button[aria-label="Identifier appended action"]';
@@ -72,7 +74,7 @@ exports.DGL = class DGL {
 
     //General Form
     //click and fill name
-    await this.page.locator(this.generalFormName).first().fill(name);
+    await this.page.locator(this.generalFormName).fill(name);
 
     //click on identifier to get automaticaly identifier
     await this.page.locator(this.generalFormIdentifier).click();
@@ -84,7 +86,6 @@ exports.DGL = class DGL {
   async addGroups(name) {
     await this.page
       .locator(this.fieldDiv)
-      .first()
       .locator(this.addGroupButton)
       .click();
     await this.page.waitForSelector(this.fieldsModal);
@@ -102,10 +103,10 @@ exports.DGL = class DGL {
   async addFields(name) {
     await this.page
       .locator(this.fieldDiv)
-      .first()
-      .locator(this.addFieldButton)
+      .locator(this.addFieldButtonModal)
       .click();
-    await this.page.locator(this.addValueFieldButton).first().click();
+      await this.page.locator(this.addFieldButton).filter({ has: this.page.locator(this.fieldButtonSel) }).click();
+
     await this.page.waitForSelector(this.fieldsModal);
 
     await this.page
@@ -123,10 +124,6 @@ exports.DGL = class DGL {
     await this.page.waitForTimeout(timeOuts.timeM);
 
     await this.page.locator(this.elementDropdown).click();
-    await this.page
-      .locator(this.fieldsModal)
-      .locator(this.switchIsMandatory)
-      .click();
     await this.page.waitForTimeout(timeOuts.timeM);
     await this.page
       .locator(this.fieldsModal)
@@ -137,10 +134,9 @@ exports.DGL = class DGL {
     //add value fields
     await this.page
       .locator(this.fieldDiv)
-      .first()
-      .locator(this.addFieldButton)
+      .locator(this.addFieldButtonModal)
       .click();
-    await this.page.locator(this.addValueFieldButton).nth(1).click();
+      await this.page.locator(this.addFieldButton).filter({ has: this.page.locator(this.valueFieldButtonSel) }).click();
     await this.page.waitForSelector(this.fieldsModal);
 
     await this.page

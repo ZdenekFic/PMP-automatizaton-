@@ -8,7 +8,7 @@ const {
 const { expect } = require("@playwright/test");
 
 exports.ContentBricks = class ContentBricks {
-  constructor(page, dropdownElement, mainName) {
+  constructor(page, dropdownElement, mainName,labelName) {
     this.page = page;
     this.mainName = mainName;
     this.dropdownElement = dropdownElement;
@@ -17,7 +17,7 @@ exports.ContentBricks = class ContentBricks {
     this.overviewHeader = '[ui-test-data="overview-header-add-btn"]';
     this.addButton = 'a[ui-test-data="overview-header-add-btn"]';
     this.titleHeader = ".pl-0.pt-0.pb-0.col.col-12.col-md-6.col-lg-7.col-xl-7";
-    this.generalFormName = 'input[type="text"][maxlength="80"]';
+    this.generalFormName = `.v-input:has(label:has-text("${labelName}")) input[type="text"]`;
     this.generalFormIdentifier =
       'button[type="button"][aria-label="Identifier appended action"]';
 
@@ -26,10 +26,11 @@ exports.ContentBricks = class ContentBricks {
       ".v-data-table.overview-table.pmtool-table.v-data-table--dense.theme--light";
 
     // input for text to describe CB
-    this.descriptionCB = '.ql-editor.ql-blank[contenteditable="true"]';
+    this.descriptionCB = '.quillWrapper.cb-description-editor';
+    this.descriptionCBtextArea = '.ql-editor';
 
     // Groups - fields
-    this.fieldDiv = "div.d-inline-flex align-center";
+    this.fieldDiv = ".d-inline-flex.align-center";
     this.addGroupButton = "button.mx-3.v-btn.elevation-2";
     this.groupAddButton = "button.error.v-btn.v-btn--text.theme--light";
 
@@ -62,6 +63,7 @@ exports.ContentBricks = class ContentBricks {
     // tab scripts objects !!!!!!! not finished
     this.barDiv = ".v-slide-group__wrapper";
     this.tabScripts = 'text="Scripts"';
+    this.scritpTitleAre = '.v-window-item.v-window-item--active';
     this.title = ".v-card__title";
     this.textAreaScript = '[data-testid="textarea"]';
     this.buttonArea = ".v-card__text";
@@ -111,7 +113,7 @@ exports.ContentBricks = class ContentBricks {
     await this.page.locator(this.barDiv).locator(this.tabScripts).click();
 
     //assertion
-    const textTitle = await this.page.locator(this.title).nth(4).textContent();
+    const textTitle = await this.page.locator(this.scritpTitleAre).locator(this.title).textContent();;
     expect(textTitle).toContain(tabName);
     await this.page.waitForTimeout(timeOuts.timeM);
 
@@ -143,13 +145,15 @@ exports.ContentBricks = class ContentBricks {
 
   async formCBGeneral(name, text) {
     //click and fill name
-    await this.page.locator(this.generalFormName).first().fill(name);
+    
+    await this.page.locator(this.generalFormName).fill(name);
 
     //click on identifier to get automaticaly identifier
     await this.page.locator(this.generalFormIdentifier).click();
 
     // add some text to description
-    await this.page.locator(this.descriptionCB).first().fill(text);
+    await this.page.locator(this.descriptionCB).locator(this.descriptionCBtextArea).fill(text);
+    
   }
 
   async addGroups(name) {
@@ -167,7 +171,7 @@ exports.ContentBricks = class ContentBricks {
   }
 
   async addFields(name) {
-    await this.page.locator(this.addFieldButton).first().click();
+    await this.page.locator(this.fieldDiv).locator(this.addFieldButton).click();
     await this.page.waitForSelector(this.fieldsModal);
     await this.page
       .locator(this.fieldsModal)

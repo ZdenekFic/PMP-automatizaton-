@@ -18,6 +18,7 @@ const dropdownElement1 = constants.dropdownElement1;
 const dropdownElement2 = constants.dropdownElement2;
 const tabName = constants.tabName;
 const scriptExample = constants.scriptExample;
+const labelName = constants.labelName;
 
 //Setting for non parralel running of tests
 test.describe.configure({ mode: "serial" });
@@ -47,7 +48,7 @@ test.describe("PMP Creation of CB", () => {
 
   test("PMP main Creation of CB", async ({ page }) => {
     //main Functions
-    cb = new ContentBricks(page, dropdownElement1);
+    cb = new ContentBricks(page, dropdownElement1,undefined, labelName);
     await cb.enterToCB();
     await cb.addNewCB();
     await cb.formCBGeneral(name, text);
