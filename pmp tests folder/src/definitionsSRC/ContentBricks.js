@@ -8,7 +8,7 @@ const {
 const { expect } = require("@playwright/test");
 
 exports.ContentBricks = class ContentBricks {
-  constructor(page, dropdownElement, mainName,labelName) {
+  constructor(page, dropdownElement, mainName, labelName) {
     this.page = page;
     this.mainName = mainName;
     this.dropdownElement = dropdownElement;
@@ -26,8 +26,8 @@ exports.ContentBricks = class ContentBricks {
       ".v-data-table.overview-table.pmtool-table.v-data-table--dense.theme--light";
 
     // input for text to describe CB
-    this.descriptionCB = '.quillWrapper.cb-description-editor';
-    this.descriptionCBtextArea = '.ql-editor';
+    this.descriptionCB = ".quillWrapper.cb-description-editor";
+    this.descriptionCBtextArea = ".ql-editor";
 
     // Groups - fields
     this.fieldDiv = ".d-inline-flex.align-center";
@@ -63,7 +63,7 @@ exports.ContentBricks = class ContentBricks {
     // tab scripts objects !!!!!!! not finished
     this.barDiv = ".v-slide-group__wrapper";
     this.tabScripts = 'text="Scripts"';
-    this.scritpTitleAre = '.v-window-item.v-window-item--active';
+    this.scritpTitleAre = ".v-window-item.v-window-item--active";
     this.title = ".v-card__title";
     this.textAreaScript = '[data-testid="textarea"]';
     this.buttonArea = ".v-card__text";
@@ -113,7 +113,10 @@ exports.ContentBricks = class ContentBricks {
     await this.page.locator(this.barDiv).locator(this.tabScripts).click();
 
     //assertion
-    const textTitle = await this.page.locator(this.scritpTitleAre).locator(this.title).textContent();;
+    const textTitle = await this.page
+      .locator(this.scritpTitleAre)
+      .locator(this.title)
+      .textContent();
     expect(textTitle).toContain(tabName);
     await this.page.waitForTimeout(timeOuts.timeM);
 
@@ -145,15 +148,17 @@ exports.ContentBricks = class ContentBricks {
 
   async formCBGeneral(name, text) {
     //click and fill name
-    
+
     await this.page.locator(this.generalFormName).fill(name);
 
     //click on identifier to get automaticaly identifier
     await this.page.locator(this.generalFormIdentifier).click();
 
     // add some text to description
-    await this.page.locator(this.descriptionCB).locator(this.descriptionCBtextArea).fill(text);
-    
+    await this.page
+      .locator(this.descriptionCB)
+      .locator(this.descriptionCBtextArea)
+      .fill(text);
   }
 
   async addGroups(name) {

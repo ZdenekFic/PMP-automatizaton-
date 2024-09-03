@@ -11,8 +11,7 @@ exports.Project = class Project {
     this.selectProjectArea = ".container.container--fluid.grid-list-md";
     this.selectProjectButtonArea = ".layout.row.wrap";
     this.selectProjectButton = ".v-card__title.pbb-card-title";
-    
-    
+
     this.activeTabSelector =
       'div[role="tab"].v-tab.v-tab--active:has-text("Data")';
     this.proDetailsFirstArea = ".v-window-item.v-window-item--active";
@@ -40,7 +39,8 @@ exports.Project = class Project {
     this.saveBlackButtonArea = ".ml-4";
     this.saveBlackButton =
       ".v-icon.notranslate.mdi.mdi-content-save-check.theme--light";
-    this.greenTaskIcon = ".v-icon.notranslate.v-alert__icon.mdi.mdi-check.theme--dark.success--text"
+    this.greenTaskIcon =
+      ".v-icon.notranslate.v-alert__icon.mdi.mdi-check.theme--dark.success--text";
   }
 
   async enterToOverview() {

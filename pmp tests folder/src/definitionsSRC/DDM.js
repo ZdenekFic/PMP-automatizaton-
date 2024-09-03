@@ -11,7 +11,7 @@ exports.DDM = class DDM {
     this.domainModelsTab = '[ui-test-data="nav-definitions-data-models"]';
     this.domainModelsAddButton = 'a[ui-test-data="overview-header-add-btn"]';
     this.overviewHeader = '[ui-test-data="overview-header-add-btn"]';
-    this.titleHeader = ".pl-0.pt-0.pb-0.col.col-12.col-md-6.col-lg-7.col-xl-7";
+    this.checkItem = "button.v-btn--disabled";
 
     //general Form objects
     this.generalFormNameArea = ".col.col-12";
@@ -58,7 +58,7 @@ exports.DDM = class DDM {
   async generalForm(name) {
     // click on ADD button
     await this.page.locator(this.domainModelsAddButton).click();
-    await this.page.waitForSelector(this.titleHeader);
+    await this.page.waitForSelector(this.checkItem);
 
     // fill the name
     await this.page

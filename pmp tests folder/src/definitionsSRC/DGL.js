@@ -2,12 +2,7 @@ const { timeOuts, dglRequest, statusCode200 } = require("../constants");
 const { requestAssert } = require("../constants");
 
 exports.DGL = class DGL {
-  constructor(
-    page,
-    dropdownElement,
-    mainName,
-    labelName,
-  ) {
+  constructor(page, dropdownElement, mainName, labelName) {
     this.page = page;
     this.mainName = mainName;
     this.definitionsTab = '[ui-test-data="nav-definitions"]';

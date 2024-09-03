@@ -3,7 +3,7 @@ const { expect } = require("@playwright/test");
 const { requestAssert } = require("../constants");
 
 exports.SubContentBricks = class SubContentBricks {
-  constructor(page, dropdownElement, mainName,labelName) {
+  constructor(page, dropdownElement, mainName, labelName) {
     this.page = page;
     this.mainName = mainName;
     this.dropdownElement = dropdownElement;
@@ -15,7 +15,7 @@ exports.SubContentBricks = class SubContentBricks {
     this.overviewHeader = '[ui-test-data="overview-header-add-btn"]';
     this.addButton = 'a[ui-test-data="overview-header-add-btn"]';
     this.titleHeader = ".pl-0.pt-0.pb-0.col.col-12.col-md-6.col-lg-7.col-xl-7";
-    
+
     //SCB general form
     this.generalFormName = `.v-input:has(label:has-text("${labelName}")) input[type="text"]`;
     this.generalFormIdentifier = "body";

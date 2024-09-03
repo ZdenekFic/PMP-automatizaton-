@@ -32,10 +32,11 @@ exports.PBB = class PBB {
     this.descriptionCheck = 'p[role="paragraph"]';
 
     this.fieldsModal = "div.v-dialog.v-dialog--active.v-dialog--persistent";
-    this.rowSelector = '.row.minimum-space';
-    this.minimumSpaceSelector = '.minimum-space.pt-5.col-md-8.col-12';
-    this.inputSelector = '.v-input.theme--light.v-text-field.v-text-field--is-booted.v-select.v-autocomplete';
-    this.testingDDMItem = `span.gates-list-pbb-code:has-text("${itemName}")`
+    this.rowSelector = ".row.minimum-space";
+    this.minimumSpaceSelector = ".minimum-space.pt-5.col-md-8.col-12";
+    this.inputSelector =
+      ".v-input.theme--light.v-text-field.v-text-field--is-booted.v-select.v-autocomplete";
+    this.testingDDMItem = `span.gates-list-pbb-code:has-text("${itemName}")`;
     this.updateButton = '[ui-test-data="update-btn"]';
 
     // add value to planned cost
@@ -61,7 +62,6 @@ exports.PBB = class PBB {
     // check and delete
     this.deleteDraftButtton = 'button[ui-test-data="delete-btn"].red--text';
     this.modalDeleteButton = 'button[ui-test-data="delete-confirm-btn"]';
-    
   }
   // FUNCTIONS part
 
@@ -108,18 +108,23 @@ exports.PBB = class PBB {
   async makroLevelDefaultDDM() {
     //add Default DDM
     await this.page
-    .locator(this.rowSelector)
-    .locator(this.minimumSpaceSelector)
-    .locator(this.inputSelector)
-    .dblclick();
-    await this.page.locator(this.fieldsModal).locator(this.testingDDMItem).click();
-    await this.page.locator(this.fieldsModal).locator(this.updateButton).click();
+      .locator(this.rowSelector)
+      .locator(this.minimumSpaceSelector)
+      .locator(this.inputSelector)
+      .dblclick();
+    await this.page
+      .locator(this.fieldsModal)
+      .locator(this.testingDDMItem)
+      .click();
+    await this.page
+      .locator(this.fieldsModal)
+      .locator(this.updateButton)
+      .click();
   }
 
   async makroLevelSave() {
     //save PBB
     await this.page.locator(this.saveGreenButton).click();
-    
   }
 
   async requestSaveAssert() {
@@ -128,7 +133,6 @@ exports.PBB = class PBB {
 
   async checkAndDelete() {
     await this.enterToPBB();
-    
 
     let elements = await this.page.$$(`body >> text=${this.pbbName}`);
 
