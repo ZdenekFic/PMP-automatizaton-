@@ -1,71 +1,69 @@
+// -------------------------------------------------------------------------------------
+// Module Imports
+// -------------------------------------------------------------------------------------
+
 const { expect } = require("@playwright/test");
 const constants = require("./constants");
+
+// -------------------------------------------------------------------------------------
+// Class Definition: DDM
+// -------------------------------------------------------------------------------------
 exports.DDM = class DDM {
   constructor(page, ddmName, dataModelContainerText) {
     this.page = page;
     this.ddmName = ddmName;
+
+    // --------------------- Navigation Selectors ---------------------
     this.definitionsTab = '[ui-test-data="nav-definitions"]';
     this.domainModelsTab = '[ui-test-data="nav-definitions-data-models"]';
     this.domainModelsAddButton = 'a[ui-test-data="overview-header-add-btn"]';
     this.overviewHeader = '[ui-test-data="overview-header-add-btn"]';
     this.checkItem = "button.v-btn--disabled";
 
-    //general Form objects
+    // --------------------- General Form Objects ---------------------
     this.generalFormNameArea = ".col.col-12";
     this.generalFormName = 'input[type="text"]';
 
-    //save general form
-    this.saveGreenButton =
-      'button[aria-haspopup="true"][aria-expanded="false"] .mdi-content-save';
+    // --------------------- Save General Form ---------------------
+    this.saveGreenButton = 'button[aria-haspopup="true"][aria-expanded="false"] .mdi-content-save';
 
-    // Data model objects
+    // --------------------- Data Model Objects ---------------------
     this.treeSelector = '[role="tree"]';
     this.dataModelThreeDotsButton = ".mdi-dots-vertical";
-    this.dataModelMenuObjects =
-      'div[role="menu"].v-menu__content.theme--light.menuable__content__active';
+    this.dataModelMenuObjects = 'div[role="menu"].v-menu__content.theme--light.menuable__content__active';
     this.buttonItem = ".v-icon.notranslate.mdi.mdi-folder.theme--light";
     this.dataModelMenuObjectsContainter = `span.order-2:has-text("${dataModelContainerText}")`;
     this.identifierCheck = "body";
 
-    // save data model
+    // --------------------- Save Data Model ---------------------
     this.saveArea = "header.v-toolbar.v-toolbar--dense.v-toolbar--floating";
-    this.dataModelMenuObjectsSaveAll = 'button.v-btn--icon[role="button"]';
+    this.dataModelMenuObjectsSaveAll = 'button.v-btn:has(.mdi-content-save)';
 
-    //save data model
-    this.saveArea = "header.v-toolbar.v-toolbar--dense.v-toolbar--floating";
-    this.dataModelMenuObjectsSaveAll = "button.v-btn:has(.mdi-content-save)";
-
-    ///Delete part
-    //delete ddm draft
+    // --------------------- Delete DDM Draft ---------------------
     this.deleteDraftButtton = 'button[ui-test-data="delete-btn"].red--text';
     this.modalDeleteButton = 'button[ui-test-data="delete-confirm-btn"]';
     this.searchBarInput = "input[ui-test-data='top-bar-search']";
     this.searchedObject = `div.v-list-item:has-text("${ddmName}")`;
-    
   }
 
+  // --------------------- Enter Domain Data Models ---------------------
   async enterToDDM() {
-    // go to definition
     await this.page.locator(this.definitionsTab).click();
-
-    // click on domain models
     await this.page.locator(this.domainModelsTab).click();
     await this.page.waitForSelector(this.overviewHeader);
   }
 
+  // --------------------- Fill General Form ---------------------
   async generalForm(name) {
-    // click on ADD button
     await this.page.locator(this.domainModelsAddButton).click();
     await this.page.waitForSelector(this.checkItem);
 
-    // fill the name
     await this.page
       .locator(this.generalFormNameArea)
       .locator(this.generalFormName)
       .first()
       .fill(name);
 
-    //save general form
     await this.page.locator(this.saveGreenButton).click();
 
     await constants.requestAssert(
@@ -74,15 +72,13 @@ exports.DDM = class DDM {
       constants.statusCode201
     );
 
-    // DATA MODEL TAB PART
-    // click on menu "three dots button"
+    // --------------------- Data Model Tab Actions ---------------------
     await this.page
       .locator(this.treeSelector)
       .locator(this.dataModelThreeDotsButton)
       .click();
     await expect(this.page.locator(this.dataModelMenuObjects)).toBeVisible();
 
-    //add container to tree
     await this.page
       .locator(this.dataModelMenuObjects)
       .locator(this.buttonItem)
@@ -92,7 +88,6 @@ exports.DDM = class DDM {
       this.page.locator(this.dataModelMenuObjectsContainter)
     ).toBeVisible();
 
-    //click to get automated identifier
     await this.page.locator(this.identifierCheck).click();
 
     await this.page
@@ -100,8 +95,8 @@ exports.DDM = class DDM {
       .locator(this.dataModelMenuObjectsSaveAll);
   }
 
+  // --------------------- Check and Delete Searched Object ---------------------
   async checkAndDelete(searchedText) {
-    //Click on a searchbar
     await this.page.locator(this.searchBarInput).fill(searchedText);
     await this.page.waitForTimeout(constants.timeOuts.timeXL);
 
@@ -112,7 +107,6 @@ exports.DDM = class DDM {
 
       await this.page.locator(this.deleteDraftButtton).click();
       await this.page.locator(this.modalDeleteButton).click();
-      ;
     }
   }
 };

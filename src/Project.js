@@ -1,54 +1,62 @@
+// -------------------------------------------------------------------------------------
+// Module Imports
+// -------------------------------------------------------------------------------------
+
 const { expect } = require("@playwright/test");
 
+// -------------------------------------------------------------------------------------
+// Class Definition: Project
+// -------------------------------------------------------------------------------------
 exports.Project = class Project {
   constructor(page) {
     this.page = page;
+
+    // --------------------- Navigation and Project Selectors ---------------------
     this.activeProjectsTab = '[ui-test-data="nav-project-active"]';
     this.activeProjectsAddBtn = 'a[ui-test-data="overview-header-add-btn"]';
     this.titleHeader = ".pl-0.pt-0.pb-0.col.col-12.col-md-6.col-lg-7.col-xl-7";
 
-    //Pick a pbb type brick
+    // --------------------- Project Type Selection ---------------------
     this.selectProjectArea = ".container.container--fluid.grid-list-md";
     this.selectProjectButtonArea = ".layout.row.wrap";
     this.selectProjectButton = ".v-card__title.pbb-card-title";
 
-    this.activeTabSelector =
-      'div[role="tab"].v-tab.v-tab--active:has-text("Data")';
+    // --------------------- Project Details Selectors ---------------------
+    this.activeTabSelector = 'div[role="tab"].v-tab.v-tab--active:has-text("Data")';
     this.proDetailsFirstArea = ".v-window-item.v-window-item--active";
     this.proDetailsInputName = 'input[type="text"][autofocus]';
     this.proDetailNextButtonArea = ".py-0.px-4.d-flex.col.col-auto";
-    this.proDetailNextButton =
-      ".error.mx-2.v-btn.v-btn--text.theme--light.v-size--default";
+    this.proDetailNextButton = ".error.mx-2.v-btn.v-btn--text.theme--light.v-size--default";
     this.proDetailDeleteButton = '[ui-test-data="delete-btn"]';
-    this.proDetailStartButton =
-      ".error.split-button-main-btn.v-btn.v-btn--text.theme--light.v-size--default";
-
+    this.proDetailStartButton = ".error.split-button-main-btn.v-btn.v-btn--text.theme--light.v-size--default";
     this.disabledButton = "button:disabled";
 
+    // --------------------- Task Management Selectors ---------------------
     this.taskArea = ".v-card.v-card--flat.v-sheet.theme--light";
     this.taskAreaSecond = ".pbb-name-label";
     this.taskButton = "a[href]";
 
-    this.greenFinishButton =
-      ".mr-1.v-btn.v-btn--is-elevated.v-btn--has-bg.theme--light.v-size--default";
-
-    this.mainTaskArea =
-      ".v-card.v-sheet.theme--light.mb-3.lighten-5.initial.pmtool-card-content-brick";
+    // --------------------- Task Completion and Save Selectors ---------------------
+    this.greenFinishButton = ".mr-1.v-btn.v-btn--is-elevated.v-btn--has-bg.theme--light.v-size--default";
+    this.mainTaskArea = ".v-card.v-sheet.theme--light.mb-3.lighten-5.initial.pmtool-card-content-brick";
     this.mainTaskAreaInput = 'input[type="number"]';
-
     this.saveBlackButtonArea = ".ml-4";
-    this.saveBlackButton =
-      ".v-icon.notranslate.mdi.mdi-content-save-check.theme--light";
-    this.greenTaskIcon =
-      ".v-icon.notranslate.v-alert__icon.mdi.mdi-check.theme--dark.success--text";
+    this.saveBlackButton = ".v-icon.notranslate.mdi.mdi-content-save-check.theme--light";
+    this.greenTaskIcon = ".v-icon.notranslate.v-alert__icon.mdi.mdi-check.theme--dark.success--text";
     this.succesMessage = '.v-snack__wrapper.v-sheet.theme--dark.success';
   }
 
+  // -------------------------------------------------------------------------------------
+  // Methods
+  // -------------------------------------------------------------------------------------
+
+  // --------------------- Enter Project Overview ---------------------
   async enterToOverview() {
     await this.page.locator(this.activeProjectsTab).click();
     await this.page.waitForSelector(this.activeProjectsAddBtn);
   }
 
+  // --------------------- Create a New Project ---------------------
   async newProject(name) {
     await this.page.locator(this.activeProjectsAddBtn).click();
     await this.page.waitForSelector(this.titleHeader);
@@ -59,10 +67,8 @@ exports.Project = class Project {
       .locator(this.selectProjectButton)
       .click();
 
-    // Čekání na aktivní tab
-    await this.page.waitForSelector(this.activeTabSelector, {
-      state: "visible",
-    });
+    // Wait for the active tab
+    await this.page.waitForSelector(this.activeTabSelector, { state: "visible" });
     await expect(this.page.locator(this.activeTabSelector)).toBeVisible();
 
     await this.page

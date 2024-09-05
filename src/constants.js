@@ -6,7 +6,7 @@ const username = "automater.test@memos.cz";
 const password = "memos";
 const mainDomain = "Test Automation Domain";
 const baseURL = "https://test.einhellpmp.com";
-const loggedOUTpageTitle = "Log in to PMP DEV"
+const loggedOUTpageTitle = "Log in to PMP DEV";
 
 // Timeouts
 const timeOuts = {
@@ -60,12 +60,12 @@ const dropdownElement1 = "Text Box";
 const dropdownElement2 = "Text Area";
 const tabName = "Scripts";
 const scriptExample = "var number = 5;";
-const labelName = "Name"
+const labelName = "Name";
 
 //Creation of DDM
 const ddmName = "Automated created Domain Model";
 const containerName = "Automatization Container";
-const treeValueText = "Container"
+const treeValueText = "Container";
 
 //Creation of DGL
 const dglName = "Automated created DGL";
@@ -73,7 +73,6 @@ const valueName1 = "Value field 11 automatization";
 const valueName2 = "Automatization value field DGL";
 const dglGroupName = "DGL Group name";
 const fieldName1 = "Field name automatization";
-
 
 //Creation of SubContentBrick
 const scbName = "Automated created SubCB";
@@ -101,7 +100,9 @@ async function requestAssert(page, requestURL, statusCode) {
   );
 
   if (response.status() !== statusCode) {
-    throw new Error(`Expected status ${statusCode} but got ${response.status()}`);
+    throw new Error(
+      `Expected status ${statusCode} but got ${response.status()}`
+    );
   }
 }
 
