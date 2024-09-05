@@ -1,58 +1,71 @@
-const { test} = require("@playwright/test");
-const constants = require("../src/constants.js");
+// -------------------------------------------------------------------------------------
+// Module Imports
+// -------------------------------------------------------------------------------------
+
+import { test } from "@playwright/test";
+import constants from "../src/constants.js";
 import { LoginPage } from "../src/LoginPage.js";
 import { SubContentBricks } from "../src/SubContentBricks.js";
 import { HomePage } from "../src/HomePage.js";
 
-//Login
-const username = constants.username;
-const password = constants.password;
-const baseURL = constants.baseURL;
-const loggedOUTpageTitle = constants.loggedOUTpageTitle;
-const name = constants.scbName;
-const text = constants.scbText;
-const labelName = constants.labelName;
 
-const subCBdropdownElement1 = constants.subCBdropdownElement1;
+// -------------------------------------------------------------------------------------
+// Test Suite Configuration
+// -------------------------------------------------------------------------------------
 
-//Setting for non parralel running of tests
+
+// Nastavení pro sekvenční spuštění testů (ne paralelně)
 test.describe.configure({ mode: "serial" });
 
+
+// -------------------------------------------------------------------------------------
+// Main Test Suite: PMP Creation of PBB
+// -------------------------------------------------------------------------------------
+
+
+// Hlavní testovací popis: Vytváření a správa SCB
 test.describe("PMP Creation of SCB", () => {
   let login;
   let scb;
-
   let home;
 
+ // -------------------------------------------------------------------------
+  // Before Each Test: Setup and Login
+  // -------------------------------------------------------------------------
   test.beforeEach(async ({ page }) => {
-    //Login
     login = new LoginPage(page);
-    await login.gotoLoginPage(baseURL);
-    await login.login(username, password);
+    await login.gotoLoginPage(constants.baseURL);
+    await login.login(constants.username, constants.password);
     await login.loginAssert();
     home = new HomePage(page, constants.mainDomain);
     await home.switchDomains();
   });
 
+  // -------------------------------------------------------------------------
+  // Test Case 1: Check and Delete Existing SCB
+  // -------------------------------------------------------------------------
+
   test("Check and delete", async ({ page }) => {
-    //main Functions
-    scb = new SubContentBricks(page, subCBdropdownElement1, name);
+    scb = new SubContentBricks(page, constants.subCBdropdownElement1, constants.scbName);
     await scb.checkCreatedSCB();
   });
 
+  // -------------------------------------------------------------------------
+  // Test Case 2: Main Creation of SCB
+  // -------------------------------------------------------------------------
   test("PMP main Creation of SCB", async ({ page }) => {
-    //main Functions
-    scb = new SubContentBricks(page, subCBdropdownElement1,undefined,labelName);
+    scb = new SubContentBricks(page, constants.subCBdropdownElement1, undefined, constants.labelName);
     await scb.enterToCB();
     await scb.addNewCB();
-    await scb.formCBGeneral(name, text);
-
+    await scb.formCBGeneral(constants.scbName, constants.scbText);
     await scb.chooseCBState();
   });
 
-  test.afterEach(async ({}) => {
-    //LogOut
+  // -------------------------------------------------------------------------
+  // After Each Test: Logout and Cleanup
+  // -------------------------------------------------------------------------
+  test.afterEach(async () => {
     await login.logOut();
-    await login.logOutAssert(loggedOUTpageTitle);
+    await login.logOutAssert(constants.loggedOUTpageTitle);
   });
 });

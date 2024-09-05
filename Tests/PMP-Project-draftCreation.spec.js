@@ -1,8 +1,16 @@
-const { test, expect } = require("@playwright/test");
-const constants = require("../src/constants.js");
+// -------------------------------------------------------------------------------------
+// Module Imports
+// -------------------------------------------------------------------------------------
+
+import { test } from "@playwright/test";
+import  constants  from "../src/constants.js";
 import { LoginPage } from "../src/LoginPage.js";
 import { Project } from "../src/Project.js";
 import { HomePage } from "../src/HomePage.js";
+
+// -------------------------------------------------------------------------------------
+// Test Suite Configuration
+// -------------------------------------------------------------------------------------
 
 //Login
 const username = constants.username;
@@ -15,10 +23,19 @@ const projectName = constants.projectName;
 //Setting for non parralel running of tests
 test.describe.configure({ mode: "serial" });
 
+// -------------------------------------------------------------------------------------
+// Main Test Suite: PMP Creation of Project
+// -------------------------------------------------------------------------------------
+
 test.describe("Project creation", () => {
   let login;
   let project;
   let home;
+
+  // -------------------------------------------------------------------------
+  // Before Each Test: Setup and Login
+  // -------------------------------------------------------------------------
+
 
   test.beforeEach(async ({ page }) => {
     //Login

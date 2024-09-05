@@ -2,8 +2,8 @@
 // Module Imports
 // -------------------------------------------------------------------------------------
 
-const { test, expect } = require("@playwright/test");
-const constants = require("../src/constants.js");
+import { test } from "@playwright/test";
+import  constants  from "../src/constants.js";
 import { LoginPage } from "../src/LoginPage.js";
 import { DDM } from "../src/DDM.js";
 import { HomePage } from "../src/HomePage.js";
