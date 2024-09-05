@@ -2,11 +2,11 @@
 // Module Imports
 // -------------------------------------------------------------------------------------
 
-const { test} = require("@playwright/test");
-const constants = require("../../src/constants.js");
-import { LoginPage } from "../../src/LoginPage.js";
-import { PBB } from "../../src/PBB.js";
-import { HomePage } from "../../src/HomePage.js";
+const { test, expect } = require("@playwright/test");
+const constants = require("../src/constants.js");
+import { LoginPage } from "../src/LoginPage.js";
+import { DDM } from "../src/DDM.js";
+import { HomePage } from "../src/HomePage.js";
 
 // -------------------------------------------------------------------------------------
 // Test Suite Configuration
@@ -16,12 +16,12 @@ import { HomePage } from "../../src/HomePage.js";
 test.describe.configure({ mode: "serial" });
 
 // -------------------------------------------------------------------------------------
-// Main Test Suite: PMP Creation of PBB Normal
+// Main Test Suite: PMP Creation of DDM
 // -------------------------------------------------------------------------------------
 
-test.describe("PMP Creation of PBB Normal", () => {
+test.describe("PMP Creation of DDM", () => {
   let login;
-  let pbb;
+  let ddm;
   let home;
 
   // -------------------------------------------------------------------------
@@ -39,27 +39,24 @@ test.describe("PMP Creation of PBB Normal", () => {
   });
 
   // -------------------------------------------------------------------------
-  // Test Case 1: Check and Delete Existing PBB
+  // Test Case 1: Check and Delete Existing DDM
   // -------------------------------------------------------------------------
 
   test("Check and delete", async ({ page }) => {
     // Main Functions
-    pbb = new PBB(page, constants.pbbNameNormal);
-    await pbb.checkAndDelete();
+    ddm = new DDM(page, constants.ddmName);
+    await ddm.checkAndDelete(constants.ddmName);
   });
 
   // -------------------------------------------------------------------------
-  // Test Case 2: Main Creation of PBB in Normal Type
+  // Test Case 2: Main Creation of DDM - General
   // -------------------------------------------------------------------------
 
-  test("PMP main Creation of PBB in normal type", async ({ page }) => {
+  test("PMP - main creation General", async ({ page }) => {
     // Main Functions
-    pbb = new PBB(page);
-    await pbb.enterToPBB();
-    await pbb.makroLevelName(constants.pbbNameNormal);
-    await pbb.makroLevelPbbTypeNormal();
-    await pbb.makroLevelDescription(constants.scbText);
-    await pbb.makroLevelSave();
+    ddm = new DDM(page, constants.ddmName, constants.treeValueText);
+    await ddm.enterToDDM();
+    await ddm.generalForm(constants.ddmName);
   });
 
   // -------------------------------------------------------------------------

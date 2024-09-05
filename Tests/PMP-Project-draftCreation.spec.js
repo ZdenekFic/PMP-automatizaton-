@@ -1,8 +1,8 @@
 const { test, expect } = require("@playwright/test");
-const constants = require("../../src/constants.js");
-import { LoginPage } from "../../src/LoginPage.js";
-import { Project } from "../../src/Project.js";
-import { HomePage } from "../../src/HomePage.js";
+const constants = require("../src/constants.js");
+import { LoginPage } from "../src/LoginPage.js";
+import { Project } from "../src/Project.js";
+import { HomePage } from "../src/HomePage.js";
 
 //Login
 const username = constants.username;

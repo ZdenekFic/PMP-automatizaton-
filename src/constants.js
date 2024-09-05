@@ -100,46 +100,8 @@ async function requestAssert(page, requestURL, statusCode) {
     (response) => response.url() === requestURL
   );
 
-  expect(response.status()).toBe(statusCode);
-
-  if (response.status() === statusCode) {
-    console.log("Request was successfull");
-  } else {
-    console.error("Unsuccessfull", response.status());
-  }
-}
-
-//Validation of JSON request
-async function requestJSONAssert(
-  page,
-  requestURLPattern,
-  statusCode,
-  expectedJson
-) {
-  try {
-    const response = await page.waitForResponse(
-      (response) => new RegExp(requestURLPattern).test(response.url()),
-      { timeout: 10000 }
-    );
-
-    console.log(
-      `Received response for URL matching pattern: ${requestURLPattern}`
-    );
-    expect(response.status()).toBe(statusCode);
-
-    if (response.status() === statusCode) {
-      console.log("Request was successful");
-
-      if (expectedJson) {
-        const responseBody = await response.json();
-        expect(responseBody).toEqual(expectedJson);
-        console.log("JSON response matches expected");
-      }
-    } else {
-      console.error("Unsuccessful", response.status());
-    }
-  } catch (error) {
-    console.error(`Error while waiting for response: ${error}`);
+  if (response.status() !== statusCode) {
+    throw new Error(`Expected status ${statusCode} but got ${response.status()}`);
   }
 }
 
@@ -190,5 +152,4 @@ module.exports = {
   pbbNameNormal,
   projectName,
   requestAssert,
-  requestJSONAssert,
 };

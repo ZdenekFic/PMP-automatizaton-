@@ -133,8 +133,7 @@ exports.PBB = class PBB {
     for (let i = 0; i < elements.length; i++) {
       const elementHandle = elements[i];
       const elementText = await elementHandle.innerText();
-      console.log(elementText);
-
+      
       if (elementText === this.pbbName) {
         await this.page.waitForTimeout(constants.timeOuts.timeM);
         await elementHandle.click();

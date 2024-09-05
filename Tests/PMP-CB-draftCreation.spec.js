@@ -2,11 +2,11 @@
 // Module Imports
 // -------------------------------------------------------------------------------------
 
-const { test, expect } = require("@playwright/test");
-const constants = require("../../src/constants.js");
-import { LoginPage } from "../../src/LoginPage.js";
-import { DDM } from "../../src/DDM.js";
-import { HomePage } from "../../src/HomePage.js";
+const { test } = require("@playwright/test");
+const constants = require("../src/constants.js");
+import { LoginPage } from "../src/LoginPage.js";
+import { ContentBricks } from "../src/ContentBricks.js";
+import { HomePage } from "../src/HomePage.js";
 
 // -------------------------------------------------------------------------------------
 // Test Suite Configuration
@@ -16,12 +16,13 @@ import { HomePage } from "../../src/HomePage.js";
 test.describe.configure({ mode: "serial" });
 
 // -------------------------------------------------------------------------------------
-// Main Test Suite: PMP Creation of DDM
+// Main Test Suite: PMP Creation of Content Brick (CB)
 // -------------------------------------------------------------------------------------
 
-test.describe("PMP Creation of DDM", () => {
+test.describe("PMP Creation of CB", () => {
   let login;
-  let ddm;
+  let cb;
+  let cb2;
   let home;
 
   // -------------------------------------------------------------------------
@@ -39,24 +40,44 @@ test.describe("PMP Creation of DDM", () => {
   });
 
   // -------------------------------------------------------------------------
-  // Test Case 1: Check and Delete Existing DDM
+  // Test Case 1: Check and Delete Existing Content Bricks
   // -------------------------------------------------------------------------
 
   test("Check and delete", async ({ page }) => {
     // Main Functions
-    ddm = new DDM(page, constants.ddmName);
-    await ddm.checkAndDelete(constants.ddmName);
+    cb = new ContentBricks(page, constants.dropdownElement1, constants.cbName);
+    await cb.checkCreatedCB();
   });
 
   // -------------------------------------------------------------------------
-  // Test Case 2: Main Creation of DDM - General
+  // Test Case 2: Main Creation of Content Brick (CB)
   // -------------------------------------------------------------------------
 
-  test("PMP - main creation General", async ({ page }) => {
+  test("PMP main Creation of CB", async ({ page }) => {
     // Main Functions
-    ddm = new DDM(page, constants.ddmName, constants.treeValueText);
-    await ddm.enterToDDM();
-    await ddm.generalForm(constants.ddmName);
+    cb = new ContentBricks(page, constants.dropdownElement1, undefined, constants.labelName);
+    await cb.enterToCB();
+    await cb.addNewCB();
+    await cb.formCBGeneral(constants.cbName, constants.cbText);
+    await cb.addGroups(constants.contentBrickGroupName1);
+    await cb.addFields(constants.contentBrickFieldName1);
+
+    cb2 = new ContentBricks(page, constants.dropdownElement2);
+    await cb2.addFields(constants.contentBrickFieldName2);
+
+    await cb.chooseCBState();
+  });
+
+  // -------------------------------------------------------------------------
+  // Test Case 3: Script Tab Check in Content Brick
+  // -------------------------------------------------------------------------
+
+  test("Script tab check", async ({ page }) => {
+    // Main Functions
+    cb = new ContentBricks(page, constants.dropdownElement1, constants.cbName);
+    await cb.enterToCB();
+    await cb.enterToCBDetail();
+    await cb.scriptTab(constants.tabName, constants.scriptExample);
   });
 
   // -------------------------------------------------------------------------

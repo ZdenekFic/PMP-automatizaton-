@@ -2,11 +2,11 @@
 // Module Imports
 // -------------------------------------------------------------------------------------
 
-const { test, expect } = require("@playwright/test");
-const constants = require("../../src/constants.js");
-import { LoginPage } from "../../src/LoginPage.js";
-import { DGL } from "../../src/DGL.js";
-import { HomePage } from "../../src/HomePage.js";
+const { test } = require("@playwright/test");
+const constants = require("../src/constants.js");
+import { LoginPage } from "../src/LoginPage.js";
+import { PBB } from "../src/PBB.js";
+import { HomePage } from "../src/HomePage.js";
 
 // -------------------------------------------------------------------------------------
 // Test Suite Configuration
@@ -16,12 +16,12 @@ import { HomePage } from "../../src/HomePage.js";
 test.describe.configure({ mode: "serial" });
 
 // -------------------------------------------------------------------------------------
-// Main Test Suite: PMP Creation of DGL
+// Main Test Suite: PMP Creation of PBB
 // -------------------------------------------------------------------------------------
 
-test.describe("PMP Creation of DGL", () => {
+test.describe("PMP Creation of PBB", () => {
   let login;
-  let dgl;
+  let pbb;
   let home;
 
   // -------------------------------------------------------------------------
@@ -39,29 +39,29 @@ test.describe("PMP Creation of DGL", () => {
   });
 
   // -------------------------------------------------------------------------
-  // Test Case 1: Check and Delete Existing DGL
+  // Test Case 1: Check and Delete Existing PBB
   // -------------------------------------------------------------------------
 
   test("Check and delete", async ({ page }) => {
     // Main Functions
-    dgl = new DGL(page, constants.dropdownElement1, constants.dglName);
-    await dgl.checkAndDelete();
+    pbb = new PBB(page, constants.pbbName);
+    await pbb.checkAndDelete();
   });
 
   // -------------------------------------------------------------------------
-  // Test Case 2: Main Creation of DGL
+  // Test Case 2: Main Creation of PBB
   // -------------------------------------------------------------------------
 
-  test("PMP - main creation", async ({ page }) => {
+  test("PMP main Creation of PBB", async ({ page }) => {
     // Main Functions
-    dgl = new DGL(page, constants.dropdownElement1, undefined, constants.labelName);
-    await dgl.enterToDGL();
-    await dgl.generalForm(constants.dglName, constants.scbText);
-    await dgl.addGroups(constants.dglGroupName);
-    await dgl.addFields(constants.fieldName1, constants.valueName1);
-    
-
-    await dgl.chooseCBState();
+    pbb = new PBB(page, constants.pbbName, constants.testingDDMItem);
+    await pbb.enterToPBB();
+    await pbb.makroLevelName(constants.pbbName);
+    await pbb.makroLevelPbbType();
+    await pbb.makroLevelDescription(constants.scbText);
+    await pbb.makroLevelDefaultDDM();
+    await pbb.makroLevelSave();
+    await pbb.requestSaveAssert();
   });
 
   // -------------------------------------------------------------------------

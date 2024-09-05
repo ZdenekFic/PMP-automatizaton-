@@ -51,7 +51,7 @@ exports.ContentBricks = class ContentBricks {
     this.saveSCBbutton = ".v-toolbar__content button:has(.mdi-content-save)";
 
     // deleting objects
-    this.deleteDraftButtton = 'button[ui-test-data="delete-btn"].red--text';
+    this.deleteDraftButtton = 'button[ui-test-data="delete-btn"]';
     this.modalDeleteButton = 'button[ui-test-data="delete-confirm-btn"]';
 
     // tab scripts objects !!!!!!! not finished

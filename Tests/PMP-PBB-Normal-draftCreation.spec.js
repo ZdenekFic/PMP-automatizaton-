@@ -2,11 +2,11 @@
 // Module Imports
 // -------------------------------------------------------------------------------------
 
-const { test } = require("@playwright/test");
-const constants = require("../../src/constants.js");
-import { LoginPage } from "../../src/LoginPage.js";
-import { ContentBricks } from "../../src/ContentBricks.js";
-import { HomePage } from "../../src/HomePage.js";
+const { test} = require("@playwright/test");
+const constants = require("../src/constants.js");
+import { LoginPage } from "../src/LoginPage.js";
+import { PBB } from "../src/PBB.js";
+import { HomePage } from "../src/HomePage.js";
 
 // -------------------------------------------------------------------------------------
 // Test Suite Configuration
@@ -16,13 +16,12 @@ import { HomePage } from "../../src/HomePage.js";
 test.describe.configure({ mode: "serial" });
 
 // -------------------------------------------------------------------------------------
-// Main Test Suite: PMP Creation of Content Brick (CB)
+// Main Test Suite: PMP Creation of PBB Normal
 // -------------------------------------------------------------------------------------
 
-test.describe("PMP Creation of CB", () => {
+test.describe("PMP Creation of PBB Normal", () => {
   let login;
-  let cb;
-  let cb2;
+  let pbb;
   let home;
 
   // -------------------------------------------------------------------------
@@ -40,44 +39,27 @@ test.describe("PMP Creation of CB", () => {
   });
 
   // -------------------------------------------------------------------------
-  // Test Case 1: Check and Delete Existing Content Bricks
+  // Test Case 1: Check and Delete Existing PBB
   // -------------------------------------------------------------------------
 
   test("Check and delete", async ({ page }) => {
     // Main Functions
-    cb = new ContentBricks(page, constants.dropdownElement1, constants.cbName);
-    await cb.checkCreatedCB();
+    pbb = new PBB(page, constants.pbbNameNormal);
+    await pbb.checkAndDelete();
   });
 
   // -------------------------------------------------------------------------
-  // Test Case 2: Main Creation of Content Brick (CB)
+  // Test Case 2: Main Creation of PBB in Normal Type
   // -------------------------------------------------------------------------
 
-  test("PMP main Creation of CB", async ({ page }) => {
+  test("PMP main Creation of PBB in normal type", async ({ page }) => {
     // Main Functions
-    cb = new ContentBricks(page, constants.dropdownElement1, undefined, constants.labelName);
-    await cb.enterToCB();
-    await cb.addNewCB();
-    await cb.formCBGeneral(constants.cbName, constants.cbText);
-    await cb.addGroups(constants.contentBrickGroupName1);
-    await cb.addFields(constants.contentBrickFieldName1);
-
-    cb2 = new ContentBricks(page, constants.dropdownElement2);
-    await cb2.addFields(constants.contentBrickFieldName2);
-
-    await cb.chooseCBState();
-  });
-
-  // -------------------------------------------------------------------------
-  // Test Case 3: Script Tab Check in Content Brick
-  // -------------------------------------------------------------------------
-
-  test("Script tab check", async ({ page }) => {
-    // Main Functions
-    cb = new ContentBricks(page, constants.dropdownElement1, constants.cbName);
-    await cb.enterToCB();
-    await cb.enterToCBDetail();
-    await cb.scriptTab(constants.tabName, constants.scriptExample);
+    pbb = new PBB(page);
+    await pbb.enterToPBB();
+    await pbb.makroLevelName(constants.pbbNameNormal);
+    await pbb.makroLevelPbbTypeNormal();
+    await pbb.makroLevelDescription(constants.scbText);
+    await pbb.makroLevelSave();
   });
 
   // -------------------------------------------------------------------------
