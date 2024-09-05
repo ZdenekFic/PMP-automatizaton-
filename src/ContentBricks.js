@@ -9,7 +9,7 @@ exports.ContentBricks = class ContentBricks {
     this.definitionsTab = '[ui-test-data="nav-definitions"]';
     this.contentBricksTab = '[ui-test-data="nav-definitions-content-bricks"]';
     this.overviewHeader = '[ui-test-data="overview-header-add-btn"]';
-    this.addButton = 'a[ui-test-data="overview-header-add-btn"]';
+    this.addButton = '[ui-test-data="overview-header-add-btn"]';
     this.titleHeader = ".pl-0.pt-0.pb-0.col.col-12.col-md-6.col-lg-7.col-xl-7";
     this.generalFormName = `.v-input:has(label:has-text("${labelName}")) input[type="text"]`;
     this.generalFormIdentifier =
