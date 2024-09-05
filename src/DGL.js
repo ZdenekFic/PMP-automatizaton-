@@ -55,6 +55,7 @@ exports.DGL = class DGL {
     // deleting objects
     this.deleteDraftButtton = 'button[ui-test-data="delete-btn"].red--text';
     this.modalDeleteButton = 'button[ui-test-data="delete-confirm-btn"]';
+    this.succesMessage = '.v-snack__wrapper.v-sheet.theme--dark.success';
   }
 
   //Functions part
@@ -199,6 +200,7 @@ exports.DGL = class DGL {
         await this.page.locator(this.deleteDraftButtton).click();
         await this.page.waitForSelector(this.fieldsModal);
         await this.page.locator(this.modalDeleteButton).click();
+        await this.page.waitForSelector(this.succesMessage, { visible: true });
         await this.page.waitForSelector(this.overviewHeader);
 
         // Fetch the latest elements after the deletion

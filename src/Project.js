@@ -41,6 +41,7 @@ exports.Project = class Project {
       ".v-icon.notranslate.mdi.mdi-content-save-check.theme--light";
     this.greenTaskIcon =
       ".v-icon.notranslate.v-alert__icon.mdi.mdi-check.theme--dark.success--text";
+    this.succesMessage = '.v-snack__wrapper.v-sheet.theme--dark.success';
   }
 
   async enterToOverview() {
@@ -73,6 +74,7 @@ exports.Project = class Project {
       .locator(this.proDetailNextButtonArea)
       .locator(this.proDetailNextButton)
       .click();
+    await this.page.waitForSelector(this.succesMessage, { visible: true });
 
     await this.page.waitForSelector(this.proDetailDeleteButton);
 
@@ -80,6 +82,7 @@ exports.Project = class Project {
       .locator(this.proDetailNextButtonArea)
       .locator(this.proDetailStartButton)
       .click();
+    await this.page.waitForSelector(this.succesMessage, { visible: true });
     await this.page.waitForSelector(this.disabledButton);
 
     await this.page

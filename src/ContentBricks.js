@@ -63,6 +63,7 @@ exports.ContentBricks = class ContentBricks {
     this.buttonArea = ".v-card__text";
     this.buttonArea2 = ".row.row--dense";
     this.buttonValidate = "button";
+    this.succesMessage = '.v-snack__wrapper.v-sheet.theme--dark.success';
   }
 
   async enterToCB() {
@@ -128,6 +129,7 @@ exports.ContentBricks = class ContentBricks {
       .first()
       .click();
 
+    await this.page.waitForSelector(this.succesMessage, { visible: true });
   }
 
   async formCBGeneral(name, text) {
@@ -199,6 +201,7 @@ exports.ContentBricks = class ContentBricks {
       .locator(this.saveSCBbutton)
       .click();
     await constants.requestAssert(this.page, constants.cbRequest, constants.statusCode200);
+    await this.page.waitForSelector(this.succesMessage, { visible: true });
   }
 
   async checkCreatedCB() {
@@ -221,6 +224,7 @@ exports.ContentBricks = class ContentBricks {
         await this.page.locator(this.deleteDraftButtton).click();
         await this.page.waitForSelector(this.fieldsModal);
         await this.page.locator(this.modalDeleteButton).click();
+        await this.page.waitForSelector(this.succesMessage, { visible: true });
         await this.page.waitForSelector(this.overviewHeader);
 
         // Fetch the latest elements after the deletion

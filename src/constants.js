@@ -59,7 +59,7 @@ const contentBrickFieldName2 = "Another field automatization name";
 const dropdownElement1 = "Text Box";
 const dropdownElement2 = "Text Area";
 const tabName = "Scripts";
-const scriptExample = "var number = 5";
+const scriptExample = "var number = 5;";
 const labelName = "Name"
 
 //Creation of DDM

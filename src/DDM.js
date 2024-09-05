@@ -41,6 +41,7 @@ exports.DDM = class DDM {
     this.modalDeleteButton = 'button[ui-test-data="delete-confirm-btn"]';
     this.searchBarInput = "input[ui-test-data='top-bar-search']";
     this.searchedObject = `div.v-list-item:has-text("${ddmName}")`;
+    
   }
 
   async enterToDDM() {
@@ -111,7 +112,7 @@ exports.DDM = class DDM {
 
       await this.page.locator(this.deleteDraftButtton).click();
       await this.page.locator(this.modalDeleteButton).click();
-      await this.page.waitForTimeout(constants.timeOuts.timeL);
+      ;
     }
   }
 };
