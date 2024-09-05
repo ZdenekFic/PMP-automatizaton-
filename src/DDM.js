@@ -1,8 +1,5 @@
 const { expect } = require("@playwright/test");
-const { timeOuts } = require("../constants");
-const { requestAssert } = require("../constants");
-const constants = require("../constants");
-
+const constants = require("./constants");
 exports.DDM = class DDM {
   constructor(page, ddmName, dataModelContainerText) {
     this.page = page;
@@ -70,7 +67,7 @@ exports.DDM = class DDM {
     //save general form
     await this.page.locator(this.saveGreenButton).click();
 
-    await requestAssert(
+    await constants.requestAssert(
       this.page,
       constants.ddmRequest,
       constants.statusCode201
@@ -105,16 +102,16 @@ exports.DDM = class DDM {
   async checkAndDelete(searchedText) {
     //Click on a searchbar
     await this.page.locator(this.searchBarInput).fill(searchedText);
-    await this.page.waitForTimeout(timeOuts.timeXL);
+    await this.page.waitForTimeout(constants.timeOuts.timeXL);
 
     if (await this.page.locator(this.searchedObject).isVisible()) {
       await this.page.locator(this.searchedObject).click();
-      await this.page.waitForTimeout(timeOuts.timeM);
+      await this.page.waitForTimeout(constants.timeOuts.timeM);
       await this.page.locator("body").click();
 
       await this.page.locator(this.deleteDraftButtton).click();
       await this.page.locator(this.modalDeleteButton).click();
-      await this.page.waitForTimeout(timeOuts.timeL);
+      await this.page.waitForTimeout(constants.timeOuts.timeL);
     }
   }
 };

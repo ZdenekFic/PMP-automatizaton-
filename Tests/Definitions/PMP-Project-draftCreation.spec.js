@@ -1,7 +1,7 @@
 const { test, expect } = require("@playwright/test");
 const constants = require("../../src/constants.js");
 import { LoginPage } from "../../src/LoginPage.js";
-import { DDM } from "../../src//definitionsSRC/DDM.js";
+import { Project } from "../../src/Project.js";
 import { HomePage } from "../../src/HomePage.js";
 
 //Login
@@ -9,16 +9,15 @@ const username = constants.username;
 const password = constants.password;
 const baseURL = constants.baseURL;
 const loggedOUTpageTitle = constants.loggedOUTpageTitle;
-const ddmNAme = constants.ddmNAme;
-const containerName = constants.containerName;
-const treeValueText = constants.treeValueText;
+const projectName = constants.projectName;
+
 
 //Setting for non parralel running of tests
 test.describe.configure({ mode: "serial" });
 
-test.describe("PMP Creation of DDM", () => {
+test.describe("Project creation", () => {
   let login;
-  let ddm;
+  let project;
   let home;
 
   test.beforeEach(async ({ page }) => {
@@ -31,20 +30,14 @@ test.describe("PMP Creation of DDM", () => {
     await home.switchDomains();
   });
 
-  test("Check and delete", async ({ page }) => {
-    //main Functions
-    ddm = new DDM(page, ddmNAme);
-    await ddm.checkAndDelete(ddmNAme);
-  });
 
-  test("PMP - main creation General", async ({ page }) => {
+  test("New project", async ({ page }) => {
     //main Functions
-    ddm = new DDM(page,ddmNAme,treeValueText);
-    await ddm.enterToDDM();
-    await ddm.generalForm(ddmNAme);
+    project = new Project(page);
+    await project.enterToOverview();
+    await project.newProject(projectName);
+    
   });
-
-  
 
   test.afterEach(async ({}) => {
     //LogOut

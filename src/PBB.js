@@ -1,10 +1,4 @@
-const {
-  requestAssert,
-  pbbRequest,
-  statusCode200,
-  statusCode201,
-} = require("../constants");
-const { baseURL, timeOuts } = require("../constants");
+const constants = require("./constants");
 const { expect } = require("@playwright/test");
 
 exports.PBB = class PBB {
@@ -89,14 +83,14 @@ exports.PBB = class PBB {
     //click on dropdown to choose type of PBB
 
     await this.page.locator(this.pbbTypeDropdown).click();
-    await this.page.waitForTimeout(timeOuts.timeM);
+    await this.page.waitForTimeout(constants.timeOuts.timeM);
     await this.page.locator(this.pbbTypeStartPBB).click();
   }
 
   async makroLevelPbbTypeNormal() {
     //click on dropdown to choose type of PBB
     await this.page.locator(this.pbbTypeDropdown).click();
-    await this.page.waitForTimeout(timeOuts.timeM);
+    await this.page.waitForTimeout(constants.timeOuts.timeM);
     await this.page.locator(this.pbbTypeNormalPBB).click();
   }
 
@@ -128,7 +122,7 @@ exports.PBB = class PBB {
   }
 
   async requestSaveAssert() {
-    await requestAssert(this.page, pbbRequest, statusCode201);
+    await constants.requestAssert(this.page, constants.pbbRequest, constants.statusCode201);
   }
 
   async checkAndDelete() {
@@ -142,15 +136,15 @@ exports.PBB = class PBB {
       console.log(elementText);
 
       if (elementText === this.pbbName) {
-        await this.page.waitForTimeout(timeOuts.timeM);
+        await this.page.waitForTimeout(constants.timeOuts.timeM);
         await elementHandle.click();
         await this.page.locator(this.deleteDraftButtton).click();
         await this.page.locator(this.modalDeleteButton).click();
-        await this.page.waitForTimeout(timeOuts.timeL);
+        await this.page.waitForTimeout(constants.timeOuts.timeL);
 
         // Fetch the latest elements after the deletion
         elements = await this.page.$$(`body >> text=${this.pbbName}`);
-        await this.page.waitForTimeout(timeOuts.timeL);
+        await this.page.waitForTimeout(constants.timeOuts.timeL);
 
         // Reset the index to recheck the elements
         i = -1;

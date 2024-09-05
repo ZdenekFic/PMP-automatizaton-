@@ -1,5 +1,5 @@
-const { timeOuts, dglRequest, statusCode200 } = require("../constants");
-const { requestAssert } = require("../constants");
+
+const constants = require("./constants");
 
 exports.DGL = class DGL {
   constructor(page, dropdownElement, mainName, labelName) {
@@ -124,10 +124,10 @@ exports.DGL = class DGL {
       .locator(this.fieldsModal)
       .locator(this.fieldDataTypeButton)
       .click();
-    await this.page.waitForTimeout(timeOuts.timeM);
+    await this.page.waitForTimeout(constants.timeOuts.timeM);
 
     await this.page.locator(this.elementDropdown).click();
-    await this.page.waitForTimeout(timeOuts.timeM);
+    await this.page.waitForTimeout(constants.timeOuts.timeM);
     await this.page
       .locator(this.fieldsModal)
       .locator(this.groupAddButton)
@@ -157,7 +157,7 @@ exports.DGL = class DGL {
       .locator(this.fieldsModal)
       .locator(this.fieldDataTypeButton)
       .click();
-    await this.page.waitForTimeout(timeOuts.timeM);
+    await this.page.waitForTimeout(constants.timeOuts.timeM);
 
     await this.page.locator(this.elementDropdown).click();
 
@@ -177,7 +177,7 @@ exports.DGL = class DGL {
       .locator(this.tabMenuHeader)
       .locator(this.saveSCBbutton)
       .click();
-    await requestAssert(this.page, dglRequest, statusCode200);
+    await constants.requestAssert(this.page, constants.dglRequest, constants.statusCode200);
   }
   async checkAndDelete() {
     //this function helps to find content brick which was created by this test so in the end there wont be any duplicities
@@ -203,7 +203,7 @@ exports.DGL = class DGL {
 
         // Fetch the latest elements after the deletion
         elements = await this.page.$$(`body >> text=${this.mainName}`);
-        await this.page.waitForTimeout(timeOuts.timeL);
+        await this.page.waitForTimeout(constants.timeOuts.timeL);
 
         // No need to reset the index, as the loop will check the updated elements
       } else {

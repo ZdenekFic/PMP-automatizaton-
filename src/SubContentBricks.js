@@ -1,41 +1,28 @@
-const {
-  timeOuts,
-  cbRequest,
-  statusCode200,
-  requestAssert,
-  requestJSONAssert,
-} = require("../constants");
-const { expect } = require("@playwright/test");
+const constants = require("./constants");
 
-exports.ContentBricks = class ContentBricks {
+exports.SubContentBricks = class SubContentBricks {
   constructor(page, dropdownElement, mainName, labelName) {
     this.page = page;
     this.mainName = mainName;
     this.dropdownElement = dropdownElement;
+
+    //SCB enter
     this.definitionsTab = '[ui-test-data="nav-definitions"]';
-    this.contentBricksTab = '[ui-test-data="nav-definitions-content-bricks"]';
+    this.contentBricksTab =
+      '[ui-test-data="nav-definitions-sub-content-bricks"]';
     this.overviewHeader = '[ui-test-data="overview-header-add-btn"]';
     this.addButton = 'a[ui-test-data="overview-header-add-btn"]';
     this.titleHeader = ".pl-0.pt-0.pb-0.col.col-12.col-md-6.col-lg-7.col-xl-7";
+
+    //SCB general form
     this.generalFormName = `.v-input:has(label:has-text("${labelName}")) input[type="text"]`;
-    this.generalFormIdentifier =
-      'button[type="button"][aria-label="Identifier appended action"]';
+    this.generalFormIdentifier = "body";
 
     // Overview table
     this.overviewTable =
       ".v-data-table.overview-table.pmtool-table.v-data-table--dense.theme--light";
-
-    // input for text to describe CB
-    this.descriptionCB = ".quillWrapper.cb-description-editor";
-    this.descriptionCBtextArea = ".ql-editor";
-
-    // Groups - fields
-    this.fieldDiv = ".d-inline-flex.align-center";
-    this.addGroupButton = "button.mx-3.v-btn.elevation-2";
-    this.groupAddButton = "button.error.v-btn.v-btn--text.theme--light";
-
     // Fields objects
-    this.addFieldButton = "button.mx-1.v-btn.elevation-2";
+    this.addFieldButton = 'button.v-btn:has-text("Add")';
     this.fieldsModal = "div.v-dialog.v-dialog--active.v-dialog--persistent";
     this.fieldNameInput = 'input[autofocus="autofocus"][type="text"]';
 
@@ -44,7 +31,8 @@ exports.ContentBricks = class ContentBricks {
       "div.v-input__icon.v-input__icon--append .mdi-menu-down";
     this.fieldsMultiElement = 'input[type="text"]';
     this.elementDropdown = `.v-list-item__title:has-text('${dropdownElement}')`;
-    this.switchIsMandatory = ".v-input--selection-controls__ripple";
+    this.bottomModal = ".v-card__actions";
+    this.modalButtonAdd = "button";
 
     //draft, active, suspended combobox
     this.stateBoxDiv = ".entity-detail-card.v-card.v-sheet.theme--light";
@@ -59,16 +47,6 @@ exports.ContentBricks = class ContentBricks {
     // deleting objects
     this.deleteDraftButtton = 'button[ui-test-data="delete-btn"].red--text';
     this.modalDeleteButton = 'button[ui-test-data="delete-confirm-btn"]';
-
-    // tab scripts objects !!!!!!! not finished
-    this.barDiv = ".v-slide-group__wrapper";
-    this.tabScripts = 'text="Scripts"';
-    this.scritpTitleAre = ".v-window-item.v-window-item--active";
-    this.title = ".v-card__title";
-    this.textAreaScript = '[data-testid="textarea"]';
-    this.buttonArea = ".v-card__text";
-    this.buttonArea2 = ".row.row--dense";
-    this.buttonValidate = "button";
   }
 
   async enterToCB() {
@@ -98,7 +76,7 @@ exports.ContentBricks = class ContentBricks {
 
         // Fetch the latest elements after the deletion
         elements = await this.page.$$(`body >> text=${this.mainName}`);
-        await this.page.waitForTimeout(timeOuts.timeL);
+        await this.page.waitForTimeout(constants.timeOuts.timeL);
 
         // No need to reset the index, as the loop will check the updated elements
       } else {
@@ -108,100 +86,12 @@ exports.ContentBricks = class ContentBricks {
     }
   }
 
-  async scriptTab(tabName, scriptExample) {
-    //opens tab Script in Content brick
-    await this.page.locator(this.barDiv).locator(this.tabScripts).click();
-
-    //assertion
-    const textTitle = await this.page
-      .locator(this.scritpTitleAre)
-      .locator(this.title)
-      .textContent();
-    expect(textTitle).toContain(tabName);
-    await this.page.waitForTimeout(timeOuts.timeM);
-
-    //writing the value
-    await this.page.locator(this.textAreaScript).first().fill(scriptExample);
-
-    //assertion
-    expect(this.page.locator(this.textAreaScript).first()).not.toBeEmpty();
-
-    //button validation click
-    await this.page
-      .locator(this.buttonArea)
-      .locator(this.buttonArea2)
-      .locator(this.buttonValidate)
-      .first()
-      .click();
-
-    //assertion with request
-    await requestJSONAssert(
-      this.page,
-      "/api/v1/ContentBrickDefinition/.*/scripts/1/validate$",
-      statusCode200,
-      {
-        success: true,
-        errorMessage: null,
-      }
-    );
-  }
-
   async formCBGeneral(name, text) {
     //click and fill name
-
     await this.page.locator(this.generalFormName).fill(name);
 
     //click on identifier to get automaticaly identifier
     await this.page.locator(this.generalFormIdentifier).click();
-
-    // add some text to description
-    await this.page
-      .locator(this.descriptionCB)
-      .locator(this.descriptionCBtextArea)
-      .fill(text);
-  }
-
-  async addGroups(name) {
-    await this.page.locator(this.addGroupButton).click();
-    await this.page.waitForSelector(this.fieldsModal);
-    await this.page.locator(this.fieldNameInput).fill(name);
-    await this.page
-      .locator(this.fieldsModal)
-      .locator(this.fieldIdentifier)
-      .click();
-    await this.page
-      .locator(this.fieldsModal)
-      .locator(this.groupAddButton)
-      .click();
-  }
-
-  async addFields(name) {
-    await this.page.locator(this.fieldDiv).locator(this.addFieldButton).click();
-    await this.page.waitForSelector(this.fieldsModal);
-    await this.page
-      .locator(this.fieldsModal)
-      .locator(this.fieldNameInput)
-      .fill(name);
-    await this.page
-      .locator(this.fieldsModal)
-      .locator(this.fieldIdentifier)
-      .click();
-    await this.page
-      .locator(this.fieldsModal)
-      .locator(this.fieldDataTypeButton)
-      .click();
-    await this.page.waitForTimeout(timeOuts.timeM);
-
-    await this.page.locator(this.elementDropdown).click();
-    await this.page
-      .locator(this.fieldsModal)
-      .locator(this.switchIsMandatory)
-      .click();
-    await this.page.waitForTimeout(timeOuts.timeM);
-    await this.page
-      .locator(this.fieldsModal)
-      .locator(this.groupAddButton)
-      .click();
   }
 
   async chooseCBState() {
@@ -214,10 +104,10 @@ exports.ContentBricks = class ContentBricks {
       .locator(this.tabMenuHeader)
       .locator(this.saveSCBbutton)
       .click();
-    await requestAssert(this.page, cbRequest, statusCode200);
+    await constants.requestAssert(this.page, constants.subcbRequest, constants.statusCode200);
   }
 
-  async checkCreatedCB() {
+  async checkCreatedSCB() {
     //this function helps to find content brick which was created by this test so in the end there wont be any duplicities
     //click on Definitions tab
     await this.page.locator(this.definitionsTab).click();
@@ -241,7 +131,7 @@ exports.ContentBricks = class ContentBricks {
 
         // Fetch the latest elements after the deletion
         elements = await this.page.$$(`body >> text=${this.mainName}`);
-        await this.page.waitForTimeout(timeOuts.timeL);
+        await this.page.waitForTimeout(constants.timeOuts.timeL);
 
         // No need to reset the index, as the loop will check the updated elements
       } else {

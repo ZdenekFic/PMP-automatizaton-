@@ -1,5 +1,4 @@
 const { expect } = require("@playwright/test");
-const { requestAssert } = require("./constants");
 const constants = require("./constants");
 
 exports.LoginPage = class LoginPage {
@@ -30,7 +29,7 @@ exports.LoginPage = class LoginPage {
     await this.page.locator(this.submitButton).click();
 
     // Validation of succesfull request
-    await requestAssert(
+    await constants.requestAssert(
       this.page,
       constants.loginRequest,
       constants.statusCode200
