@@ -3,7 +3,7 @@
 // -------------------------------------------------------------------------------------
 
 import { test } from "@playwright/test";
-import  constants  from "../src/constants.js";
+import  constants from "../src/constants.js";
 import { LoginPage } from "../src/LoginPage.js";
 import { Project } from "../src/Project.js";
 import { HomePage } from "../src/HomePage.js";
@@ -11,14 +11,6 @@ import { HomePage } from "../src/HomePage.js";
 // -------------------------------------------------------------------------------------
 // Test Suite Configuration
 // -------------------------------------------------------------------------------------
-
-//Login
-const username = constants.username;
-const password = constants.password;
-const baseURL = constants.baseURL;
-const loggedOUTpageTitle = constants.loggedOUTpageTitle;
-const projectName = constants.projectName;
-
 
 //Setting for non parralel running of tests
 test.describe.configure({ mode: "serial" });
@@ -40,25 +32,24 @@ test.describe("Project creation", () => {
   test.beforeEach(async ({ page }) => {
     //Login
     login = new LoginPage(page);
-    await login.gotoLoginPage(baseURL);
-    await login.login(username, password);
+    await login.gotoLoginPage(constants.baseURL);
+    await login.login(constants.username, constants.password);
     await login.loginAssert();
-    home = new HomePage(page,constants.mainDomain);
+    home = new HomePage(page, constants.mainDomain);
     await home.switchDomains();
   });
 
 
   test("New project", async ({ page }) => {
     //main Functions
-    project = new Project(page);
+    project = new Project(page, constants.pbbTitleBrick);
     await project.enterToOverview();
-    await project.newProject(projectName);
-    
+    await project.newProject(constants.projectName);
   });
 
   test.afterEach(async ({}) => {
     //LogOut
     await login.logOut();
-    await login.logOutAssert(loggedOUTpageTitle);
+    await login.logOutAssert(constants.loggedOUTpageTitle);
   });
 });

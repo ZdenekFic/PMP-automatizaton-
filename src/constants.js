@@ -100,6 +100,7 @@ const pbbNameNormal = "Automated created PBB Normal type";
 
 // Project
 const projectName = "Auto test Project";
+const pbbTitleBrick = "Testing PBB Start"
 
 //Validation of request
 async function requestAssert(page, requestURL, statusCode) {
@@ -136,6 +137,7 @@ module.exports = {
   role,
   account,
   cbName,
+  pbbTitleBrick,
   cbText,
   prtGroupName,
   prtName,

@@ -8,7 +8,7 @@ const { expect } = require("@playwright/test");
 // Class Definition: Project
 // -------------------------------------------------------------------------------------
 exports.Project = class Project {
-  constructor(page) {
+  constructor(page,pbbTitle) {
     this.page = page;
 
     // --------------------- Navigation and Project Selectors ---------------------
@@ -19,7 +19,7 @@ exports.Project = class Project {
     // --------------------- Project Type Selection ---------------------
     this.selectProjectArea = ".container.container--fluid.grid-list-md";
     this.selectProjectButtonArea = ".layout.row.wrap";
-    this.selectProjectButton = ".v-card__title.pbb-card-title";
+    this.selectProjectBrick = `div.v-card__title.pbb-card-title:has-text("${pbbTitle}")`;
 
     // --------------------- Project Details Selectors ---------------------
     this.activeTabSelector = 'div[role="tab"].v-tab.v-tab--active:has-text("Data")';
@@ -64,7 +64,7 @@ exports.Project = class Project {
     await this.page
       .locator(this.selectProjectArea)
       .locator(this.selectProjectButtonArea)
-      .locator(this.selectProjectButton)
+      .locator(this.selectProjectBrick)
       .click();
 
     // Wait for the active tab

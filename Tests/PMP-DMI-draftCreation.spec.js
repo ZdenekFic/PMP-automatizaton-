@@ -19,7 +19,7 @@ test.describe.configure({ mode: "serial" });
 // Main Test Suite: PMP Creation of dmi
 // -------------------------------------------------------------------------------------
 
-test.describe("PMP Creation of dmi", () => {
+test.describe("PMP Creation of DMI", () => {
   let login;
   let dmi;
   let home;
