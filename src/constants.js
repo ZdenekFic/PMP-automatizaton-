@@ -67,12 +67,20 @@ const ddmName = "Automated created Domain Model";
 const containerName = "Automatization Container";
 const treeValueText = "Container";
 
+const dmiName = "Automated created DMI";
+const dmiProjectName = "Auto DMI Project";
+
 //Creation of DGL
 const dglName = "Automated created DGL";
 const valueName1 = "Value field 11 automatization";
 const valueName2 = "Automatization value field DGL";
 const dglGroupName = "DGL Group name";
 const fieldName1 = "Field name automatization";
+
+//Creation of PRT
+const prtName = "Automated created PRT";
+const prtGroupName = "PRT Group name";
+
 
 //Creation of SubContentBrick
 const scbName = "Automated created SubCB";
@@ -111,6 +119,7 @@ module.exports = {
   password,
   mainDomain,
   baseURL,
+  dmiProjectName,
   fieldName1,
   loggedOUTpageTitle,
   timeOuts,
@@ -123,10 +132,13 @@ module.exports = {
   subcbRequest,
   ddmRequest,
   domain,
+  dmiName,
   role,
   account,
   cbName,
   cbText,
+  prtGroupName,
+  prtName,
   contentBrickGroupName1,
   contentBrickFieldName1,
   contentBrickFieldName2,
