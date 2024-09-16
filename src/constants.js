@@ -81,6 +81,9 @@ const fieldName1 = "Field name automatization";
 const prtName = "Automated created PRT";
 const prtGroupName = "PRT Group name";
 
+//Creation of Report
+const reportName = "Automated created Report";
+
 
 //Creation of SubContentBrick
 const scbName = "Automated created SubCB";
@@ -120,6 +123,7 @@ module.exports = {
   password,
   mainDomain,
   baseURL,
+  reportName,
   dmiProjectName,
   fieldName1,
   loggedOUTpageTitle,
