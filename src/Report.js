@@ -8,9 +8,10 @@ const constants = require("./constants");
 // Class Definition: DMI
 // -------------------------------------------------------------------------------------
 exports.Report = class Report {
-  constructor(page, reportName) {
+  constructor(page, reportName, reportKanbanName) {
     this.page = page;
     this.reportName = reportName;
+    this.reportKanbanName = reportKanbanName;
     this.tbody = "tbody";
 
     // --------------------- Navigation Selectors ---------------------
@@ -33,6 +34,7 @@ exports.Report = class Report {
     this.expectedTextTable = ".dx-datagrid-rowsview";
     this.saveSCBbutton = ".v-toolbar__content button:has(.mdi-content-save)";
     this.succesMessage = ".v-snack__wrapper.v-sheet.theme--dark.success";
+
 
     // --------------------- Deletion Objects ---------------------
     this.deleteDraftButtton = 'button[ui-test-data="delete-btn"]';
@@ -87,6 +89,33 @@ exports.Report = class Report {
     await this.page.waitForSelector(this.succesMessage);
   }
 
+  async makeKanbanReport(){
+
+    await this.page.locator('[role="tablist"]').locator('.mdi-chart-tree').click();
+    await this.page.waitForSelector('span[ui-test-data="overview-header"].definition-padding-right:has-text("Kanban")');
+    await this.page.locator(this.reportAddButton).click();
+    await this.page.waitForSelector('[role="tab"].v-tab--active:has-text("Result")');
+
+    await this.page.locator('.v-window__container').locator('input[type="text"]').fill(this.reportKanbanName);
+    await this.page.locator('[role="tab"]:has-text("Project selection")').click();
+    await this.page.waitForSelector('.mdi-table-edit');
+    await this.page.locator('button.v-expansion-panel-header:has-text("Filter")').click();
+
+    await this.page.locator('.v-expansion-panel-content__wrap').locator('.v-input.theme--light.v-text-field.v-text-field--is-booted.v-select.v-select--chips.v-select--is-multi.v-autocomplete').locator('[ui-test-data="upload-btn"]').click(); 
+
+    await this.page.waitForSelector(this.modalUpdateButton);
+    await this.page.locator(this.fieldsModal).locator('[ui-test-data="list-item-checkbox"]').first().click();
+    await this.page.locator(this.modalUpdateButton).click();
+
+    await this.page.locator('[role="tab"]:has-text("Column definition")').click();
+    await this.page.waitForSelector('span:has-text("Column definition")');
+    await this.page.locator('.row.justify-start').locator('.mdi.mdi-plus' ).click();
+
+    await this.page.waitForSelector('.mdi-file-tree');
+    await this.page.locator("tbody").locator('.mdi-checkbox-blank-outline').first().click();
+    await this.page.locator('div.v-card__actions button.v-btn:has-text("Add")').click();
+
+  }
   // --------------------- Check Report ---------------------
   async deleteCreatedReports() {
     await this.page.locator(this.reportTab).click();

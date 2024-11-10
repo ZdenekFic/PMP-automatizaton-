@@ -18,6 +18,7 @@ exports.DGL = class DGL {
     this.overviewHeader = '[ui-test-data="overview-header-add-btn"]';
     this.designGuidelinesAddButton = 'a[ui-test-data="overview-header-add-btn"]';
     this.titleHeader = ".pl-0.pt-0.pb-0.col.col-12.col-md-6.col-lg-7.col-xl-7";
+    this.testContentBricks = '[ui-test-data="nav-testContentBricks"]';
 
     // --------------------- General Form Selectors ---------------------
     this.generalFormName = `.v-input:has(label:has-text("${labelName}")) input[type="text"]`;
@@ -61,7 +62,7 @@ exports.DGL = class DGL {
 
   // --------------------- Enter Design Guidelines ---------------------
   async enterToDGL() {
-    await this.page.locator(this.definitionsTab).click();
+    await this.page.locator(this.testContentBricks).click();
     await this.page.locator(this.designGuidelinesTab).click();
     await this.page.waitForSelector(this.overviewHeader);
   }
@@ -183,7 +184,7 @@ exports.DGL = class DGL {
 
   // --------------------- Check and Delete Created Content Brick ---------------------
   async checkAndDelete() {
-    await this.page.locator(this.definitionsTab).click();
+    await this.page.locator(this.testContentBricks).click();
     await this.page.locator(this.designGuidelinesTab).click();
     await this.page.waitForSelector(this.overviewHeader);
 

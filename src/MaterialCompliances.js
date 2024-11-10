@@ -7,14 +7,13 @@ const constants = require("./constants");
 // -------------------------------------------------------------------------------------
 // Class Definition: DGL
 // -------------------------------------------------------------------------------------
-exports.PRT = class PRT {
+exports.MaterialCompliances = class MaterialCompliances {
   constructor(page, dropdownElement, mainName, labelName) {
     this.page = page;
     this.mainName = mainName;
 
     // --------------------- Navigation Selectors ---------------------
-    this.definitionsTab = '[ui-test-data="nav-definitions"]';
-    this.prtTab = '[ui-test-data="nav-definitions-pracitcal-tests"]';
+    this.materialCompliancesTab = '[ui-test-data="nav-testContentBricks-material-compliance"]';
     this.overviewHeader = '[ui-test-data="overview-header-add-btn"]';
     this.prtAddButton = 'a[ui-test-data="overview-header-add-btn"]';
     this.titleHeader = ".pl-0.pt-0.pb-0.col.col-12.col-md-6.col-lg-7.col-xl-7";
@@ -63,7 +62,7 @@ exports.PRT = class PRT {
   // --------------------- Enter Design Guidelines ---------------------
   async enterToPRT() {
     await this.page.locator(this.testContentBricks).click();
-    await this.page.locator(this.prtTab).click();
+    await this.page.locator(this.materialCompliancesTab).click();
     await this.page.waitForSelector(this.overviewHeader);
   }
 
@@ -185,7 +184,7 @@ exports.PRT = class PRT {
   // --------------------- Check and Delete Created Content Brick ---------------------
   async checkAndDelete() {
     await this.page.locator(this.testContentBricks).click();
-    await this.page.locator(this.prtTab).click();
+    await this.page.locator(this.materialCompliancesTab).click();
     await this.page.waitForSelector(this.overviewHeader);
 
     let elements = await this.page.$$(`body >> text=${this.mainName}`);

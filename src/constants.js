@@ -2,11 +2,13 @@ const { expect } = require("@playwright/test");
 // Constants which are often used in tests
 
 // Login to TEST env PMP
+
 const username = "automater.test@memos.cz";
 const password = "memos";
 const mainDomain = "Test Automation Domain";
 const baseURL = "https://test.einhellpmp.com";
 const loggedOUTpageTitle = "Log in to PMP DEV";
+
 
 // Timeouts
 const timeOuts = {
@@ -81,8 +83,25 @@ const fieldName1 = "Field name automatization";
 const prtName = "Automated created PRT";
 const prtGroupName = "PRT Group name";
 
+//Creation of Gen test
+const genTest = "Automated created Gen Test"
+const genGroupName = "Gen group Test"
+
+//Creation of Norms and Standarts
+const normAStand = "Automated created NormAStand"
+const normAStandGroup = "Norm And Stand Group"
+
+//Creation of Material compliances 
+const matComp = "Automated created Material compliances"
+const matCompGroupt = "Material complience group"
+
+//Creation of Pre-shipment instructions
+const preshipmentInst = "Automated created pre-shipment instuctions brick"
+const preshipmentInstGroup = "Pre-shipment group"
+
 //Creation of Report
 const reportName = "Automated created Report";
+const reportKanbanName = "Automated created Kanban Report";
 
 
 //Creation of SubContentBrick
@@ -170,5 +189,15 @@ module.exports = {
   testingDDMItem,
   pbbNameNormal,
   projectName,
+  reportKanbanName,
   requestAssert,
+  genTest,
+  genGroupName,
+  normAStand,
+  normAStandGroup,
+  matComp,
+  matCompGroupt,
+  preshipmentInst,
+  preshipmentInstGroup,
+  
 };
