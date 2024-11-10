@@ -74,23 +74,6 @@ exports.DDM = class DDM {
 
     // --------------------- Data Model Tab Actions ---------------------
     await this.page
-      .locator(this.treeSelector)
-      .locator(this.dataModelThreeDotsButton)
-      .click();
-    await expect(this.page.locator(this.dataModelMenuObjects)).toBeVisible();
-
-    await this.page
-      .locator(this.dataModelMenuObjects)
-      .locator(this.buttonItem)
-      .click();
-
-    await expect(
-      this.page.locator(this.dataModelMenuObjectsContainter)
-    ).toBeVisible();
-
-    await this.page.locator(this.identifierCheck).click();
-
-    await this.page
       .locator(this.saveArea)
       .locator(this.dataModelMenuObjectsSaveAll);
   }
